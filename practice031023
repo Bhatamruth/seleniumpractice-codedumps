@@ -1,0 +1,268 @@
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import java.util.concurrent.TimeUnit;
+
+public class JavaOnlineCompilerTest {
+    public static void main(String[] args) {
+    	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+    	WebDriver driver = new ChromeDriver();
+        // Set Chrome options (e.g., headless mode)
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Uncomment to run in headless mode
+        options.addArguments("--disable-gpu");
+
+
+
+        // Implicitly wait for elements to load (adjust the timeout as needed)
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        try {
+            // Open the Java online compiler website
+            driver.get("https://www.programiz.com/java-programming/online-compiler/");
+
+            // Find the code editor and enter the Java code
+            WebElement codeEditor = driver.findElement(By.id("code"));
+            codeEditor.sendKeys("public class HelloWorld {\n  public static void main(String[] args) {\n    System.out.println(\"Hello, World!\");\n  }\n}");
+
+            // Click the "Run" button
+            WebElement runButton = driver.findElement(By.id("run-button"));
+            runButton.click();
+
+            // Wait for the output to be displayed (adjust the timeout as needed)
+            WebElement output = driver.findElement(By.id("output"));
+            String outputText = output.getText();
+
+            // Verify the output contains "Hello, World!"
+            if (outputText.contains("Hello, World!")) {
+                System.out.println("Test passed: Output contains 'Hello, World!'");
+            } else {
+                System.out.println("Test failed: Output does not contain 'Hello, World!'");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the browser
+            driver.quit();
+        }
+    }
+}
+//////////////---------------------------------------------------------------------------------------------------------------
+package introductions.testing;
+
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class JDoodleCompilerTest {
+    public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+        // Configure Chrome options (disable notifications and set headless mode)
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+        // Uncomment the line below if you want to run Chrome in headless mode (without a GUI)
+        // options.addArguments("--headless");
+
+        // Initialize ChromeDriver with the configured options
+        WebDriver driver = new ChromeDriver(options);
+
+        try {
+            // Open the Java online compiler website
+            driver.get("https://www.programiz.com/java-programming/online-compiler/");
+
+            // Find the code editor textarea
+            WebElement codeEditor = driver.findElement(By.id("editor"));
+
+            // Write Java code into the code editor
+            String javaCode = "public class HelloWorld {\n" +
+                    "    public static void main(String[] args) {\n" +
+                    "        System.out.println(\"Hello, World!\");\n" +
+                    "    }\n" +
+                    "}";
+            codeEditor.sendKeys(javaCode);
+
+            // Find and click the "Run" button
+            WebElement runButton = driver.findElement(By.id("run-button"));
+            runButton.click();
+
+            // Wait for the output to appear (adjust the time as needed)
+            Thread.sleep(5000);
+
+            // Find and print the output
+            WebElement outputElement = driver.findElement(By.id("output"));
+            System.out.println("Program Output:");
+            System.out.println(outputElement.getText());
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the browser
+            //driver.quit();
+        }
+    }
+}
+
+//////////////---------------------------------------------------------------------------------------------------------------
+
+package introductions.testing;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Locators {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	
+	//to access a particular website
+	driver.get("https://rahulshettyacademy.com/locatorspractice/");
+	//implicit wait to tell selenium to wait for required sec for the text required to load
+	driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+	
+	//in order to login and give random password (correct password is:rahulshettyacademy)
+	driver.findElement(By.id("inputUsername")).sendKeys("amruth");
+	
+	driver.findElement(By.name("inputPassword")).sendKeys("academy");
+	
+	driver.findElement(By.className("signInBtn")).click();
+	
+	System.out.println(driver.findElement(By.cssSelector("p.error")).getText());
+	
+	//to click on forgot password link
+	driver.findElement(By.linkText("Forgot your password?")).click();
+	
+	driver.findElement(By.xpath("//input[@placeholder='Name']")).sendKeys("amruth");
+	driver.findElement(By.cssSelector("input[placeholder='Email']")).sendKeys("amruth@GMAIL.COM");
+	driver.findElement(By.xpath("//input[@type='text'][2]")).clear();
+
+	driver.findElement(By.cssSelector("input[type='text']:nth-child(3)")).sendKeys("amruth@g.com");
+	
+	driver.findElement(By.xpath("//form/input[3]")).sendKeys("9999999999");
+	
+	driver.findElement(By.cssSelector(".reset-pwd-btn")).click();
+	
+	System.out.println(driver.findElement(By.cssSelector("form p")).getText());
+}
+}
+//////////////---------------------------------------------------------------------------------------------------------------
+
+package introductions.testing;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+public class SelIntroduction {
+
+	public static void main(String[] args) {
+		
+		//ChromeDriver
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		
+		//firefox-gecko-driver
+		//System.setProperty("webdriver.gecko.driver","C:/Users/amrbhat/geckodriver.exe");
+		//WebDriver driver1 = new FirefoxDriver();
+		
+		//microsoft edge
+		//System.setProperty("webdriver.edge.driver","C:/Users/amrbhat/msedgedriver.exe");
+		//WebDriver driver2 = new EdgeDriver();
+		
+		
+		driver.get("https://mvnrepository.com/artifact/org.testng/testng/7.8.0");
+		System.out.println(driver.getTitle());
+		System.out.println(driver.getCurrentUrl());
+		driver.quit();
+
+	}
+
+}
+//////////////---------------------------------------------------------------------------------------------------------------
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class WebDriverMethodsDemo {
+    public static void main(String[] args) {
+        // Set the path to the ChromeDriver executable
+    	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+
+
+
+        // Initialize ChromeDriver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // Open the website
+            driver.get("https://rahulshettyacademy.com/");
+
+            // Find an element by ID and print its text
+            WebElement headingElement = driver.findElement(By.id("heading"));
+            System.out.println("Heading Text: " + headingElement.getText());
+
+            // Find an element by name and perform a click action
+            WebElement loginButton = driver.findElement(By.name("login"));
+            loginButton.click();
+
+            // Navigate back to the previous page
+            driver.navigate().back();
+
+            // Find an element by link text and click it
+            WebElement practiceLink = driver.findElement(By.linkText("Practice"));
+            practiceLink.click();
+
+            // Navigate forward to the next page
+            driver.navigate().forward();
+
+            // Find an element by partial link text and click it
+            WebElement coursesLink = driver.findElement(By.partialLinkText("Courses"));
+            coursesLink.click();
+
+            // Refresh the current page
+            driver.navigate().refresh();
+
+            // Find an element by class name and print its tag name
+            WebElement instructorElement = driver.findElement(By.className("instructor"));
+            System.out.println("Instructor Element Tag Name: " + instructorElement.getTagName());
+
+            // Find an element by CSS selector and print its text
+            WebElement learnSeleniumElement = driver.findElement(By.cssSelector("#learn-selenium"));
+            System.out.println("Learn Selenium Text: " + learnSeleniumElement.getText());
+
+            // Find an element by XPath and print its text
+            WebElement aboutUsElement = driver.findElement(By.xpath("//a[text()='About Us']"));
+            System.out.println("About Us Text: " + aboutUsElement.getText());
+
+            // Get the current URL and print it
+            String currentURL = driver.getCurrentUrl();
+            System.out.println("Current URL: " + currentURL);
+
+            // Get the page source and print it
+            String pageSource = driver.getPageSource();
+            System.out.println("Page Source: " + pageSource);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the browser
+
+        }
+    }
+}
