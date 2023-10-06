@@ -1,0 +1,600 @@
+package introductions.testing.EcommerceApp;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Adding_Items_into_Cart {
+
+	public static void main(String[] args) {
+
+		String[] itemsNeeded = { "Cucumber", "Brocolli", "Beetroot","Carrot" };
+		int j=0;
+		System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/seleniumPractise/");
+
+		List<WebElement> products = driver.findElements(By.cssSelector("h4.product-name"));
+		for (int i = 0; i < products.size(); i++) {
+			String[] name = products.get(i).getText().split("-");
+			String formattedName = name[0].trim();
+
+			List itemsNeededList = Arrays.asList(itemsNeeded);
+			if (itemsNeededList.contains(formattedName)) {
+
+				j++;
+
+				//click on Add to cart
+
+				driver.findElements(By.xpath("//div[@class='product-action']/button")).get(i).click();
+
+				if (j == itemsNeeded.length)
+
+				{
+
+					break;
+
+				}
+			}
+		}
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+package introductions.testing.Synchronization;
+
+import java.time.Duration;
+import java.util.Arrays;
+
+import java.util.List;
+
+import java.util.concurrent.TimeUnit;
+
+
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+
+public class Synchronization_additems {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		// TODO Auto-generated method stub
+
+		System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+
+
+
+		WebDriver driver=new ChromeDriver();
+		
+		//implicitlyWait
+		//driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+
+		WebDriverWait w = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+
+		String[] itemsNeeded= {"Cucumber","Brocolli","Beetroot"};
+
+
+
+
+
+		driver.get("https://rahulshettyacademy.com/seleniumPractise/");
+
+		Thread.sleep(3000);
+
+		addItems(driver,itemsNeeded);
+
+		driver.findElement(By.cssSelector("img[alt='Cart']")).click();
+
+		driver.findElement(By.xpath("//button[contains(text(),'PROCEED TO CHECKOUT')]")).click();
+		
+		//explicit wait
+		w.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input.promoCode")));
+
+		driver.findElement(By.cssSelector("input.promoCode")).sendKeys("rahulshettyacademy");
+
+		driver.findElement(By.cssSelector("button.promoBtn")).click();
+
+		//explicit wait
+		w.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span.promoInfo")));
+
+		System.out.println(driver.findElement(By.cssSelector("span.promoInfo")).getText());
+
+
+
+
+
+
+
+
+
+
+
+		}
+
+		public static  void addItems(WebDriver driver,String[] itemsNeeded)
+
+		{
+
+		int j=0;
+
+		List<WebElement> products=driver.findElements(By.cssSelector("h4.product-name"));
+
+		for(int i=0;i<products.size();i++)
+
+		{
+
+		//Brocolli - 1 Kg
+
+		//Brocolli,    1 kg
+
+		String[] name=products.get(i).getText().split("-");
+
+		String formattedName=name[0].trim();
+
+		//format it to get actual vegetable name
+
+		//convert array into array list for easy search
+
+		//  check whether name you extracted is present in arrayList or not-
+
+		List itemsNeededList = Arrays.asList(itemsNeeded);
+
+		if(itemsNeededList.contains(formattedName))
+
+		{
+
+		j++;
+
+		//click on Add to cart
+
+		driver.findElements(By.xpath("//div[@class='product-action']/button")).get(i).click();
+
+		if(j==itemsNeeded.length)
+
+		{
+
+		break;
+
+		}
+
+		}
+
+		}
+
+		}
+
+
+
+		}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+package introductions.testing.automate_Ajaxcalls_ChildWindows_IFrames;
+//86:Handling Ajax/Mouse Interactions
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class ActionDemo {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.amazon.com/");
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.cssSelector("a[id='nav-link-accountList']"))).build().perform();
+
+	}
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+package introductions.testing.automate_Ajaxcalls_ChildWindows_IFrames;
+import java.awt.RenderingHints.Key;
+
+//87. Actions class-real time example
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class ActionDemo2 {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.amazon.com/");
+		Actions a = new Actions(driver);
+		//a.moveToElement(driver.findElement(By.cssSelector("a[id='nav-link-accountList']")));
+		
+		a.moveToElement(driver.findElement(By.id("twotabsearchtextbox"))).click().keyDown(Keys.SHIFT).sendKeys("hello").click();
+		//move to specific element
+		
+		
+	}
+
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+package introductions.testing;
+import java.time.Duration;
+
+import java.util.List;
+
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import org.openqa.selenium.support.ui.Select;
+
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class Assignment3 {
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		WebDriverWait w = new WebDriverWait(driver,  Duration.ofSeconds(5));
+		
+		String[] itemNeeded = {"iphone X","Samsung Note 8","Nokia Edge","Blackberry"};
+		
+		driver.get("https://rahulshettyacademy.com/loginpagePractise/");
+
+
+
+
+
+		driver.findElement(By.name("username")).sendKeys("rahulshettyacademy");
+
+		driver.findElement(By.id("password")).sendKeys("learning");
+
+		driver.findElement(By.cssSelector(".customradio:nth-child(2)")).click();
+
+		//Thread.sleep(3000);
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(7000));
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("okayBtn")));
+
+		driver.findElement(By.id("okayBtn")).click();
+
+		WebElement options = driver.findElement(By.xpath("//select[@class='form-control']"));
+
+		Select dropdown = new Select(options);
+
+		dropdown.selectByValue("consult");
+
+		driver.findElement(By.id("signInBtn")).click();
+
+
+
+
+
+
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText("Checkout")));
+
+		List <WebElement> products = driver.findElements(By.cssSelector(".card-footer .btn-info"));
+
+		for(int i =0;i<products.size();i++)
+
+		{
+
+		products.get(i).click();
+
+		}
+
+		driver.findElement(By.partialLinkText("Checkout")).click();}
+
+
+
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class WebDriverMethodsDemo {
+    public static void main(String[] args) {
+        // Set the path to the ChromeDriver executable
+    	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+
+
+
+        // Initialize ChromeDriver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // Open the website
+            driver.get("https://rahulshettyacademy.com/");
+
+            // Find an element by ID and print its text
+            WebElement headingElement = driver.findElement(By.id("heading"));
+            System.out.println("Heading Text: " + headingElement.getText());
+
+            // Find an element by name and perform a click action
+            WebElement loginButton = driver.findElement(By.name("login"));
+            loginButton.click();
+
+            // Navigate back to the previous page
+            driver.navigate().back();
+
+            // Find an element by link text and click it
+            WebElement practiceLink = driver.findElement(By.linkText("Practice"));
+            practiceLink.click();
+
+            // Navigate forward to the next page
+            driver.navigate().forward();
+
+            // Find an element by partial link text and click it
+            WebElement coursesLink = driver.findElement(By.partialLinkText("Courses"));
+            coursesLink.click();
+
+            // Refresh the current page
+            driver.navigate().refresh();
+
+            // Find an element by class name and print its tag name
+            WebElement instructorElement = driver.findElement(By.className("instructor"));
+            System.out.println("Instructor Element Tag Name: " + instructorElement.getTagName());
+
+            // Find an element by CSS selector and print its text
+            WebElement learnSeleniumElement = driver.findElement(By.cssSelector("#learn-selenium"));
+            System.out.println("Learn Selenium Text: " + learnSeleniumElement.getText());
+
+            // Find an element by XPath and print its text
+            WebElement aboutUsElement = driver.findElement(By.xpath("//a[text()='About Us']"));
+            System.out.println("About Us Text: " + aboutUsElement.getText());
+
+            // Get the current URL and print it
+            String currentURL = driver.getCurrentUrl();
+            System.out.println("Current URL: " + currentURL);
+
+            // Get the page source and print it
+            String pageSource = driver.getPageSource();
+            System.out.println("Page Source: " + pageSource);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the browser
+
+        }
+    }
+}
+
+////////////////////////////////////////////////
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class e2e_handling_all_ui {
+	public static void main(String[] args) throws InterruptedException {
+
+		// TODO Auto-generated method stub
+
+
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		//driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+
+		driver.get("http://spicejet.com"); //URL in the browser
+
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_0")).click();
+
+		driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+
+		driver.findElement(By.xpath("//a[@value='DEL']")).click();
+
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//div[@id='glsctl00_mainContent_ddl_destinationStation1_CTNR'] //a[@value='MAA']")).click();
+
+		driver.findElement(By.cssSelector(".ui-state-default.ui-state-highlight.ui-state-active")).click();
+
+		if(driver.findElement(By.id("Div1")).getAttribute("style").contains("0.5"))
+
+		{
+
+		System.out.println("its disabled");
+
+		Assert.assertTrue(true);
+
+		}
+
+		else
+
+		{
+
+		Assert.assertTrue(false);
+
+		}
+
+		driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+
+		driver.findElement(By.id("divpaxinfo")).click();
+
+		   Thread.sleep(2000L);
+
+		for(int i=1;i<5;i++)
+
+		{
+
+		driver.findElement(By.id("hrefIncAdt")).click();
+
+		}
+
+		driver.findElement(By.id("btnclosepaxoption")).click();
+
+		Assert.assertEquals(driver.findElement(By.id("divpaxinfo")).getText(), "5 Adult");
+
+		System.out.println(driver.findElement(By.id("divpaxinfo")).getText());
+
+		// driver.findElement(By.cssSelector("#ctl00_mainContent_btn_FindFlights")).click();
+
+		driver.findElement(By.cssSelector("input[value='Search']")).click();
+
+		// driver.findElement(By.xpath("//input[@value='Search']")).click();
+
+		// driver.findElement(By.name("ctl00$mainContent$btn_FindFlights")).click();
+
+		}
+
+
+
+		}
+
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class StaticDropdown {
+	public static void main(String[] args) throws InterruptedException {
+
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+	
+	WebElement staticdropdown = driver.findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+	
+	//dropdown  with select tag - static
+	//if the select is used-it will always be static dropdown
+	Select dropdown = new Select(staticdropdown);
+	dropdown.selectByIndex(3);
+	System.out.println(dropdown.getFirstSelectedOption().getText());
+	Thread.sleep(3000);
+	
+	dropdown.selectByVisibleText("AED");
+	System.out.println(dropdown.getFirstSelectedOption().getText());
+	Thread.sleep(3000);
+	
+	dropdown.selectByValue("INR");
+	System.out.println(dropdown.getFirstSelectedOption().getText());
+	Thread.sleep(3000);
+	driver.close();
+}
+}
+
+//////////////////////////////////////////////////////////////////////////
+
+
+package introductions.testing;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+public class practice1 {
+public static void main(String[] args) throws InterruptedException {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	//driver.findElement(By. xpath("//a/button[1]")).click();
+	
+	driver.findElement(By. xpath("//button[normalize-space()='Practice']")).click();
+	driver.findElement(By. xpath("/html/body/header/div/button[2]")).click();
+	driver.findElement(By. xpath("/html/body/header/div/button[3]")).click();
+	
+	driver.findElement(By.cssSelector("input[value='radio1']")).click();
+	driver.findElement(By.cssSelector("input[value='radio2']")).click();
+	driver.findElement(By.cssSelector("input[value='radio3']")).click();
+	
+	driver.findElement(By.cssSelector("input[placeholder*='Type to Select Countries']")).sendKeys("india");
+	
+	WebElement dropdownvalue= driver.findElement(By.id("dropdown-class-example"));
+	Select a= new Select(dropdownvalue);
+	a.selectByIndex(2);
+	
+	
+	driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).click();
+	driver.findElement(By.cssSelector("input[id='checkBoxOption2']")).click();
+	driver.findElement(By.cssSelector("input[id='checkBoxOption3']")).click();
+	driver.findElement(By.cssSelector("input[id='checkBoxOption3']")).click();
+	
+	driver.findElement(By.cssSelector("button[id='openwindow']")).click();
+	
+	Thread.sleep(5);
+	driver.findElement(By.cssSelector("a[id='opentab']")).click();
+
+}
+}
