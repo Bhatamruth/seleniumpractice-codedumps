@@ -1,0 +1,510 @@
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Alert_handling {
+	public static void main(String[] args) throws InterruptedException {
+		String text = "amruth";
+		System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		driver.findElement(By.name("enter-name")).sendKeys(text);
+		driver.findElement(By.id("alertbtn")).click();
+
+		// to handle alert
+		System.out.println(driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+
+		Thread.sleep(2000);
+
+		driver.findElement(By.id("confirmbtn")).click();
+		System.out.println(driver.switchTo().alert().getText());
+		driver.switchTo().alert().dismiss();
+	}
+
+}
+
+
+package introductions.testing;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment4 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://the-internet.herokuapp.com/");
+	driver.findElement(By.cssSelector("a[href='/windows']")).click();
+	driver.findElement(By.cssSelector("a[href='/windows/new']")).click();
+	Set<String> windows= driver.getWindowHandles();
+	Iterator<String> it= windows.iterator();
+	String parentID=it.next();
+	String childId= it.next();
+	driver.switchTo().window(childId);
+	String text = driver.findElement(By.cssSelector("div h3")).getText();
+	System.out.println(textc);
+	
+	driver.switchTo().window(parentID);
+	String textp = driver.findElement(By.cssSelector("div h3")).getText();
+	System.out.println(textp);
+}}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class StaticDropdown {
+	public static void main(String[] args) throws InterruptedException {
+
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+	
+	WebElement staticdropdown = driver.findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+	
+	//dropdown  with select tag - static
+	//if the select is used-it will always be static dropdown
+	Select dropdown = new Select(staticdropdown);
+	dropdown.selectByIndex(3);
+	System.out.println(dropdown.getFirstSelectedOption().getText());
+	Thread.sleep(3000);
+	
+	dropdown.selectByVisibleText("AED");
+	System.out.println(dropdown.getFirstSelectedOption().getText());
+	Thread.sleep(3000);
+	
+	dropdown.selectByValue("INR");
+	System.out.println(dropdown.getFirstSelectedOption().getText());
+	Thread.sleep(3000);
+	driver.close();
+	}
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class testng_practice {
+
+		public static void main(String[] args) {
+			System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+			WebDriver driver = new ChromeDriver();
+			
+			//to access a particular website
+			driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+			
+			Assert.assertFalse(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			System.out.println(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			
+			
+			driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).click();
+			
+			Assert.assertTrue(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			System.out.println(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			
+			//to count the number of chekboxes
+			System.out.println(driver.findElements(By.cssSelector("input[type*='checkbox']")).size());
+			Assert.assertEquals(driver.findElements(By.cssSelector("input[type*='checkbox']")).size(), 6);
+		}
+
+}
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class UpdatedDropdown {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+		driver.findElement(By.id("divpaxinfo")).click();
+		   Thread.sleep(2000L);
+
+		   /*int i=1;
+
+		while(i<5)
+
+		{
+
+		driver.findElement(By.id("hrefIncAdt")).click();
+
+		i++;
+
+		}*/
+
+		System.out.println(driver.findElement(By.id("divpaxinfo")).getText());
+
+		for(int i=1;i<5;i++)
+
+		{
+			Thread.sleep(1000);
+		driver.findElement(By.id("hrefIncAdt")).click();
+
+		}
+
+		driver.findElement(By.id("btnclosepaxoption")).click();
+
+		Assert.assertEquals(driver.findElement(By.id("divpaxinfo")).getText(), "5 Adult");
+		
+	}
+
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class WebDriverMethodsDemo {
+    public static void main(String[] args) {
+        // Set the path to the ChromeDriver executable
+    	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+
+
+
+        // Initialize ChromeDriver
+        WebDriver driver = new ChromeDriver();
+
+        try {
+            // Open the website
+            driver.get("https://rahulshettyacademy.com/");
+
+            // Find an element by ID and print its text
+            WebElement headingElement = driver.findElement(By.id("heading"));
+            System.out.println("Heading Text: " + headingElement.getText());
+
+            // Find an element by name and perform a click action
+            WebElement loginButton = driver.findElement(By.name("login"));
+            loginButton.click();
+
+            // Navigate back to the previous page
+            driver.navigate().back();
+
+            // Find an element by link text and click it
+            WebElement practiceLink = driver.findElement(By.linkText("Practice"));
+            practiceLink.click();
+
+            // Navigate forward to the next page
+            driver.navigate().forward();
+
+            // Find an element by partial link text and click it
+            WebElement coursesLink = driver.findElement(By.partialLinkText("Courses"));
+            coursesLink.click();
+
+            // Refresh the current page
+            driver.navigate().refresh();
+
+            // Find an element by class name and print its tag name
+            WebElement instructorElement = driver.findElement(By.className("instructor"));
+            System.out.println("Instructor Element Tag Name: " + instructorElement.getTagName());
+
+            // Find an element by CSS selector and print its text
+            WebElement learnSeleniumElement = driver.findElement(By.cssSelector("#learn-selenium"));
+            System.out.println("Learn Selenium Text: " + learnSeleniumElement.getText());
+
+            // Find an element by XPath and print its text
+            WebElement aboutUsElement = driver.findElement(By.xpath("//a[text()='About Us']"));
+            System.out.println("About Us Text: " + aboutUsElement.getText());
+
+            // Get the current URL and print it
+            String currentURL = driver.getCurrentUrl();
+            System.out.println("Current URL: " + currentURL);
+
+            // Get the page source and print it
+            String pageSource = driver.getPageSource();
+            System.out.println("Page Source: " + pageSource);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // Close the browser
+
+        }
+    }
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+
+public class WindowActivities {
+
+
+
+public static void main(String[] args) {
+
+// TODO Auto-generated method stub
+
+
+System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+WebDriver driver = new ChromeDriver();
+
+driver.manage().window().maximize();
+
+driver.get("http://google.com");
+
+driver.navigate().to("https://rahulshettyacademy.com");
+
+driver.navigate().back();
+
+driver.navigate().forward();
+
+}
+
+
+}
+
+
+
+package introductions.testing.automate_Ajaxcalls_ChildWindows_IFrames;
+//86:Handling Ajax/Mouse Interactions
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class ActionDemo {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.amazon.com/");
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.cssSelector("a[id='nav-link-accountList']"))).build().perform();
+
+	}
+
+}
+
+
+package introductions.testing.automate_Ajaxcalls_ChildWindows_IFrames;
+import java.awt.RenderingHints.Key;
+
+//87. Actions class-real time example
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class ActionDemo2 {
+
+	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.amazon.com/");
+		Actions a = new Actions(driver);
+		//a.moveToElement(driver.findElement(By.cssSelector("a[id='nav-link-accountList']")));
+		
+		a.moveToElement(driver.findElement(By.id("twotabsearchtextbox"))).click().keyDown(Keys.SHIFT).sendKeys("hello").click();
+		//move to specific element
+		
+		
+	}
+
+}
+
+
+package introductions.testing.automate_Ajaxcalls_ChildWindows_IFrames;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class frametest {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://jqueryui.com/droppable/");
+	driver.switchTo().frame(driver.findElement(By.cssSelector("iframe[class='demo-frame']")));
+	//driver.findElement(By.id("draggable")).click();
+	
+	Actions a = new Actions(driver);
+	WebElement source=driver.findElement(By.id("draggable"));
+	WebElement target= driver.findElement(By.id("droppable"));
+	a.dragAndDrop(source,target).build().perform();
+	
+	//to come back to general window
+	driver.switchTo().defaultContent();
+	
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package introductions.testing.automate_Ajaxcalls_ChildWindows_IFrames;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WindowHandle1 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/loginpagePractise/");
+	driver.findElement(By.cssSelector("a[class='blinkingText']")).click();
+	Set<String> windows=driver.getWindowHandles();
+	Iterator<String> it=windows.iterator();
+	String parentID=it.next();
+	String childId= it.next();
+	driver.switchTo().window(childId);
+	System.out.println(driver.findElement(By.cssSelector("p[class='im-para red']")).getText());
+	String emailId=driver.findElement(By.cssSelector("p[class='im-para red']")).getText().split("at")[1].trim().split(" ")[0];
+	
+	driver.switchTo().window(parentID);
+	driver.findElement(By.cssSelector("input[id='username']")).sendKeys(emailId);
+}
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class AmazonShoppingTest {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        // Navigate to Amazon
+        driver.get("https://www.amazon.com/");
+
+        // Search for a product
+        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+        searchBox.sendKeys("Laptop");
+        searchBox.submit();
+
+        // Click on a product
+        WebElement productLink = driver.findElement(By.partialLinkText("Best Seller in Traditional Laptop Computers"));
+        productLink.click();
+
+        // Add the product to the cart
+        WebElement addToCartButton = driver.findElement(By.id("add-to-cart-button"));
+        addToCartButton.click();
+
+        // Proceed to the shopping cart
+        WebElement cartButton = driver.findElement(By.id("nav-cart-count"));
+        cartButton.click();
+
+        // Apply a promo code (example)
+        WebElement promoCodeInput = driver.findElement(By.name("promoCode"));
+        promoCodeInput.sendKeys("DISCOUNT123");
+        promoCodeInput.submit();
+
+        // Proceed to checkout
+        WebElement proceedToCheckoutButton = driver.findElement(By.id("hlb-ptc-btn-native"));
+        proceedToCheckoutButton.click();
+
+        // Sign in to Amazon (example)
+        WebElement emailInput = driver.findElement(By.id("ap_email"));
+        WebElement passwordInput = driver.findElement(By.id("ap_password"));
+        WebElement signInButton = driver.findElement(By.id("signInSubmit"));
+        emailInput.sendKeys("your_email@example.com");
+        passwordInput.sendKeys("your_password");
+        signInButton.click();
+
+        // Complete the checkout process (example)
+        WebElement placeYourOrderButton = driver.findElement(By.name("placeYourOrder1"));
+        placeYourOrderButton.click();
+
+        // Close the browser
+        driver.quit();
+    }
+}
+package introductions.testing.practices;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class SampleWebsiteTests {
+    public static void main(String[] args) {
+        // Set the path to the ChromeDriver executable
+        //System.setProperty("webdriver.chrome.driver", "path_to_chromedriver.exe");
+
+        // Initialize WebDriver
+        WebDriver driver = new ChromeDriver();
+
+        // Maximize the browser window
+        driver.manage().window().maximize();
+
+        // Navigate to the sample website
+        driver.get("https://example.com");
+
+        // Find and interact with web elements
+        WebElement searchBox = driver.findElement(By.name("q"));
+        searchBox.sendKeys("Selenium WebDriver");
+
+        WebElement searchButton = driver.findElement(By.name("btnK"));
+        searchButton.click();
+
+        // Verify the search results page
+        WebElement resultStats = driver.findElement(By.id("result-stats"));
+        System.out.println("Search results: " + resultStats.getText());
+
+        // Click on a search result link
+        WebElement searchResultLink = driver.findElement(By.linkText("Selenium WebDriver"));
+        searchResultLink.click();
+
+        // Perform further actions on the new page
+        WebElement pageTitle = driver.findElement(By.tagName("h1"));
+        System.out.println("Page Title: " + pageTitle.getText());
+
+        // Close the browser
+        driver.quit();
+    }
+}
