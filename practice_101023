@@ -1,0 +1,520 @@
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Assignment5 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	
+	//1.select any checkbox
+	//2.grab the label of selected checkbox
+	//3.select an option in dropdown,here option to selct from dropdown must come from step2
+	//4.enter the step2 grabbed text into editbox
+	//5.click alert and then verify if text grabed is present in popup message
+	
+	//do not hardcode
+	
+	
+	
+	
+	//1.select any checkbox
+	driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).click();
+	
+	//2.grab the label of selected checkbox
+	String name = driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).getAttribute("name");
+	System.out.println(name);
+	
+	String s = name.split("Box")[1];
+	System.out.println(s);
+	
+	
+	//3.select an option in dropdown,here option to selct from dropdown must come from step2
+	WebElement staticdropdown = driver.findElement(By.cssSelector("select[id='dropdown-class-example']"));
+	Select dropdown = new Select(staticdropdown);
+	dropdown.selectByVisibleText(s);
+	
+	//4.enter the step2 grabbed text into editbox
+	driver.findElement(By.cssSelector("[id='name']")).sendKeys(s);
+
+	//5.click alert and then verify if text grabed is present in popup message
+	driver.findElement(By.cssSelector("input[id='alertbtn']")).click();
+	
+	String alertMsg = driver.switchTo().alert().getText();
+	System.out.println(alertMsg);
+	
+	System.out.println(alertMsg.contains(s));
+	
+	
+
+	
+	
+
+}
+}
+
+
+
+
+
+
+
+
+
+package introductions.testing.practices;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Scope {
+public static void main(String[] args) throws InterruptedException {
+	
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	
+	//1.get the count of link in the page
+    // Find all the 'a' elements on the page and get their count
+    int linkCount = driver.findElements(By.tagName("a")).size();
+    
+    // Print the count of links
+    System.out.println("Number of links on the page: " + linkCount);
+    
+    
+    //2.get total links in footer section
+    // Find all the 'a' elements on the footer of the page and get their count
+    int f_linkCount = driver.findElements(By.cssSelector("div[id='gf-BIG'] a")).size();
+    
+    // Print the count of links
+    System.out.println("Number of links on the page: " + f_linkCount);
+
+    
+    //or we can also do that like this
+    
+    WebElement footerDriver = driver.findElement(By.id("gf-BIG"));
+    System.out.println(footerDriver.findElements(By.tagName("a")).size());
+    
+    
+    //3.get links count of only first column of footer section
+    WebElement fc_footerDriver= footerDriver.findElement(By.xpath("//div[@id='gf-BIG']//table//tbody//tr//td[1]/ul"));
+    System.out.println("Number of links on the page: "+fc_footerDriver.findElements(By.tagName("a")).size());
+    
+    
+    //4.click on each link in the column and check if link is working or opening
+    for(int i=1;i<fc_footerDriver.findElements(By.tagName("a")).size();i++)
+    {
+    	
+    	String clickonLinkTab=Keys.chord(Keys.CONTROL,Keys.ENTER);
+    	fc_footerDriver.findElements(By.tagName("a")).get(i).sendKeys(clickonLinkTab);
+    	Thread.sleep(2000);
+    	
+    	
+    	
+    }
+    
+    //4.get the page title of each webpage opened
+  
+  		for(int i=1;i<fc_footerDriver.findElements(By.tagName("a")).size();i++)
+  		{
+  			
+  			String clickonlinkTab=Keys.chord(Keys.CONTROL,Keys.ENTER);
+  			
+  			fc_footerDriver.findElements(By.tagName("a")).get(i).sendKeys(clickonlinkTab);
+  			Thread.sleep(5000L);
+  			
+  		}// opens all the tabs
+  		Set<String> abc=driver.getWindowHandles();//4
+  		Iterator<String> it=abc.iterator();
+  		
+  		while(it.hasNext())
+  		{
+  			
+  		   driver.switchTo().window(it.next());
+  		   System.out.println(driver.getTitle());
+  		
+  		}
+
+}
+}
+
+
+
+
+package introductions.testing.practices;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class MechanicBaseTest {
+    public static void main(String[] args) {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        // Navigate to the website
+        driver.get("https://mechanicbase.com/");
+
+        // Perform various operations (sample actions)
+        WebElement searchBox = driver.findElement(By.name("s"));
+        searchBox.sendKeys("car maintenance");
+
+        WebElement searchButton = driver.findElement(By.id("searchsubmit"));
+        searchButton.click();
+
+        WebElement firstSearchResult = driver.findElement(By.cssSelector(".post-title a"));
+        String firstResultText = firstSearchResult.getText();
+
+        WebElement contactLink = driver.findElement(By.linkText("Contact"));
+        contactLink.click();
+
+        WebElement emailInput = driver.findElement(By.name("email"));
+        emailInput.sendKeys("your@email.com");
+
+        WebElement messageInput = driver.findElement(By.name("message"));
+        messageInput.sendKeys("This is a test message.");
+
+        WebElement submitButton = driver.findElement(By.xpath("//input[@type='submit']"));
+        submitButton.click();
+
+        // Continue with more operations...
+
+        // Close the browser
+        driver.quit();
+    }
+}
+
+
+package introductions.testing;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+public class Calender_handling {
+public static void main(String[] args) {
+// TODO Auto-generated method stub
+
+
+ChromeDriver driver=new ChromeDriver();
+driver.get("https://www.path2usa.com/travel-companions");
+//April 23
+WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+
+WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(".//*[@id='form-field-travel_comp_date']")));
+element.click();
+
+driver.findElement(By.xpath(".//*[@id='form-field-travel_comp_date']")).click();
+
+
+while(!driver.findElement(By.cssSelector("[class='datepicker-days'] [class='datepicker-switch']")).getText().contains("May"))
+{
+driver.findElement(By.cssSelector("[class='datepicker-days'] th[class='next']")).click();
+}
+
+
+List<WebElement> dates= driver.findElements(By.className("day"));
+//Grab common attribute//Put into list and iterate
+int count=driver.findElements(By.className("day")).size();
+
+for(int i=0;i<count;i++)
+{
+String text=driver.findElements(By.className("day")).get(i).getText();
+if(text.equalsIgnoreCase("21"))
+{
+driver.findElements(By.className("day")).get(i).click();
+break;
+}
+
+}
+}
+
+private static Duration Duration(int i) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+}///error in this code
+
+
+
+package introductions.testing.JavaScriptExecutor;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class JavaScriptExecutorDemo {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		//now the driver is aware that it can execute javascript as well
+		
+		js.executeScript("window.scroll(0,500)");
+
+		Thread.sleep(2000);
+		js.executeScript("document.querySelector('.tableFixHead').scrollTop=5000");
+	}
+
+}
+
+
+package introductions.testing;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment6 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://www.rahulshettyacademy.com/");
+	driver.findElement(By.cssSelector("a[href='practice-project']")).click();
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	
+	JavascriptExecutor js = (JavascriptExecutor) driver;
+	
+	js.executeScript("window.scroll(0,500)");
+	
+	//to count rows
+	//List<WebElement> rows = driver.findElements(By.cssSelector(".table-display tr"));
+	int total_rows= driver.findElements(By.cssSelector(".table-display tr")).size();
+	
+	System.out.println("total_rows:"+total_rows);
+	
+
+
+	
+	//to count columns
+	//List<WebElement> columns = driver.findElements(By.cssSelector(".table-display th"));
+	int total_columns= driver.findElements(By.cssSelector(".table-display th")).size();
+	
+	System.out.println("total_columns:"+total_columns);
+	
+	//to print second row content
+	String s = driver.findElement(By.cssSelector(".table-display tr:nth-child(3)")).getText();
+	System.out.println(s);
+	
+}
+}
+
+
+package introductions.testing.practices;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Scope {
+public static void main(String[] args) throws InterruptedException {
+	
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	
+	//1.get the count of link in the page
+    // Find all the 'a' elements on the page and get their count
+    int linkCount = driver.findElements(By.tagName("a")).size();
+    
+    // Print the count of links
+    System.out.println("Number of links on the page: " + linkCount);
+    
+    
+    //2.get total links in footer section
+    // Find all the 'a' elements on the footer of the page and get their count
+    int f_linkCount = driver.findElements(By.cssSelector("div[id='gf-BIG'] a")).size();
+    
+    // Print the count of links
+    System.out.println("Number of links on the page: " + f_linkCount);
+
+    
+    //or we can also do that like this
+    
+    WebElement footerDriver = driver.findElement(By.id("gf-BIG"));
+    System.out.println(footerDriver.findElements(By.tagName("a")).size());
+    
+    
+    //3.get links count of only first column of footer section
+    WebElement fc_footerDriver= footerDriver.findElement(By.xpath("//div[@id='gf-BIG']//table//tbody//tr//td[1]/ul"));
+    System.out.println("Number of links on the page: "+fc_footerDriver.findElements(By.tagName("a")).size());
+    
+    
+    //4.click on each link in the column and check if link is working or opening
+    for(int i=1;i<fc_footerDriver.findElements(By.tagName("a")).size();i++)
+    {
+    	
+    	String clickonLinkTab=Keys.chord(Keys.CONTROL,Keys.ENTER);
+    	fc_footerDriver.findElements(By.tagName("a")).get(i).sendKeys(clickonLinkTab);
+    	Thread.sleep(2000);
+    	
+    	
+    	
+    }
+    
+    //4.get the page title of each webpage opened
+  
+  		for(int i=1;i<fc_footerDriver.findElements(By.tagName("a")).size();i++)
+  		{
+  			
+  			String clickonlinkTab=Keys.chord(Keys.CONTROL,Keys.ENTER);
+  			
+  			fc_footerDriver.findElements(By.tagName("a")).get(i).sendKeys(clickonlinkTab);
+  			Thread.sleep(5000L);
+  			
+  		}// opens all the tabs
+  		Set<String> abc=driver.getWindowHandles();//4
+  		Iterator<String> it=abc.iterator();
+  		
+  		while(it.hasNext())
+  		{
+  			
+  		   driver.switchTo().window(it.next());
+  		   System.out.println(driver.getTitle());
+  		
+  		}
+
+}
+}
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Calender {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+		
+		driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+		driver.findElement(By.xpath("//a[@value='BLR']")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("(//a[@value='MAA'])[2]")).click();//here i have used index to search the value in second dropdown list
+		//alternatively we can use parent child tag combination to perform same operation
+		driver.findElement(By.xpath("//div[@id='glsctl00_mainContent_ddl_destinationStation1_CTNR'] //a[@value='MAA']")).click();
+		
+		
+		//now the calender will auto popup
+		//to select current date as it has unique attribute value as highlight
+		driver.findElement(By.cssSelector("a[class*='highlight']")).click();
+}
+}
+
+
+package introductions.testing;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class AutoSuggestive {
+
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+		driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+
+		driver.findElement(By.id("autosuggest")).sendKeys("ind");
+
+		Thread.sleep(3000);
+
+		List<WebElement> options =driver.findElements(By.cssSelector("li[class='ui-menu-item'] a"));
+
+		for(WebElement option :options)
+
+		{
+
+		if(option.getText().equalsIgnoreCase("India"))
+
+		{
+
+		option.click();
+
+		break;
+
+		}
+
+		}
+
+	}
+		}
+
+
+
+  package introductions.testing;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment7 {
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		
+		driver.findElement(By.cssSelector("input[id='autocomplete']")).sendKeys("Ind");
+		Thread.sleep(3000);
+		List<WebElement> options =driver.findElements(By.cssSelector("li[class='ui-menu-item']"));
+
+		for(WebElement option :options)
+
+		{
+
+		if(option.getText().equalsIgnoreCase("India"))
+
+		{
+
+		option.click();
+
+		break;
+
+		}
+
+		}
+
+	}
+	
+}
