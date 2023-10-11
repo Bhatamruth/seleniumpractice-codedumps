@@ -1,0 +1,540 @@
+package introductions.testing.miscellaneous_section13;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class Adding_extensions {
+	public static void main(String[] args) {
+
+		ChromeOptions options = new ChromeOptions();
+		///options.addExtensions("");
+		//to work, we must download the extension in our local system and add that path in the above 
+		options.setAcceptInsecureCerts(true);
+		WebDriver driver = new ChromeDriver(options);
+
+		driver.get("https://expired.badssl.com/");
+		System.out.println(driver.getTitle());
+	}
+}
+package introductions.testing.miscellaneous_section13;
+
+import java.util.HashMap;
+
+import java.util.Map;
+
+
+
+import org.openqa.selenium.Proxy;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import org.openqa.selenium.edge.EdgeOptions;
+
+import org.openqa.selenium.firefox.FirefoxOptions;
+
+
+
+public class Adding_proxy {
+
+
+
+public static void main(String[] args) {
+
+// TODO Auto-generated method stub
+
+ChromeOptions options = new ChromeOptions();
+
+Proxy proxy = new Proxy();
+
+proxy.setHttpProxy("ipaddress:4444");
+
+options.setCapability("proxy", proxy);
+
+Map<String, Object> prefs = new HashMap<String, Object>();
+
+
+
+prefs.put("download.default_directory", "/directory/path");
+
+
+
+options.setExperimentalOption("prefs", prefs);
+
+// FirefoxOptions options1 = new FirefoxOptions();
+
+// options1.setAcceptInsecureCerts(true);
+
+// EdgeOptions options2 = new EdgeOptions();
+
+options.setAcceptInsecureCerts(true);
+
+System.setProperty("webdriver.chrome.driver", "/Users/rahulshetty/Documents/chromedriver");
+
+
+
+WebDriver driver = new ChromeDriver(options);
+
+driver.get("https://expired.badssl.com/");
+
+System.out.println(driver.getTitle());
+
+
+
+}
+
+
+
+}package introductions.testing.miscellaneous_section13;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class Maximize_window {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		WebDriver driver = new ChromeDriver();
+		//to get maximized window
+		driver.manage().window().maximize();
+		
+		
+		//to delete cookies
+		driver.manage().deleteAllCookies();
+		
+		//to delete particular cookie
+		driver.manage().deleteCookieNamed("aaa");
+		
+		//
+		driver.manage().
+	}
+
+}
+
+package introductions.testing.miscellaneous_section13;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class SSLcheck {
+public static void main(String[] args) {
+	
+	ChromeOptions options = new ChromeOptions();
+	options.setAcceptInsecureCerts(true);
+	WebDriver driver = new ChromeDriver(options);
+	 
+	driver.get("https://expired.badssl.com/");
+	System.out.println(driver.getTitle());
+}
+}
+
+
+package introductions.testing.miscellaneous_section13;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Screenshots {
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+
+		 
+
+
+		 //System.setProperty("webdriver.chrome.driver", "C://work//chromedriver.exe");
+			WebDriver driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			driver.manage().deleteAllCookies();
+		
+		//	driver.manage().deleteCookieNamed("sessionKey");
+		
+		//click on any link
+			//login page- verify login url
+			
+			
+			driver.get("http://google.com");
+			
+			File src=	 ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(src,new File("C:\\Users\\amrbhat\\screenshot.png"));
+		
+		
+
+}	}
+
+
+package introductions.testing;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment6 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://www.rahulshettyacademy.com/");
+	driver.findElement(By.cssSelector("a[href='practice-project']")).click();
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	
+	JavascriptExecutor js = (JavascriptExecutor) driver;
+	
+	js.executeScript("window.scroll(0,500)");
+	
+	//to count rows
+	//List<WebElement> rows = driver.findElements(By.cssSelector(".table-display tr"));
+	int total_rows= driver.findElements(By.cssSelector(".table-display tr")).size();
+	
+	System.out.println("total_rows:"+total_rows);
+	
+
+	//to count columns
+	//List<WebElement> columns = driver.findElements(By.cssSelector(".table-display th"));
+	int total_columns= driver.findElements(By.cssSelector(".table-display th")).size();
+	
+	System.out.println("total_columns:"+total_columns);
+	
+	//to print second row content
+	String s = driver.findElement(By.cssSelector(".table-display tr:nth-child(3)")).getText();
+	System.out.println(s);
+	
+}
+}
+
+
+package introductions.testing;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment7 {
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		
+		driver.findElement(By.cssSelector("input[id='autocomplete']")).sendKeys("Ind");
+		Thread.sleep(3000);
+		List<WebElement> options =driver.findElements(By.cssSelector("li[class='ui-menu-item']"));
+
+		for(WebElement option :options)
+
+		{
+
+		if(option.getText().equalsIgnoreCase("India"))
+
+		{
+
+		option.click();
+
+		break;
+
+		}
+
+		}
+		driver.findElement(By.className("logoClass")).click();
+		String text = driver.findElement(By.cssSelector("//h2//span[1]")).getText();
+System.out.println(text);
+	}
+	
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Assignment5 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+	
+	//1.select any checkbox
+	//2.grab the label of selected checkbox
+	//3.select an option in dropdown,here option to selct from dropdown must come from step2
+	//4.enter the step2 grabbed text into editbox
+	//5.click alert and then verify if text grabed is present in popup message
+	
+	//do not hardcode
+	
+	
+	
+	
+	//1.select any checkbox
+	driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).click();
+	
+	//2.grab the label of selected checkbox
+	String name = driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).getAttribute("name");
+	System.out.println(name);
+	
+	String s = name.split("Box")[1];
+	System.out.println(s);
+	
+	
+	//3.select an option in dropdown,here option to selct from dropdown must come from step2
+	WebElement staticdropdown = driver.findElement(By.cssSelector("select[id='dropdown-class-example']"));
+	Select dropdown = new Select(staticdropdown);
+	dropdown.selectByVisibleText(s);
+	
+	//4.enter the step2 grabbed text into editbox
+	driver.findElement(By.cssSelector("[id='name']")).sendKeys(s);
+
+	//5.click alert and then verify if text grabed is present in popup message
+	driver.findElement(By.cssSelector("input[id='alertbtn']")).click();
+	
+	String alertMsg = driver.switchTo().alert().getText();
+	System.out.println(alertMsg);
+	
+	System.out.println(alertMsg.contains(s));
+	
+	
+
+	
+	
+
+}
+}
+
+
+
+
+
+
+
+
+
+package introductions.testing;
+
+import java.util.Iterator;
+import java.util.Set;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Assignment4 {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://the-internet.herokuapp.com/");
+	driver.findElement(By.cssSelector("a[href='/windows']")).click();
+	driver.findElement(By.cssSelector("a[href='/windows/new']")).click();
+	Set<String> windows= driver.getWindowHandles();
+	Iterator<String> it= windows.iterator();
+	String parentID=it.next();
+	String childId= it.next();
+	driver.switchTo().window(childId);
+	String textc = driver.findElement(By.cssSelector("div h3")).getText();
+	System.out.println(textc);
+	
+	driver.switchTo().window(parentID);
+	String textp = driver.findElement(By.cssSelector("div h3")).getText();
+	System.out.println(textp);
+}}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class e2e_handling_all_ui {
+	public static void main(String[] args) throws InterruptedException {
+
+		// TODO Auto-generated method stub
+
+
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		//driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+
+		driver.get("http://spicejet.com"); //URL in the browser
+
+		driver.findElement(By.id("ctl00_mainContent_rbtnl_Trip_0")).click();
+
+		driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+
+		driver.findElement(By.xpath("//a[@value='DEL']")).click();
+
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//div[@id='glsctl00_mainContent_ddl_destinationStation1_CTNR'] //a[@value='MAA']")).click();
+
+		driver.findElement(By.cssSelector(".ui-state-default.ui-state-highlight.ui-state-active")).click();
+
+		if(driver.findElement(By.id("Div1")).getAttribute("style").contains("0.5"))
+
+		{
+
+		System.out.println("its disabled");
+
+		Assert.assertTrue(true);
+
+		}
+
+		else
+
+		{
+
+		Assert.assertTrue(false);
+
+		}
+
+		driver.findElement(By.cssSelector("input[id*='SeniorCitizenDiscount']")).click();
+
+		driver.findElement(By.id("divpaxinfo")).click();
+
+		   Thread.sleep(2000L);
+
+		for(int i=1;i<5;i++)
+
+		{
+
+		driver.findElement(By.id("hrefIncAdt")).click();
+
+		}
+
+		driver.findElement(By.id("btnclosepaxoption")).click();
+
+		Assert.assertEquals(driver.findElement(By.id("divpaxinfo")).getText(), "5 Adult");
+
+		System.out.println(driver.findElement(By.id("divpaxinfo")).getText());
+
+		// driver.findElement(By.cssSelector("#ctl00_mainContent_btn_FindFlights")).click();
+
+		driver.findElement(By.cssSelector("input[value='Search']")).click();
+
+		// driver.findElement(By.xpath("//input[@value='Search']")).click();
+
+		// driver.findElement(By.name("ctl00$mainContent$btn_FindFlights")).click();
+
+		}
+
+
+
+		}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class disabled_enabled_check {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+	System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+	driver.findElement(By.cssSelector("input[id*='ctl00_mainContent_rbtnl_Trip_1']")).click();
+	System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+	if(driver.findElement(By.id("Div1")).getAttribute("style").contains("1"))
+	{
+		System.out.println("enabled");
+		Assert.assertTrue(true);
+	}
+	else
+	{
+		Assert.assertTrue(false);
+	}
+	
+	
+	System.out.println(driver.findElement(By.name("ctl00$mainContent$view_date2")).isEnabled());
+}
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class disabled_enabled_check {
+public static void main(String[] args) {
+	System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+	WebDriver driver = new ChromeDriver();
+	driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+	System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+	driver.findElement(By.cssSelector("input[id*='ctl00_mainContent_rbtnl_Trip_1']")).click();
+	System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+	if(driver.findElement(By.id("Div1")).getAttribute("style").contains("1"))
+	{
+		System.out.println("enabled");
+		Assert.assertTrue(true);
+	}
+	else
+	{
+		Assert.assertTrue(false);
+	}
+	
+	
+	System.out.println(driver.findElement(By.name("ctl00$mainContent$view_date2")).isEnabled());
+}
+}
+
+
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class testng_practice {
+
+		public static void main(String[] args) {
+			System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+			WebDriver driver = new ChromeDriver();
+			
+			//to access a particular website
+			driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+			
+			Assert.assertFalse(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			System.out.println(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			
+			
+			driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).click();
+			
+			Assert.assertTrue(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			System.out.println(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected());
+			
+			//to count the number of chekboxes
+			System.out.println(driver.findElements(By.cssSelector("input[type*='checkbox']")).size());
+			Assert.assertEquals(driver.findElements(By.cssSelector("input[type*='checkbox']")).size(), 6);
+		}
+
+
+
+}
