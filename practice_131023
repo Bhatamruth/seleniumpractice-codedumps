@@ -1,1 +1,741 @@
+package introductions.testing;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class BrokenLinks {
+	public static void main(String[] args) throws MalformedURLException, IOException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://www.rahulshettyacademy.com/");
+		driver.findElement(By.cssSelector("a[href='practice-project']")).click();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		System.out.println( driver.findElement(By.cssSelector("a[href*=\"soapui\"]")).getAttribute("href"));
+		String url = driver.findElement(By.cssSelector("a[href*=\"soapui\"]")).getAttribute("href");
+		
+		//using java method such as openConnection to check the link code
+		HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
+		conn.setRequestMethod("HEAD");
+		conn.connect();
+		int response_code=conn.getResponseCode();
+		System.out.println(response_code);
+		conn.disconnect();
+		//now checking the link which is broken and getting its status code
+		//if its broken then the status code must be 400 or above
+		
+		System.out.println( driver.findElement(By.cssSelector("a[href*='broken']")).getAttribute("href"));
+		String url2 = driver.findElement(By.cssSelector("a[href*='broken']")).getAttribute("href");
+		
+		//using java method such as openConnection to check the link code
+		HttpURLConnection conn2 = (HttpURLConnection)new URL(url2).openConnection();
+		conn2.setRequestMethod("HEAD");
+		conn2.connect();
+		int response_code2=conn2.getResponseCode();
+		System.out.println(response_code2);
+		
+		
+		}
+}
+
+package introductions.testing;
+
+import java.io.IOException;
+
+import java.net.HttpURLConnection;
+
+import java.net.MalformedURLException;
+
+import java.net.URL;
+
+import java.net.URLConnection;
+
+import java.util.List;
+
+
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.testng.Assert;
+
+import org.testng.asserts.SoftAssert;
+
+
+
+public class BrokenLinks2 {
+
+
+
+public static void main(String[] args) throws MalformedURLException, IOException {
+
+// TODO Auto-generated method stub
+
+System.setProperty("webdriver.chrome.driver", "C://chromedriver.exe");
+
+         WebDriver driver=new ChromeDriver();
+
+         
+
+         //broken URL
+
+         //Step 1 - IS to get all urls tied up to the links using Selenium
+
+         //  Java methods will call URL's and gets you the status code
+
+         //if status code >400 then that url is not working-> link which tied to url is broken
+
+         //a[href*="soapui"]'
+
+         driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+
+         
+
+         
+
+      List<WebElement> links=   driver.findElements(By.cssSelector("li[class='gf-li'] a"));
+
+      SoftAssert a =new SoftAssert();
+
+     
+
+      for(WebElement link : links)
+
+      {
+
+       
+
+          String url= link.getAttribute("href");
+
+         
+
+          HttpURLConnection   conn= (HttpURLConnection)new URL(url).openConnection();
+
+          conn.setRequestMethod("HEAD");
+
+          conn.connect();
+
+          int respCode = conn.getResponseCode();
+
+          System.out.println(respCode);
+
+          a.assertTrue(respCode<400, "The link with Text"+link.getText()+" is broken with code" +respCode);
+
+         
+
+     
+
+      }
+
+     
+
+      a.assertAll();
+
+   
+
+     
+
+     
+
+         
+
+         
+
+         
+
+         
+
+         
+
+     
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+       
+
+         
+
+         
+
+         
+
+}
+
+
+
+private static Object getReturnCode(WebElement link) {
+
+// TODO Auto-generated method stub
+
+return null;
+
+}
+
+
+
+}
+
+
+
+package introductions.testing.qatechhub.AutomationPractice;
+//Scenario 3: Few elements are dragged and dropped and then verify the message is displayed or not.
+import org.openqa.selenium.By;		
+import org.openqa.selenium.WebDriver;		
+import org.openqa.selenium.WebElement;		
+import org.openqa.selenium.chrome.ChromeDriver;		
+import org.openqa.selenium.interactions.Actions;		
+import org.testng.annotations.Test;		
+
+public class DragAndDrop3 {				
+public static void main(String[] args) {
+
+    WebDriver driver;					
+    	 //System.setProperty("webdriver.chrome.driver"," E://Selenium//Selenium_Jars//chromedriver.exe");					
+         driver= new ChromeDriver();					
+         driver.get("http://demo.guru99.com/test/drag_drop.html");					
+     
+	//Element(BANK)hich need to drag.		
+     	 WebElement From1=driver.findElement(By.xpath("//*[@id='credit2']/a"));	
+         
+     	//Element(DEBIT SIDE) on which need to drop.		
+     	WebElement To1=driver.findElement(By.xpath("//*[@id='bank']/li"));					
+      
+	//Element(SALES) which need to drag.		
+     	WebElement From2=driver.findElement(By.xpath("//*[@id='credit1']/a"));
+        
+	//Element(CREDIT SIDE) on which need to drop.  		
+     	WebElement To2=driver.findElement(By.xpath("//*[@id='loan']/li"));					
+     
+     	//Element(500) which need to drag.		
+        WebElement From3=driver.findElement(By.xpath("//*[@id='fourth']/a"));					
+        
+        //Element(DEBIT SIDE) on which need to drop.		
+     	WebElement To3=driver.findElement(By.xpath("//*[@id='amt7']/li"));					
+         
+	//Element(500) which need to drag.		
+        WebElement From4=driver.findElement(By.xpath("//*[@id='fourth']/a"));					
+        
+        //Element(CREDIT SIDE) on which need to drop.		
+     	WebElement To4=driver.findElement(By.xpath("//*[@id='amt8']/li"));					
+      
+	//Using Action class for drag and drop.		
+     	Actions act=new Actions(driver);					
+
+	//BANK drag and drop.		
+     	act.dragAndDrop(From1, To1).build().perform();
+        
+	//SALES drag and drop.		
+     	act.dragAndDrop(From2, To2).build().perform();
+        
+	//500 drag and drop debit side.		
+     	act.dragAndDrop(From3, To3).build().perform();	
+        
+	//500 drag and drop credit side. 		
+     	act.dragAndDrop(From4, To4).build().perform();		
+      
+	//Verifying the Perfect! message.		
+	if(driver.findElement(By.xpath("//a[contains(text(),'Perfect')]")).isDisplayed())							
+     	{		
+         	System.out.println("Perfect Displayed !!!");					
+     	}
+		else
+     	{
+        	System.out.println("Perfect not Displayed !!!");					
+     	}		
+}}
+
+package introductions.testing.qatechhub.AutomationPractice;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class explicitwait {
+    protected WebDriver driver;
+
+    public static void main(String[] args) throws InterruptedException {
+        explicitwait test = new explicitwait();
+        test.guru99tutorials();
+    }
+
+    public void guru99tutorials() throws InterruptedException {
+        //System.setProperty("webdriver.chrome.driver", ".\\chromedriver.exe");
+        driver = new ChromeDriver();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        String eTitle = "Demo Guru99 Page";
+        String aTitle = "";
+        // launch Chrome and redirect it to the Base URL
+        driver.get("http://demo.guru99.com/test/guru99home/");
+        // Maximizes the browser window
+        driver.manage().window().maximize();
+        // get the actual value of the title
+        aTitle = driver.getTitle();
+        // compare the actual title with the expected title
+        if (aTitle.contentEquals(eTitle)) {
+            System.out.println("Test Passed");
+        } else {
+            System.out.println("Test Failed");
+        }
+        WebElement guru99seleniumlink;
+        guru99seleniumlink = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[1]/section/div[2]/div/div[1]/div/div[1]/div/div/div/div[2]/div[2]/div/div/div/div/div[1]/div/div/a/i")));
+        guru99seleniumlink.click();
+    }
+}
+package introductions.testing.qatechhub.AutomationPractice;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class ExplicitWait3 {
+
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        
+        //setting the driver executable
+                System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
+                
+                //Initiating your chromedriver
+                WebDriver driver=new ChromeDriver();
+                
+                
+                
+                driver.manage().window().maximize();
+                
+                driver.get("https://www.rentomojo.com/");
+                
+                driver.findElement(By.xpath("//span[@class='rm-city__selectorBoxLoca'][contains(text(),'Delhi')]")).click();
+                
+                
+                
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+                
+                
+                wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//div[@class='Campaign__innerWrapper']/button"))));
+                driver.findElement(By.xpath("//div[@class='Campaign__innerWrapper']/button")).click();
+
+    }
+
+}
+
+package introductions.testing.qatechhub.AutomationPractice;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+
+import java.time.Duration;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+public class fluentwait {
+    protected WebDriver driver;
+
+    public static void main(String[] args) throws InterruptedException {
+        fluentwait test = new fluentwait();
+        test.guru99tutorials();
+    }
+
+    public void guru99tutorials() throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", ".\\chromedriver.exe");
+        String eTitle = "Demo Guru99 Page";
+        String aTitle = "";
+        driver = new ChromeDriver();
+        driver.get("http://demo.guru99.com/test/guru99home/");
+        driver.manage().window().maximize();
+        aTitle = driver.getTitle();
+        if (aTitle.contentEquals(eTitle)) {
+            System.out.println("Test Passed");
+        } else {
+            System.out.println("Test Failed");
+        }
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+        	    .withTimeout(Duration.ofSeconds(5)) // Change this line
+        	    .pollingEvery(Duration.ofSeconds(5))
+        	    .ignoring(NoSuchElementException.class);
+
+        WebElement clickseleniumlink = wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver driver) {
+                return driver.findElement(By.xpath("/html/body/div[1]/section/div[2]/div/div[1]/div/div[1]/div/div/div/div[2]/div[2]/div/div/div/div/div[1]/div/div/a/i"));
+            }
+        });
+        clickseleniumlink.click();
+        driver.close();
+    }
+}
+package introductions.testing.qatechhub.AutomationPractice;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
+import java.time.Duration;
+import java.util.NoSuchElementException;
+public class FluentWaitExample {
+ public static void main(String[] args) {
+ // Set the path to the ChromeDriver executable
+ //System.setProperty(“webdriver.chrome.driver”, “path/to/chromedriver”);
+ // Create a new instance of the ChromeDriver
+ WebDriver driver = new ChromeDriver();
+ // Navigate to the website
+ driver.get("https://www.google.com");
+ // Set up FluentWait with a timeout of 10 seconds and a polling interval of 500 milliseconds
+ Wait<WebDriver> wait = new FluentWait<>(driver)
+ .withTimeout(Duration.ofSeconds(10))
+ .pollingEvery(Duration.ofMillis(500))
+ .ignoring(NoSuchElementException.class);
+ // Use FluentWait to wait for the element to be visible
+ //WebElement element = wait.until(driver -> driver.findElement(By.id("elementId")));
+ // Perform actions on the element
+ //element.click();
+ // Close the browser
+ driver.quit();
+ }
+}
+
+package introductions.testing.qatechhub.AutomationPractice;
+
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class implicitwait1 {
+
+    protected WebDriver driver;
+
+    public void guru99tutorials() throws InterruptedException {
+        //System.setProperty("webdriver.chrome.driver", ".\\chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        String eTitle = "Demo Guru99 Page";
+        String aTitle = "";
+        // launch Chrome and redirect it to the Base URL
+        driver.get("http://demo.guru99.com/test/guru99home/");
+        // Maximizes the browser window
+        driver.manage().window().maximize();
+        // get the actual value of the title
+        aTitle = driver.getTitle();
+        // compare the actual title with the expected title
+        if (aTitle.equals(eTitle)) {
+            System.out.println("Test Passed");
+        } else {
+            System.out.println("Test Failed");
+        }
+        // close browser
+        driver.close();
+    }
+
+    public static void main(String[] args) {
+        implicitwait1 test = new implicitwait1();
+        try {
+            test.guru99tutorials();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+package introductions.testing.qatechhub.AutomationPractice;
+
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+ 
+public class implicitwait2{
+public static void main(String[] args) throws InterruptedException{
+//System.setProperty("webdriver.chrome.driver", "C:Selenium-java-edurekachromedriver_win32chromedriver.exe");
+WebDriver driver = new ChromeDriver();
+driver.manage().window().maximize();
+driver.manage().deleteAllCookies();
+driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS); // pageload timeout
+driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);    // Implicit Wait for 20 seconds
+driver.get("https://login.yahoo.com/");
+driver.findElement(By.xpath("//input[@id='login-username']")).sendKeys("edureka@yahoo.com"); //Finding element and sending values
+Thread.sleep(1000);
+driver.findElement(By.xpath("//input[@id='login-signin']")).click(); //Clicking on the next button if element is located
+}
+}
+
+package introductions.testing.qatechhub.AutomationPractice;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+ 
+public class ImplicitWait4 {
+
+    public static void main(String[] args) throws InterruptedException {
+        // TODO Auto-generated method stub
+        
+        //setting the driver executable
+        //System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
+        
+        //Initiating your chromedriver
+        WebDriver driver=new ChromeDriver();
+        
+        driver.manage().window().maximize();
+        
+        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        driver.get("https://www.easemytrip.com/");
+        
+        driver.findElement(By.id("FromSector_show")).sendKeys("Delhi", Keys.ENTER);
+        driver.findElement(By.id("Editbox13_show")).sendKeys("Mumbai", Keys.ENTER);
+        driver.findElement(By.id("ddate")).click();
+        driver.findElement(By.id("snd_4_08/08/2019")).click();
+        driver.findElement(By.className("src_btn")).click();
+
+        driver.findElement(By.xpath("//button[text()='Book Now']")).click();
+        
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("window.scrollBy(0,750)");
+        
+        driver.findElement(By.xpath("//input[@type='email']")).sendKeys("sadhvisingh9049@gmail.com");
+        
+        driver.findElement(By.xpath("//span[text()='Continue Booking']")).click();
+        
+        WebElement title=driver.findElement(By.id("titleAdult0"));
+        
+        Select titleTraveller=new Select(title);
+        
+        titleTraveller.selectByVisibleText("MS");
+        driver.findElement(By.xpath("//input[@placeholder='Enter First Name']")).sendKeys("Sadhvi");
+        driver.findElement(By.xpath("//input[@placeholder='Enter Last Name']")).sendKeys("Singh");
+        
+        driver.findElement(By.xpath("//input[@placeholder='Mobile Number']")).sendKeys("9958468819");
+        
+        driver.findElement(By.xpath("//div[@class='con1']/span[@class='co1']")).click();
+        
+
+    }
+
+}
+
+package introductions.testing.qatechhub.AutomationPractice;
+
+ 
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+public class seleniumBasicCommands {
+	
+public static void main(String Args[]) throws InterruptedException{
+		
+	//Set system property for driver executable's path
+	System.setProperty("webdriver.gecko.driver", "{path to the browser driver}");
+	
+	//Create Firefox driver's instance
+	WebDriver driver = new FirefoxDriver();
+				
+	//Set implicit wait of 10 seconds
+	//This is required for managing waits in selenium webdriver
+	driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+	//Launch sampleSiteForSelenium
+	driver.get("https://artoftesting.com/sampleSiteForSelenium");
+				
+	//Fetch the text "This is sample text!" and print it on the console
+	//Use the id of the div to locate it and then fecth text using the getText() method
+	String sampleText = driver.findElement(By.id("idOfDiv")).getText();
+	System.out.println(sampleText);
+		
+	//Waiting for 3 seconds just for the user to efficiently check automation
+	//Its not mandatory though
+	Thread.sleep(3000);
+		
+	//Using linkText locator to find the link and then using click() to click on it
+	driver.findElement(By.linkText("This is a link")).click();
+		
+	Thread.sleep(3000);
+	
+	//Finding textbox using id locator and then using send keys to write in it
+	driver.findElement(By.id("fname")).sendKeys("Kuldeep Rana");
+		
+	Thread.sleep(3000);
+	
+	//Clear the text written in the textbox
+	driver.findElement(By.id("fname")).clear();
+		
+	Thread.sleep(3000);
+	
+	//Clicking on button using click() command
+	driver.findElement(By.id("idOfButton")).click();
+		
+	Thread.sleep(3000);
+		
+	//Find radio button by name and check it using click() function
+	driver.findElement(By.name("male")).click();
+		
+	Thread.sleep(3000);
+	//Find checkbox by cssSelector and check it using click() function
+	driver.findElement(By.cssSelector("input.Automation")).click();
+			
+	Thread.sleep(3000);
+		
+	//Using Select class for for selecting value from dropdown
+	Select dropdown = new Select(driver.findElement(By.id("testingDropdown")));
+	dropdown.selectByVisibleText("Database Testing");
+		
+	Thread.sleep(50000);
+	
+	//Close the browser
+	driver.close();
+	}
+	
+}
+
+
+package introductions.testing.qatechhub.AutomationPractice;
+
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+  
+public class WaitCommands {
+  
+     public static WebDriver driver;
+     public static void main(String[] args) {
+  
+        // Create a new instance of the Firefox driver
+                   driver = new FirefoxDriver();
+  
+        // define Implicit wait which will be applicable for all elements before throwing an exception
+  
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+  
+        // Launch the URL
+  
+        driver.get("https://tutorialshut.com/demo-website-for-selenium-automation-practice/");
+  
+        // Click on the Button "Generate Alert Box" Button
+  
+        driver.findElement(By.xpath("//button[text()='Generate Alert Box']")).click();
+  
+        // Create new WebDriver wait
+  
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+  
+        // Wait for Alert to be present
+  
+        Alert alertbox1 = wait.until(ExpectedConditions.alertIsPresent());
+  
+        // Accept the Alert
+  
+        alertbox1.accept();
+  
+        // Close the main window
+  
+        driver.close();
+  
+    }
+  
+}
+package introductions.testing.qatechhub.AutomationPractice;
+
+import org.openqa.selenium.By;		
+import org.openqa.selenium.WebDriver;		
+import org.openqa.selenium.WebElement;		
+import org.openqa.selenium.chrome.ChromeDriver;		
+import org.openqa.selenium.interactions.Actions;		
+import org.testng.annotations.Test;		
+
+public class DragAndDrop {				
+
+		
+public static void main(String[] args) {
+	
+	    WebDriver driver;		
+         //System.setProperty("webdriver.chrome.driver"," E://Selenium//Selenium_Jars//chromedriver.exe ");					
+         driver= new ChromeDriver();					
+         driver.get("http://demo.guru99.com/test/drag_drop.html");					
+         
+		//Element which needs to drag.    		
+        	WebElement From=driver.findElement(By.xpath("//*[@id='credit2']/a"));	
+         
+         //Element on which need to drop.		
+            WebElement To=driver.findElement(By.xpath("//*[@id='bank']/li"));					
+         		
+         //Using Action class for drag and drop.		
+         Actions act=new Actions(driver);					
+
+	//Dragged and dropped.		
+         act.dragAndDrop(From, To).build().perform();		
+	}		
+}
