@@ -1,0 +1,166 @@
+package introductions.testing.saucedemo.AutomationPractice;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class SauceDemoLoginTest {
+    public static void main(String[] args) {
+        // Set the path to the ChromeDriver executable
+       
+
+        // Initialize the ChromeDriver
+        WebDriver driver = new ChromeDriver();
+
+        // Navigate to the website
+        driver.get("https://www.saucedemo.com/");
+
+        // Find the username and password input fields and the login button
+        WebElement usernameField = driver.findElement(By.id("user-name"));
+        WebElement passwordField = driver.findElement(By.id("password"));
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+
+        // Enter the login credentials
+        usernameField.sendKeys("standard_user");
+        passwordField.sendKeys("secret_sauce");
+
+        // Click the login button
+        loginButton.click();
+
+        // Wait for a while to see the result
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        
+        WebElement addToCartButton = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-backpack']"));
+        addToCartButton.click();
+
+        WebElement addToCartButton2 = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-bike-light']"));
+        addToCartButton2.click();
+        
+        WebElement addToCartButton3 = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-bolt-t-shirt']"));
+        addToCartButton3.click();
+        
+        WebElement addToCartButton4 = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-fleece-jacket']"));
+        addToCartButton4.click();
+        
+        
+        //remove one item
+        WebElement removeFromCartButton = driver.findElement(By.cssSelector("button[id='remove-sauce-labs-backpack']"));
+        removeFromCartButton.click();
+        
+        //going to select shopping cart to see items selected. must be 3
+        WebElement itemsCartButton = driver.findElement(By.cssSelector("a[class='shopping_cart_link']"));
+        itemsCartButton.click();
+        
+        WebElement cartItemCount = driver.findElement(By.cssSelector("span[class='shopping_cart_badge']"));
+        String cartItemCountText = cartItemCount.getText();
+        int itemCount = Integer.parseInt(cartItemCountText);
+
+        if (itemCount == 3) {
+            System.out.println("Cart contains 3 items, as expected.");
+        } else {
+            System.out.println("Cart does not contain 3 items. Actual item count: " + itemCount);
+        }
+
+        List<WebElement> cartItemNameElements = driver.findElements(By.className("inventory_item_name"));
+
+     // Create a list to store the item names
+     List<String> itemNames = new ArrayList<String>();
+
+     // Iterate through the elements and extract item names
+     for (WebElement item : cartItemNameElements) {
+         itemNames.add(item.getText());
+     }
+
+     // Output the item names
+     System.out.println("Item names in the cart:");
+     for (String itemName : itemNames) {
+         System.out.println(itemName);
+     }
+        
+        
+        
+        
+
+        
+        //driver.findElement(By.cssSelector("button[id='react-burger-menu-btn']")).click();
+        //driver.findElement(By.cssSelector("button[id='react-burger-cross-btn']")).click();
+        driver.findElement(By.cssSelector("button[id='checkout']")).click();
+        
+        
+        //after checkout
+        driver.findElement(By.cssSelector("input[id='first-name']")).sendKeys("name");
+        
+        driver.findElement(By.cssSelector("input[id='last-name']")).sendKeys("name");
+        
+        driver.findElement(By.cssSelector("input[id='postal-code']")).sendKeys(" postal-code");
+       
+        
+        String expectedFirstName = "name";
+        String expectedLastName = "name";
+        String expectedPostalCode = "postal-code";
+
+        // Get the entered values
+        String enteredFirstName = driver.findElement(By.cssSelector("input[id='first-name']")).getAttribute("value");
+        String enteredLastName = driver.findElement(By.cssSelector("input[id='last-name']")).getAttribute("value");
+        String enteredPostalCode = driver.findElement(By.cssSelector("input[id='postal-code']")).getAttribute("value");
+
+        // Check if the entered values match the expected values
+        boolean firstNameMatch = expectedFirstName.equals(enteredFirstName);
+        boolean lastNameMatch = expectedLastName.equals(enteredLastName);
+        boolean postalCodeMatch = expectedPostalCode.equals(enteredPostalCode);
+
+        // Print the results
+        System.out.println("First Name Match: " + firstNameMatch);
+        System.out.println("Last Name Match: " + lastNameMatch);
+        System.out.println("Postal Code Match: " + postalCodeMatch);
+        
+        //after entering details
+        driver.findElement(By.cssSelector("input[id='continue']")).click();
+        
+        
+        //checkout 
+     // Wait for a while to see the result
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        System.out.println(driver.findElement(By.cssSelector("span[class*='title']")).getText());
+        
+
+
+        //again to see number of items in cart
+        List<WebElement> cartItemNameElements1 = driver.findElements(By.cssSelector("div[class='cart_list']"));
+
+     // Create a list to store the item names
+     List<String> itemNames1 = new ArrayList<>();
+
+     // Iterate through the elements and extract item names
+     for (WebElement item : cartItemNameElements1) {
+         itemNames1.add(item.getText());
+     }
+
+     // Output the item names
+     System.out.println("Item names in the cart:");
+     for (String itemName : itemNames1) {
+         System.out.println(itemName);
+     }
+     
+     System.out.println(driver.findElement(By.cssSelector("div[class='summary_info_label summary_total_label']")).getText());
+
+     
+     driver.findElement(By.cssSelector("button[id='finish']")).click();
+     
+       
+    }
+}
