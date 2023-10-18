@@ -1,0 +1,49 @@
+package introductions.testing;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import static org.openqa.selenium.support.locators.RelativeLocator.*;
+public class RelativeLoc {
+public static void main(String[] args) {
+	WebDriver driver = new ChromeDriver();
+	driver.get("http://rahulshettyacademy.com/angularpractice/");
+	WebElement nameEditBox = driver.findElement(By.cssSelector("[name='name']"));
+	System.out.println(driver.findElement(with(By.tagName("label")).above(nameEditBox)).getText());
+	
+	
+	//to get tag name of email  //above
+	WebElement emailEditBox= driver.findElement(By.cssSelector("input[name='email']"));
+	System.out.println(driver.findElement(with(By.tagName("label")).above(emailEditBox)).getText());
+	
+	
+	//getting date label  //below
+	WebElement date = driver.findElement(By.cssSelector("input[name='bday']"));
+	System.out.println(driver.findElement(with(By.tagName("label")).above(date)).getText());
+	System.out.println(driver.findElement(By.cssSelector("label[for='dateofBirth']")).getText());
+	
+	//toLeftOf
+	//based on the label ,referencing it we can get the element
+	WebElement iceCreamLabel  = driver.findElement(By.xpath("//label[text()='Check me out if you Love IceCreams!']"));
+	driver.findElement(with(By.tagName("input")).toLeftOf(iceCreamLabel)).click();
+	
+	
+	
+	
+	//toRightOf
+	WebElement status = driver.findElement(By.xpath("//label[text()='Employment Status: ']"));
+	driver.findElement(with(By.tagName("input")).toRightOf(status)).click();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+}
