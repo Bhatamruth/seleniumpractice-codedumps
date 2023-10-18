@@ -1,0 +1,571 @@
+package introductions.testing;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class webtable_sorting_streams {
+public static void main(String[] args) {
+	WebDriver driver = new ChromeDriver();
+	
+	
+	driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+	//algorithm
+	//click on column it will get sorted
+	//capture all items to list
+	//foreach items we do gettext to capture values into new orignallist
+	//apply sort to that newlist -> sortedlist
+	//compare original and sorted list
+	
+	
+	//click on column 
+	driver.findElement(By.xpath("//tr//th[1]")).click();
+	
+	//capture all items to list
+	List<WebElement> elementslist = driver.findElements(By.xpath("//tr//td[1]"));
+	
+	//foreach items we do gettext to capture values into new orignallist
+	List<String> originallist = elementslist.stream().map(s->s.getText()).collect(Collectors.toList());
+	System.out.println("originallist:");
+	for(String list:originallist)
+	{
+		System.out.println(list);
+	}
+	//apply sort to that newlist -> sortedlist
+	List<String> sortedlist = originallist.stream().sorted().collect(Collectors.toList());
+	System.out.println("sortedlist:");
+	for(String list:sortedlist)
+	{
+		System.out.println(list);
+	}
+	Assert.assertTrue(originallist.equals(sortedlist));
+}
+}
+
+package introductions.Streamstutorial;
+
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class stream_collect {
+public static void main(String[] args) {
+	List<String> l = Stream.of("bbb","acca","axxa","aaa").map(s->s.toUpperCase()).collect(Collectors.toList());
+	System.out.println(l.get(1));
+}
+}
+package introductions.Streamstutorial;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class test1_map {
+public static void main(String[] args) {
+	Stream.of("acca","bbb","aaa","axxa").map(s->s.toUpperCase())
+			.forEach(s->System.out.println(s));
+	
+	
+	System.out.println("uppercase sorted");
+	Stream.of("bbb","acca","axxa","aaa").filter(s->s.endsWith("a")).map(s->s.toUpperCase())
+	.sorted().forEach(s->System.out.println(s));
+	
+	System.out.println("convert stream to array list  and doing uppercase sorted");
+	List<String> names = Arrays.asList("bbb","acca","axxa","aaa");
+	names.stream().filter(s->s.startsWith("a")).sorted().map(s->s.toUpperCase()).forEach(s->System.out.println(s));
+}
+}
+package introductions.Streamstutorial;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
+public class test1_mergearrays_usingstreams {
+public static void main(String[] args) {
+	List<String> names = Arrays.asList("bbb","acca","axxa","aaa");
+	
+	ArrayList<String >list =  new ArrayList<>();
+	list.add("aaa");
+	list.add("bbb");
+	
+	list.add("ccc");
+	list.add("ddd");
+	list.add("eee");
+	list.add("abb");
+	
+	Stream<String> merged = Stream.concat(list.stream(), names.stream());
+	merged.forEach(s->System.out.println(s));
+	
+	Stream<String> finditem=Stream.concat(list.stream(), names.stream());
+	
+	Boolean flag = finditem.anyMatch(s->s.equalsIgnoreCase("aaa"));
+	System.out.println(flag);
+}
+}
+package introductions.Streamstutorial;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class test1_regular {
+public static void main(String[] args) {
+	ArrayList<String >list =  new ArrayList<>();
+	list.add("aaa");
+	list.add("bbb");
+	
+	list.add("ccc");
+	list.add("ddd");
+	list.add("eee");
+	list.add("abb");
+	int count  = 0;
+	for(int i=0;i<list.size();i++)
+	{
+		String actual = list.get(i);
+		if(actual.startsWith("a"))
+		{
+			count++;
+		}
+
+	}System.out.println("total count: "+count);
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package introductions.Streamstutorial;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.stream.Stream;
+ 
+public class test1_streams {
+	public static void main(String[] args) {
+		ArrayList<String >list =  new ArrayList<>();
+		list.add("aaa");
+		list.add("bbb");
+		
+		list.add("ccc");
+		list.add("ddd");
+		list.add("eee");
+		list.add("abb");
+		
+		Long total = list.stream().filter(s->s.startsWith("a")).count();
+		System.out.println(total);
+		
+		Long count =Stream.of("aaa","bbb","acca").filter(s->
+		{
+			s.startsWith("a");
+			return true;
+
+		}).count();
+		System.out.println( count);
+
+		
+		list.stream().filter(s->s.length()>2).forEach(s->System.out.println(s));
+		
+		System.out.println("to get only 1 result");
+		list.stream().filter(s->s.length()>2).limit(1).forEach(s->System.out.println(s));
+	}
+	
+}
+
+
+
+
+
+
+
+
+package introductions.testing;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.testng.Assert;
+
+public class webtable_sorting_streams2 {
+
+	public static void main(String[] args) throws InterruptedException {
+
+// TODO Auto-generated method stub
+
+		 
+
+		WebDriver driver = new ChromeDriver();
+
+		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+
+// click on column
+
+		driver.findElement(By.xpath("//tr/th[1]")).click();
+
+// capture all webelements into list
+
+		List<WebElement> elementsList = driver.findElements(By.xpath("//tr/td[1]"));
+
+// capture text of all webelements into new(original) list
+
+		List<String> originalList = elementsList.stream().map(s -> s.getText()).collect(Collectors.toList());
+
+// sort on the original list of step 3 -> sorted list
+
+		List<String> sortedList = originalList.stream().sorted().collect(Collectors.toList());
+
+// compare original list vs sorted list
+
+		Assert.assertTrue(originalList.equals(sortedList));
+
+		List<String> price;
+
+// scan the name column with getText ->Beans->print the price of the Rice
+
+		do
+
+		{
+
+			List<WebElement> rows = driver.findElements(By.xpath("//tr/td[1]"));
+
+			price = rows.stream().filter(s -> s.getText().contains("Rice"))
+
+					.map(s -> getPriceVeggie(s)).collect(Collectors.toList());
+
+			price.forEach(a -> System.out.println(a));
+
+			if (price.size() < 1)
+
+			{
+
+				driver.findElement(By.cssSelector("[aria-label='Next']")).click();
+
+			}
+
+		} while (price.size() < 1);
+
+	}
+
+	private static String getPriceVeggie(WebElement s) {
+
+// TODO Auto-generated method stub
+
+		String pricevalue = s.findElement(By.xpath("following-sibling::td[1]")).getText();
+
+		return pricevalue;
+
+	}
+
+}
+
+package introductions.Streamstutorial;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class streams_practice {
+	public static void main(String[] args) {
+
+	//Filtering Elements:
+
+		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+		numbers.stream()
+		       .filter(n -> n % 2 == 0) // Filter even numbers
+		       .forEach(System.out::println);
+		
+		
+		//Mapping Elements:
+		List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+		names.stream()
+		     .map(String::toUpperCase) // Convert names to uppercase
+		     .forEach(System.out::println);
+		
+		//Reducing Elements:
+		List<Integer> numbers1 = Arrays.asList(1, 2, 3, 4, 5);
+		int sum = numbers1.stream()
+		                .reduce(0, (a, b) -> a + b); // Calculate sum
+		System.out.println("Sum: " + sum);
+		
+		
+		//Sorting Elements:
+		List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry", "Date");
+		fruits.stream()
+		      .sorted()
+		      .forEach(System.out::println);
+		
+		
+		//Collecting Results:
+		List<String> fruits1 = Arrays.asList("Apple", "Banana", "Cherry", "Date");
+		List<String> filteredFruits = fruits1.stream()
+		                                   .filter(fruit -> fruit.startsWith("A"))
+		                                   .collect(Collectors.toList());
+		filteredFruits.forEach(System.out::println);
+
+
+		
+		
+//		/Grouping and Counting:
+		List<String> fruits11 = Arrays.asList("Apple", "Banana", "Cherry", "Date");
+		Map<Character, Long> letterCount = fruits11.stream()
+		                                         .collect(Collectors.groupingBy(
+		                                             s -> s.charAt(0),
+		                                             Collectors.counting()));
+		System.out.println(letterCount);
+
+
+}
+	
+}
+
+package introductions.Streamstutorial;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+
+public class streams_practice2 {
+
+	public static void main(String[] args) {
+		
+		//Filter and Print: Filter even numbers from a list and print them.
+		
+		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+		numbers.stream().filter(n -> n % 2 == 0).forEach(System.out::println);
+		//Map: Convert a list of names to uppercase and print them.
+
+		List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+		names.stream().map(String::toUpperCase).forEach(System.out::println);
+		//Reduce: Calculate the sum of a list of numbers.
+
+		List<Integer> numbers1 = Arrays.asList(1, 2, 3, 4, 5);
+		int sum = numbers1.stream().reduce(0, (a, b) -> a + b);
+		System.out.println(sum);
+		//Sort: Sort a list of strings alphabetically.
+
+		List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry");
+		fruits.stream().sorted().forEach(System.out::println);
+		//Distinct: Print distinct elements from a list.
+
+		List<Integer> numbers11 = Arrays.asList(1, 2, 2, 3, 3, 4, 5, 5);
+		numbers11.stream().distinct().forEach(System.out::println);
+		//Limit: Print the first 3 elements from a list.
+
+		List<String> colors = Arrays.asList("Red", "Green", "Blue", "Yellow");
+		colors.stream().limit(3).forEach(System.out::println);
+		//Skip: Skip the first 2 elements and print the rest.
+
+		List<Integer> numbers111 = Arrays.asList(1, 2, 3, 4, 5);
+		numbers111.stream().skip(2).forEach(System.out::println);
+		//Any Match: Check if any element in a list is greater than 10.
+
+		List<Integer> values = Arrays.asList(5, 8, 12, 3);
+		boolean anyMatch = values.stream().anyMatch(n -> n > 10);
+		System.out.println(anyMatch);
+		//All Match: Check if all elements in a list are positive.
+
+		List<Integer> numbers2 = Arrays.asList(1, 2, 3, 4, 5);
+		boolean allMatch = numbers2.stream().allMatch(n -> n > 0);
+		System.out.println(allMatch);
+		//None Match: Check if none of the elements in a list are negative.
+
+		List<Integer> numbers3 = Arrays.asList(1, 2, 3, 4, 5);
+		boolean noneMatch = numbers3.stream().noneMatch(n -> n < 0);
+		System.out.println(noneMatch);
+		//Collect: Convert a stream to a list and print it.
+
+		List<String> names1 = Arrays.asList("Alice", "Bob", "Charlie");
+		List<String> nameList = names1.stream().collect(Collectors.toList());
+		nameList.forEach(System.out::println);
+		//FlatMap: Flatten a list of lists and print the elements.
+
+		List<List<Integer>> nestedLists = Arrays.asList(Arrays.asList(1, 2), Arrays.asList(3, 4));
+		nestedLists.stream().flatMap(Collection::stream).forEach(System.out::println);
+		//Group By: Group a list of names by their first letter and print the groups.
+
+		List<String> name = Arrays.asList("Alice", "Bob", "Charlie");
+		Map<Character, List<String>> groupedNames = name.stream().collect(Collectors.groupingBy(s -> s.charAt(0)));
+		groupedNames.forEach((letter, group) -> System.out.println(letter + ": " + group));
+		//Parallel Stream: Process a list in parallel for faster execution.
+
+		List<Integer> number = Arrays.asList(1, 2, 3, 4, 5, 6);
+		number.parallelStream().forEach(System.out::println);
+		//Optional: Find the maximum number in a list and print it using Optional.
+
+		List<Integer> numberss = Arrays.asList(8, 3, 12, 5, 7);
+		Optional<Integer> max = numberss.stream().max(Integer::compare);
+		max.ifPresent(System.out::println);
+
+	}
+}
+
+
+
+
+
+package introductions.Streamstutorial;
+
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+public class streams_practice3 {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David", "Eve", "Frank");
+
+        System.out.println("Original List: " + names);
+
+        // Filtering names that start with 'A'
+        List<String> filteredNames = names.stream()
+                .filter(name -> name.startsWith("A"))
+                .collect(Collectors.toList());
+        System.out.println("Filtered Names: " + filteredNames);
+
+        // Transforming names to uppercase
+        List<String> upperCaseNames = names.stream()
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+        System.out.println("Uppercase Names: " + upperCaseNames);
+
+        // Sorting names
+        List<String> sortedNames = names.stream()
+                .sorted()
+                .collect(Collectors.toList());
+        System.out.println("Sorted Names: " + sortedNames);
+
+        // Removing duplicates
+        List<String> distinctNames = names.stream()
+                .distinct()
+                .collect(Collectors.toList());
+        System.out.println("Distinct Names: " + distinctNames);
+
+        // Selecting the first three names
+        List<String> firstThreeNames = names.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+        System.out.println("First Three Names: " + firstThreeNames);
+
+        // Skipping the first two names
+        List<String> skippedNames = names.stream()
+                .skip(2)
+                .collect(Collectors.toList());
+        System.out.println("Skipped Names: " + skippedNames);
+
+        // Checking if all names contain 'e'
+        boolean allMatch = names.stream().allMatch(name -> name.contains("e"));
+        System.out.println("All names contain 'e': " + allMatch);
+
+        // Checking if any names contain 'x'
+        boolean anyMatch = names.stream().anyMatch(name -> name.contains("x"));
+        System.out.println("Any names contain 'x': " + anyMatch);
+
+        // Checking if no names are empty
+        boolean noneMatch = names.stream().noneMatch(String::isEmpty);
+        System.out.println("No names are empty: " + noneMatch);
+
+        // Grouping names by their length
+        Map<Integer, List<String>> namesByLength = names.stream()
+                .collect(Collectors.groupingBy(String::length));
+        System.out.println("Names grouped by length: " + namesByLength);
+
+        // Find the shortest name
+        Optional<String> shortestName = names.stream()
+                .min((name1, name2) -> Integer.compare(name1.length(), name2.length()));
+        shortestName.ifPresent(name -> System.out.println("Shortest Name: " + name));
+
+        // Using parallel stream to print names in parallel
+        names.parallelStream().forEach(name -> System.out.println("Parallel Stream: " + name));
+    }
+}
+
+
+package introductions.Streamstutorial;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class streams_filter_practice {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Example 1: Filtering even numbers
+        List<Integer> evenNumbers = numbers.stream()
+                .filter(n -> n % 2 == 0)
+                .toList();
+        System.out.println("Even Numbers: " + evenNumbers);
+
+        // Example 2: Filtering odd numbers
+        List<Integer> oddNumbers = numbers.stream()
+                .filter(n -> n % 2 != 0)
+                .toList();
+        System.out.println("Odd Numbers: " + oddNumbers);
+
+        // Example 3: Filtering numbers greater than 5
+        List<Integer> greaterThanFive = numbers.stream()
+                .filter(n -> n > 5)
+                .toList();
+        System.out.println("Numbers Greater Than 5: " + greaterThanFive);
+
+        // Example 4: Filtering numbers between 3 and 7
+        List<Integer> betweenThreeAndSeven = numbers.stream()
+                .filter(n -> n >= 3 && n <= 7)
+                .toList();
+        System.out.println("Numbers Between 3 and 7: " + betweenThreeAndSeven);
+
+        // Example 5: Filtering prime numbers (using a separate method)
+        List<Integer> primeNumbers = numbers.stream()
+                .filter(streams_filter_practice::isPrime)
+                .toList();
+        System.out.println("Prime Numbers: " + primeNumbers);
+    }
+
+    // Method to check if a number is prime
+    private static boolean isPrime(int number) {
+        if (number <= 1) return false;
+        for (int i = 2; i * i <= number; i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
