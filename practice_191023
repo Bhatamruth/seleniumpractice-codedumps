@@ -1,0 +1,29 @@
+package test;
+
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+public class day3 {
+
+	@Test
+	public void WebLoginCarloan()
+	{
+		System.out.println("WebLoginCarloan");
+	}
+	@BeforeSuite
+	public void BFsuite()
+	{
+		System.out.println("before suite");
+	}
+	@Test
+	public void MobileLoginCarloan()
+	{
+		System.out.println("MobileLoginCarloan");
+	}
+	
+	@Test
+	public void  LoginAPICarloan()
+	{
+		System.out.println("LoginAPICarloan");
+	}
+}
