@@ -1,0 +1,882 @@
+package test;
+
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+public class day3 {
+
+	@Test
+	public void WebLoginCarloan()
+	{
+		System.out.println("WebLoginCarloan");
+	}
+	@BeforeSuite
+	public void BFsuite()
+	{
+		System.out.println("before suite");
+	}
+	@Test(groups= {"Smoke"})
+	public void MobileLoginCarloan()
+	{
+		System.out.println("MobileLoginCarloan");
+	}
+	
+	@Test
+	public void  LoginAPICarloan()
+	{
+		System.out.println("LoginAPICarloan");
+	}
+}
+
+
+package test;
+
+import org.testng.annotations.Test;
+
+public class day4 {
+
+	@Test
+	public void WebLoginHomeloan()
+	{
+		System.out.println("WebLoginHomeloan");
+	}
+	
+	@Test
+	public void MobileLoginHomeloan()
+	{
+		System.out.println("MobileLoginHomeloan");
+	}
+	
+	@Test(groups= {"Smoke"})
+	public void  LoginAPIHomeloan()
+	{
+		System.out.println("LoginAPIHomeloan");
+	}
+}
+
+
+package test;
+
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+
+//ITestListener interface which implements Testng listeners
+public class Listeners implements ITestListener {
+
+	@Override
+	public void onTestStart(ITestResult result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTestSuccess(ITestResult result) {
+		// TODO Auto-generated method stub
+		
+	System.out.println("I successfully executed Listeners Pass code");
+	}
+
+	@Override
+	public void onTestFailure(ITestResult result) {
+		// TODO Auto-generated method stub
+		//screenshot code 
+		//response if API is failed
+		
+		System.out.println("I failed executed Listeners Pass code" +result.getName());
+
+	}
+
+	@Override
+	public void onTestSkipped(ITestResult result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStart(ITestContext context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFinish(ITestContext context) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}
+package test;
+
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+
+public class test1 {
+	@BeforeMethod
+	public void beforeMethod() {
+		System.out.println("before method - this annotation @BeforeMethod only allowed within class level ");
+	}
+
+	@Test
+	public void Demo() {
+		System.out.println("test1-Demo");
+	}
+	@Test(dependsOnMethods= {"Demo"})
+	public void A_Demo() {
+		System.out.println("A_Demo");
+	}
+
+	@AfterSuite
+	public void BFsuite() {
+		System.out.println("After suite");
+	}
+
+	@Test
+	public void Demo2() {
+		System.out.println("test2");
+	}
+
+	@AfterMethod
+	public void AfterMethod() {
+		System.out.println("after method - this annotation @AfterMethod only allowed within class level ");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package test;
+
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+public class test2 {
+
+	@Test	
+	public void Demo() {
+		System.out.println("test2(1)");
+	}
+
+	@Test(groups= {"Smoke"})	
+	public void Demo2() {
+		System.out.println("test2(2)");
+	}
+	
+	@BeforeTest
+	public void Before() {
+		System.out.println("display this before ");
+	}
+	
+	@AfterTest
+	public void After() {
+		System.out.println("display this after: @AfterTest is used to delete cookies");
+	}
+	}
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Loan dept">
+	<listeners>
+		<listener class-name="test.Listeners" />
+	</listeners>
+	<test thread-count="5" name="Test">
+		<classes>
+			<class name="test.test1" />
+			<class name="test.test2" />
+		</classes>
+	</test>
+
+
+	<test name="carloan">
+		<classes>
+			<class name="test.day3">
+				<methods>
+					<exclude name="MobileLoginCarloan" />
+
+
+				</methods>
+			</class>
+
+		</classes>
+	</test>
+
+
+	<test name="homeloan">
+		<classes>
+			<class name="test.day4">
+				<methods>
+					<include name="LoginAPIHomeloan" />
+					<include name="Mobile.*" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Loan dept">
+	<test thread-count="5" name="Test">
+<packages>
+
+<package name = "test"> </package>
+</packages>	</test>
+
+</suite> 
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Loan dept">
+	<test name="Regression">
+		<groups>
+			<run>
+				<include name="Smoke" />
+			</run>
+		</groups>
+		<classes>
+			<class name="test.day3" />
+			<class name="test.day4" />
+			<class name="test.test1" />
+			<class name="test.test2" />
+		</classes>
+	</test>
+
+</suite> 
+package testNG_examples;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterTest;
+import org.testng.Assert;
+
+public class TestNGEx {
+
+    @BeforeSuite
+    public void beforeSuite() {
+        System.out.println("Before Suite");
+    }
+
+    @AfterSuite
+    public void afterSuite() {
+        System.out.println("After Suite");
+    }
+
+    @BeforeTest
+    public void beforeTest() {
+        System.out.println("Before Test");
+    }
+
+    @AfterTest
+    public void afterTest() {
+        System.out.println("After Test");
+    }
+
+    @BeforeClass
+    public void beforeClass() {
+        System.out.println("Before Class");
+    }
+
+    @AfterClass
+    public void afterClass() {
+        System.out.println("After Class");
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        System.out.println("Before Method");
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        System.out.println("After Method");
+    }
+
+    @Test
+    public void test1() {
+        System.out.println("Test 1");
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    public void test2() {
+        System.out.println("Test 2");
+        Assert.assertEquals("Hello", "Hello");
+    }
+}
+
+
+
+
+
+package testNG_examples;
+
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+
+public class FirstTestWithTestNGFrameworks {
+
+WebDriver driver;
+
+@BeforeClass
+public void testSetup()
+{
+System.setProperty("webdriver.chrome.driver", ".\\Driver\\chromedriver.exe");
+driver=new ChromeDriver();
+driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+driver.manage().window().maximize();
+
+}
+
+@BeforeMethod
+public void openBrowser()
+{
+driver.get("https://www.browserstack.com/");
+driver.findElement(By.id("signupModalButton")).click();
+System.out.println("We are currently on the following URL" +driver.getCurrentUrl());
+}
+
+@Test(description="This method validates the sign up functionality")
+public void signUp()
+{
+driver.findElement(By.id("user_full_name")).sendKeys("user_name");
+driver.findElement(By.id("user_email_login")).sendKeys("email_id");
+driver.findElement(By.id("user_password")).sendKeys("password");
+driver.findElement(By.xpath("//input[@name='terms_and_conditions']")).click();
+driver.findElement(By.id("user_submit")).click();
+
+}
+
+@AfterMethod
+public void postSignUp()
+{
+System.out.println(driver.getCurrentUrl());
+
+}
+
+@AfterClass
+public void afterClass()
+{
+driver.quit();
+}
+
+}
+
+package testNG_examples;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+public class firsttestngfiles {
+    public String baseUrl = "http://demo.guru99.com/test/newtours/";
+    String driverPath = "C:\\geckodriver.exe";
+    public WebDriver driver ; 
+     
+  @Test
+  public void verifyHomepageTitle() {
+       
+      System.out.println("launching firefox browser"); 
+      System.setProperty("webdriver.gecko.driver", driverPath);
+      driver = new FirefoxDriver();
+      driver.get(baseUrl);
+      String expectedTitle = "Welcome: Mercury Tours";
+      String actualTitle = driver.getTitle();
+      Assert.assertEquals(actualTitle, expectedTitle);
+      driver.close();
+  }
+}
+
+package testNG_examples;
+
+import org.testng.annotations.*;
+
+public class ComprehensiveTestNGExample {
+
+    // This method runs before the entire test suite
+    @BeforeSuite
+    public void beforeSuite() {
+        System.out.println("Before Suite: This runs only once before the test suite.");
+    }
+
+    // This method runs after the entire test suite
+    @AfterSuite
+    public void afterSuite() {
+        System.out.println("After Suite: This runs only once after the test suite.");
+    }
+
+    // This method runs before the test classes within the suite
+    @BeforeTest
+    public void beforeTest() {
+        System.out.println("Before Test: This runs before all test classes within the suite.");
+    }
+
+    // This method runs after the test classes within the suite
+    @AfterTest
+    public void afterTest() {
+        System.out.println("After Test: This runs after all test classes within the suite.");
+    }
+
+    // This method runs before each test class
+    @BeforeClass
+    public void beforeClass() {
+        System.out.println("Before Class: This runs before each test class.");
+    }
+
+    // This method runs after each test class
+    @AfterClass
+    public void afterClass() {
+        System.out.println("After Class: This runs after each test class.");
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        System.out.println("Before Method: This runs before each test method.");
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        System.out.println("After Method: This runs after each test method.");
+    }
+
+    // A sample test method
+    @Test
+    public void testExample1() {
+        System.out.println("Test Method 1: This is a sample test method.");
+    }
+
+    // Another sample test method
+    @Test
+    public void testExample2() {
+        System.out.println("Test Method 2: This is another sample test method.");
+    }
+
+    // A test method with a dependency on testExample1
+    @Test(dependsOnMethods = "testExample1")
+    public void testExample3() {
+        System.out.println("Test Method 3: This depends on testExample1.");
+    }
+
+    // A test method with a time-out
+    @Test(timeOut = 2000)
+    public void testExample4() {
+        System.out.println("Test Method 4: This has a time-out of 2 seconds.");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+package introductions.testing;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+
+import org.openqa.selenium.WebDriver;
+
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.testng.Assert;
+
+public class webtable_sorting_streams2 {
+
+	public static void main(String[] args) throws InterruptedException {
+
+// TODO Auto-generated method stub
+
+		 
+
+		WebDriver driver = new ChromeDriver();
+
+		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+
+// click on column
+
+		driver.findElement(By.xpath("//tr/th[1]")).click();
+
+// capture all webelements into list
+
+		List<WebElement> elementsList = driver.findElements(By.xpath("//tr/td[1]"));
+
+// capture text of all webelements into new(original) list
+
+		List<String> originalList = elementsList.stream().map(s -> s.getText()).collect(Collectors.toList());
+
+// sort on the original list of step 3 -> sorted list
+
+		List<String> sortedList = originalList.stream().sorted().collect(Collectors.toList());
+
+// compare original list vs sorted list
+
+		Assert.assertTrue(originalList.equals(sortedList));
+
+		List<String> price;
+
+// scan the name column with getText ->Beans->print the price of the Rice
+
+		do
+
+		{
+
+			List<WebElement> rows = driver.findElements(By.xpath("//tr/td[1]"));
+
+			price = rows.stream().filter(s -> s.getText().contains("Rice"))
+
+					.map(s -> getPriceVeggie(s)).collect(Collectors.toList());
+
+			price.forEach(a -> System.out.println(a));
+
+			if (price.size() < 1)
+
+			{
+
+				driver.findElement(By.cssSelector("[aria-label='Next']")).click();
+
+			}
+
+		} while (price.size() < 1);
+
+	}
+
+	private static String getPriceVeggie(WebElement s) {
+
+		// TODO Auto-generated method stub
+
+				String pricevalue = s.findElement(By.xpath("following-sibling::td[1]")).getText();
+
+				return pricevalue;
+
+			}
+
+		}
+
+package introductions.testing;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+
+public class webtable_sorting_streams {
+public static void main(String[] args) {
+	WebDriver driver = new ChromeDriver();
+	
+	
+	driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+	//algorithm
+	//click on column it will get sorted
+	//capture all items to list
+	//foreach items we do gettext to capture values into new orignallist
+	//apply sort to that newlist -> sortedlist
+	//compare original and sorted list
+	
+	
+	//click on column 
+	driver.findElement(By.xpath("//tr//th[1]")).click();
+	
+	//capture all items to list
+	List<WebElement> elementslist = driver.findElements(By.xpath("//tr//td[1]"));
+	
+	//foreach items we do gettext to capture values into new orignallist
+	List<String> originallist = elementslist.stream().map(s->s.getText()).collect(Collectors.toList());
+	System.out.println("originallist:");
+	for(String list:originallist)
+	{
+		System.out.println(list);
+	}
+	//apply sort to that newlist -> sortedlist
+	List<String> sortedlist = originallist.stream().sorted().collect(Collectors.toList());
+	System.out.println("sortedlist:");
+	for(String list:sortedlist)
+	{
+		System.out.println(list);
+	}
+	Assert.assertTrue(originallist.equals(sortedlist));
+}
+}
+
+
+
+
+
+
+
+
+package testNG_examples;
+
+import org.openqa.selenium.WebDriver; 
+import org.openqa.selenium.firefox.FirefoxDriver; 
+import org.testng.annotations.Test; 
+
+public class FirstTest 
+{ 
+// Create WebDriver reference. 
+   public WebDriver driver; 
+   @Test 
+   public void homePage() 
+   { 
+// Create an object of FirefoxDriver class to open Firefox browser. 
+     driver = new FirefoxDriver(); 
+     System.out.println("Launching Firefox browser"); 
+
+// Declare URL of google home page with data type string. 
+     String URL = "https://www.google.com"; // Creating string literal. 
+
+// Call get() method and pass URL as a parameter. This method is used to open the URL of web applications in the browser. It will wait until the whole page gets loaded. 
+     driver.get(URL); 
+
+// Call getTitle() method to get the title of home page. Since this method will return the title of homepage as a string. That's why we will store it using a variable getTitle of type String. 
+     String getTitle = driver.getTitle(); 
+     System.out.println("Title of home page: " +getTitle); 
+
+// Call close() method to close browser. 
+     driver.close();
+  } 
+}
+
+
+package testNG_examples;
+
+import java.util.List;
+import org.testng.TestListenerAdapter;
+import org.testng.TestNG;
+import org.testng.collections.Lists;
+
+public class CalculatorApplication {
+
+	public static void main(String[] args) {
+		System.out.println("Calculation test via TestNg");
+
+		TestListenerAdapter tla = new TestListenerAdapter();
+		TestNG testng = new TestNG();
+
+		testng.addListener(tla);
+
+		List<String> suites = Lists.newArrayList();
+	
+		// path to xml.. This will refer the internal
+		// folder that contains the filename
+		suites.add("testng.xml");
+		testng.setTestSuites(suites);
+
+		testng.run();
+
+	}
+	
+	public static int addNumbers(int one, int two) {
+		return one + two;
+	}
+	
+	public static int subtractNumbers(int one, int two) {
+		return one - two;
+	}
+	
+	public static int multiplyNumbers(int one, int two) {
+		return one * two;
+	}
+	
+	public static int getQuotientByDividingNumbers(int one, int two) {
+		return one / two;
+	}
+	
+	public static int getReminderByDividingNumbers(int one, int two) {
+		return one % two;
+	}
+
+}
+
+
+
+package testNG_examples;
+
+import org.testng.Assert;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+public class SampleTestProgram {
+
+	@Test
+	@Parameters({ "welcome", "thankyou" })
+	public void testEasySamples(String welcome,String thankyou) {
+		String title = "welcome";
+		Assert.assertTrue(welcome.contains("Geeky people"));
+		Assert.assertTrue(thankyou.contains("Geeky people"));
+		Assert.assertTrue(title.contains("welcome"));
+		Assert.assertTrue((1000 * 20) == 20000);
+		Assert.assertTrue((1000 * 20) >= 2000);
+		Assert.assertEquals(true, title.contains("welcome"));
+		Assert.assertEquals(true, welcome.contains("Geeky people"));
+		Assert.assertEquals(true, thankyou.contains("Geeky people"));
+	}
+	
+	@Test
+	public void testAddNumbers() {
+		Assert.assertTrue(300 == CalculatorApplication.addNumbers(100,200));
+		Assert.assertTrue(0 == CalculatorApplication.addNumbers(-100,100));
+		Assert.assertEquals(true, (0 == CalculatorApplication.addNumbers(-100,100)));
+	}
+
+	@Test
+	public void testSubtractNumbers() {
+		Assert.assertTrue(300 == CalculatorApplication.subtractNumbers(500,200));
+		Assert.assertTrue(-200 == CalculatorApplication.addNumbers(-100,-100));
+		Assert.assertNotEquals(true, (200 == CalculatorApplication.addNumbers(-100,-100)));
+		Assert.assertFalse(3000 == CalculatorApplication.subtractNumbers(500,200), "Subtracted result is wrong"); 
+	} 
+}
+package testNG_examples;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class AdditionalTestProgram {
+
+	@Test
+	public void testMultiplyNumbers() {
+		Assert.assertTrue(20000 == CalculatorApplication.multiplyNumbers(100,200));
+		Assert.assertTrue(0 == CalculatorApplication.multiplyNumbers(1000000,0));
+		Assert.assertEquals(true, (0 == CalculatorApplication.multiplyNumbers(0,200120)));
+	}
+
+	@Test
+	public void testGetQuotientByDividingNumbers() {
+		Assert.assertTrue(2 == CalculatorApplication.getQuotientByDividingNumbers(500,200));
+		Assert.assertTrue(1 == CalculatorApplication.getQuotientByDividingNumbers(-100,-100));
+		Assert.assertNotEquals(false, (2 == CalculatorApplication.getQuotientByDividingNumbers(500,200)));
+		Assert.assertFalse(3 == CalculatorApplication.getQuotientByDividingNumbers(500,200), "Quotient calculated result is wrong");	 
+	}
+
+	@Test
+	public void testGetReminderByDividingNumbers() {
+		Assert.assertFalse(1 == CalculatorApplication.getReminderByDividingNumbers(500,200));
+		Assert.assertTrue(0 == CalculatorApplication.getReminderByDividingNumbers(-100,-100));
+		Assert.assertNotEquals(true, (2 == CalculatorApplication.getReminderByDividingNumbers(-100,-100)));
+		Assert.assertFalse(3 == CalculatorApplication.getReminderByDividingNumbers(500,200), "Reminder calculated result is wrong");
+	}
+}
+
+
+package testNG_examples;
+
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class ComplexTestNGDemo {
+
+    @Test(dataProvider = "testData")
+    public void complexTest1(int number1, int number2, int expected) {
+        System.out.println("Running test with data: " + number1 + " + " + number2 + " = " + expected);
+        int result = number1 + number2;
+        assert result == expected : "Test failed!";
+    }
+
+    @DataProvider(name = "testData")
+    public Object[][] testData1() {
+        return new Object[][]{
+            {1, 2, 3},
+            {4, 5, 9},
+            {10, 5, 15},
+            {8, 8, 16},
+            {3, 7, 10}
+        };
+    }
+
+    @Test
+    public void complexTest11() {
+        System.out.println("Running Complex Test 1");
+    }
+
+    @Test
+    public void complexTest21() {
+        System.out.println("Running Complex Test 2");
+    }
+
+    @Test
+    public void complexTest31() {
+        System.out.println("Running Complex Test 3");
+    }
+
+
+
+        @Test(dataProvider = "testData")
+        public void complexTest(int number1, int number2, int expected) {
+            System.out.println("Running test with data: " + number1 + " + " + number2 + " = " + expected);
+            int result = number1 + number2;
+            assert result == expected : "Test failed!";
+        }
+
+        @DataProvider(name = "testData")
+        public Object[][] testData() {
+            return new Object[][]{
+                {1, 2, 3},
+                {4, 5, 9},
+                {10, 5, 15},
+                {8, 8, 16},
+                {3, 7, 10}
+            };
+        }
+
+        @Test
+        public void complexTest1() {
+            System.out.println("Running Complex Test 1");
+        }
+
+        @Test
+        public void complexTest2() {
+            System.out.println("Running Complex Test 2");
+        }
+
+        @Test
+        public void complexTest3() {
+            System.out.println("Running Complex Test 3");
+        }
+
+ 
+
+    
+
+}
