@@ -1,0 +1,26 @@
+package practices;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+
+public class Assignment1 {
+	@Test
+	public  void method() throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver","C:/Users/amrbhat/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+		driver.findElement(By.cssSelector("input#checkBoxOption1")).click();
+		System.out.println(driver.findElement(By.cssSelector("input#checkBoxOption1")).isSelected());
+		Thread.sleep(2000);
+		driver.findElement(By.cssSelector("input#checkBoxOption1")).click();
+		System.out.println(driver.findElement(By.cssSelector("input#checkBoxOption1")).isSelected());
+		
+		//to get number of checkbox present in page
+		System.out.println(driver.findElements(By.cssSelector("input[type*='checkbox']")).size());
+	}
+
+}
+
