@@ -1,0 +1,53 @@
+package introductions.testing.saucedemo.AutomationPractice;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+
+public class Checkout_Process {
+	@Test
+    public static void m() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.saucedemo.com/");
+
+        // Login
+        // ...
+    	// Perform login
+    	WebElement usernameField = driver.findElement(By.id("user-name"));
+    	WebElement passwordField = driver.findElement(By.id("password"));
+    	WebElement loginButton = driver.findElement(By.id("login-button"));
+    	usernameField.sendKeys("standard_user");
+    	passwordField.sendKeys("secret_sauce");
+    	loginButton.click();
+
+    	// Wait for the login to complete
+    	Thread.sleep(3000);
+
+
+        Thread.sleep(3000);
+
+        // Add items to the cart
+        // ...
+        WebElement addToCartButton = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-backpack']"));
+        addToCartButton.click();
+
+        WebElement addToCartButton2 = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-bike-light']"));
+        addToCartButton2.click();
+        
+        WebElement addToCartButton3 = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-bolt-t-shirt']"));
+        addToCartButton3.click();
+        
+        WebElement addToCartButton4 = driver.findElement(By.cssSelector("button[id='add-to-cart-sauce-labs-fleece-jacket']"));
+        addToCartButton4.click();
+
+        WebElement checkoutButton = driver.findElement(By.cssSelector("button[id='checkout']"));
+        checkoutButton.click();
+
+        // Checkout Process
+        // ...
+
+        driver.quit();
+    }
+}
