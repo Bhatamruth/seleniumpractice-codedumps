@@ -1,0 +1,155 @@
+package introductions.testing.qatechhub.AutomationPractice;
+
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class QATechHubPage {
+    WebDriver driver;
+
+    @FindBy(linkText = "Facebook")
+    private WebElement facebookLink;
+
+    public QATechHubPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public void clickFacebookLink() {
+        facebookLink.click();
+    }
+
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+}
+package introductions.testing.qatechhub.AutomationPractice;
+/*Scenario:
+
+Open the Firefox browser.
+Maximize the browser window.
+Navigate to “http://qatechhub.com”.
+Write a method to print PASS if the title of the page matches with “QA Automation Tools Trainings and Tutorials | QA Tech Hub” else FAIL. (If you are familiar with TestNG or JUnit use assert statement like assert.assertequals(actual, expected) to give a verdict of the pass or fail status.
+Navigate to the Facebook page (https://www.facebook.com)
+Navigate back to the QA Tech Hub website.
+Print the URL of the current page.
+Navigate forward.
+Reload the page.
+Close the Browser.*/
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+public class Assignment1Test {
+    private WebDriver driver;
+    private QATechHubPage qaTechHubPage;
+
+    @BeforeMethod
+    public void setUp() {
+        System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        qaTechHubPage = new QATechHubPage(driver);
+        driver.get("http://qatechhub.com");
+    }
+
+    @Test
+    public void testTitleVerification() {
+        String titleOfThePage = driver.getTitle();
+        Assert.assertEquals(titleOfThePage, "QA Automation Tools Trainings and Tutorials | QA Tech Hub");
+    }
+
+    @Test
+    public void testNavigateToFacebook() {
+        qaTechHubPage.clickFacebookLink();
+        String currentUrl = qaTechHubPage.getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://www.facebook.com");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+package introductions.testing.qatechhub.AutomationPractice;
+/*Scenario:
+
+Open the Firefox browser.
+Maximize the browser window.
+Navigate to “http://qatechhub.com”.
+Write a method to print PASS if the title of the page matches with “QA Automation Tools Trainings and Tutorials | QA Tech Hub” else FAIL. (If you are familiar with TestNG or JUnit use assert statement like assert.assertequals(actual, expected) to give a verdict of the pass or fail status.
+Navigate to the Facebook page (https://www.facebook.com)
+Navigate back to the QA Tech Hub website.
+Print the URL of the current page.
+Navigate forward.
+Reload the page.
+Close the Browser.*/
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+public class Assignment1 {
+    private WebDriver driver;
+    private QATechHubPage qaTechHubPage;
+
+    @BeforeMethod
+    public void setUp() {
+        System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        qaTechHubPage = new QATechHubPage(driver);
+        driver.get("http://qatechhub.com");
+    }
+
+    @Test
+    public void testTitleVerification() {
+        String titleOfThePage = driver.getTitle();
+        Assert.assertEquals(titleOfThePage, "QA Automation Tools Trainings and Tutorials | QA Tech Hub");
+    }
+
+    @Test
+    public void testNavigateToFacebook() {
+        qaTechHubPage.clickFacebookLink();
+        String currentUrl = qaTechHubPage.getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://www.facebook.com");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+package introductions.testing.qatechhub.AutomationPractice;
+
+ 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class GooglePage {
+    WebDriver driver;
+
+    @FindBy(name = "q")
+    private WebElement searchBox;
+
+    public GooglePage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public void performSearch(String query) {
+        searchBox.sendKeys(query);
+        searchBox.submit();
+    }
+}
