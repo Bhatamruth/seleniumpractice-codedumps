@@ -29,3 +29,1243 @@ public class dataProvider {
 	
 	
 }
+
+
+
+
+
+
+
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ArrayListIterator {
+    public static void iterateAndPrintList(List<String> elements) {
+        System.out.println("Iterating through the ArrayList:");
+        for (String element : elements) {
+            System.out.println(element);
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        iterateAndPrintList(fruits);
+    }
+}
+package javaarraylist;
+
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ArrayListIteratorTest {
+
+    @Test
+    public void testIterateAndPrintList() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        ArrayListIterator.iterateAndPrintList(fruits);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements
+        assert printedOutput.contains("Apple");
+        assert printedOutput.contains("Banana");
+        assert printedOutput.contains("Orange");
+        assert printedOutput.contains("Grapes");
+    }
+
+    @Test
+    public void testIterateAndPrintEmptyList() {
+        List<String> emptyList = new ArrayList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        ArrayListIterator.iterateAndPrintList(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output is empty for an empty list
+        assert printedOutput.isEmpty();
+    }
+}
+package javaarraylist;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+public class CaptureSystemOutput {
+    private static final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private static final PrintStream originalOut = System.out;
+
+    public static void captureOutput() {
+        System.setOut(new PrintStream(outputStream));
+    }
+
+    public static String getOutput() {
+        System.setOut(originalOut);
+        return outputStream.toString().trim();
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ColorListPrinter {
+    public static List<String> createAndPrintColorList() {
+        List<String> colors = new ArrayList<>();
+
+        // Adding colors to the list
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+        colors.add("Yellow");
+        colors.add("Purple");
+
+        // Printing out the collection
+        System.out.println("Colors in the List: " + colors);
+
+        return colors;
+    }
+
+    public static void main(String[] args) {
+        createAndPrintColorList();
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class ColorListPrinterTest {
+
+    @Test
+    public void testCreateAndPrintColorList() {
+        List<String> expectedColors = List.of("Red", "Green", "Blue", "Yellow", "Purple");
+
+        List<String> actualColors = ColorListPrinter.createAndPrintColorList();
+
+        Assert.assertEquals(actualColors, expectedColors);
+    }
+
+    @Test
+    public void testCreateAndPrintColorListEmpty() {
+        List<String> expectedColors = List.of();
+
+        List<String> actualColors = ColorListPrinter.createAndPrintColorList();
+
+        Assert.assertEquals(actualColors, expectedColors);
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CopyArrayList {
+    public static List<String> copyList(List<String> sourceList) {
+        List<String> destinationList = new ArrayList<>(sourceList);
+        System.out.println("Source List: " + sourceList);
+        System.out.println("Destination List after copying: " + destinationList);
+        return destinationList;
+    }
+
+    public static void main(String[] args) {
+        List<String> sourceFruits = new ArrayList<>();
+        sourceFruits.add("Banana");
+        sourceFruits.add("Orange");
+        sourceFruits.add("Grapes");
+
+        List<String> copiedFruits = copyList(sourceFruits);
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class CopyArrayListTest {
+
+    @Test
+    public void testCopyList() {
+        List<String> sourceFruits = new ArrayList<>();
+        sourceFruits.add("Banana");
+        sourceFruits.add("Orange");
+        sourceFruits.add("Grapes");
+
+        List<String> copiedFruits = CopyArrayList.copyList(sourceFruits);
+
+        Assert.assertEquals(copiedFruits, sourceFruits);
+    }
+
+    @Test
+    public void testCopyEmptyList() {
+        List<String> emptyList = new ArrayList<>();
+
+        List<String> copiedList = CopyArrayList.copyList(emptyList);
+
+        Assert.assertEquals(copiedList, emptyList);
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class InsertAtFirstPosition {
+    public static void insertElementAtFirstPosition(List<String> elements, String newElement) {
+        elements.add(0, newElement);
+        System.out.println("List after inserting at the first position: " + elements);
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        String newFruit = "Apple";
+        insertElementAtFirstPosition(fruits, newFruit);
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class InsertAtFirstPositionTest {
+
+    @Test
+    public void testInsertElementAtFirstPosition() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        String newFruit = "Apple";
+        InsertAtFirstPosition.insertElementAtFirstPosition(fruits, newFruit);
+
+        // Verify that the first element is the newly inserted element
+        Assert.assertEquals(fruits.get(0), newFruit);
+    }
+
+    @Test
+    public void testInsertElementAtFirstPositionEmptyList() {
+        List<String> emptyList = new ArrayList<>();
+        String newElement = "Value";
+
+        InsertAtFirstPosition.insertElementAtFirstPosition(emptyList, newElement);
+
+        // Verify that the list is not empty after insertion
+        Assert.assertFalse(emptyList.isEmpty());
+
+        // Verify that the first element is the newly inserted element
+        Assert.assertEquals(emptyList.get(0), newElement);
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RemoveThirdElement {
+    public static void removeThirdElement(List<String> elements) {
+        if (elements.size() >= 3) {
+            elements.remove(2);
+            System.out.println("List after removing the third element: " + elements);
+        } else {
+            throw new IndexOutOfBoundsException("List does not have a third element to remove");
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        try {
+            removeThirdElement(fruits);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RemoveThirdElementTest {
+
+    @Test
+    public void testRemoveThirdElement() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        List<String> expectedList = List.of("Banana", "Orange", "Apple");
+
+        RemoveThirdElement.removeThirdElement(fruits);
+
+        Assert.assertEquals(fruits, expectedList);
+    }
+
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    public void testRemoveThirdElementFromSmallList() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+
+        RemoveThirdElement.removeThirdElement(fruits);
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class RetrieveElementAtIndex {
+    public static String getElementAtIndex(List<String> elements, int index) {
+        if (index >= 0 && index < elements.size()) {
+            return elements.get(index);
+        } else {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        int indexToRetrieve = 1;
+        try {
+            String retrievedElement = getElementAtIndex(fruits, indexToRetrieve);
+            System.out.println("Element at index " + indexToRetrieve + ": " + retrievedElement);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RetrieveElementAtIndexTest {
+
+    @Test
+    public void testGetElementAtIndex() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        int indexToRetrieve = 1;
+        String expectedElement = "Orange";
+
+        String actualElement = RetrieveElementAtIndex.getElementAtIndex(fruits, indexToRetrieve);
+
+        Assert.assertEquals(actualElement, expectedElement);
+    }
+
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    public void testGetElementAtInvalidIndex() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        int invalidIndex = 3;
+
+        RetrieveElementAtIndex.getElementAtIndex(fruits, invalidIndex);
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchElementInList {
+    public static boolean searchElement(List<String> elements, String targetElement) {
+        return elements.contains(targetElement);
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        String targetFruit = "Orange";
+        boolean isElementFound = searchElement(fruits, targetFruit);
+
+        if (isElementFound) {
+            System.out.println(targetFruit + " is present in the list.");
+        } else {
+            System.out.println(targetFruit + " is not present in the list.");
+        }
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchElementInList {
+    public static boolean searchElement(List<String> elements, String targetElement) {
+        return elements.contains(targetElement);
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        String targetFruit = "Orange";
+        boolean isElementFound = searchElement(fruits, targetFruit);
+
+        if (isElementFound) {
+            System.out.println(targetFruit + " is present in the list.");
+        } else {
+            System.out.println(targetFruit + " is not present in the list.");
+        }
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SearchElementInListTest {
+
+    @Test
+    public void testSearchElementPresent() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        String targetFruit = "Grapes";
+
+        boolean isElementFound = SearchElementInList.searchElement(fruits, targetFruit);
+
+        Assert.assertTrue(isElementFound);
+    }
+
+    @Test
+    public void testSearchElementNotPresent() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        String targetFruit = "Kiwi";
+
+        boolean isElementFound = SearchElementInList.searchElement(fruits, targetFruit);
+
+        Assert.assertFalse(isElementFound);
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class ShuffleArrayList {
+    public static void shuffleList(List<String> elements) {
+        Collections.shuffle(elements);
+        System.out.println("List after shuffling: " + elements);
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        shuffleList(fruits);
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ShuffleArrayListTest {
+
+    @Test
+    public void testShuffleList() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        // Shuffle the list
+        ShuffleArrayList.shuffleList(fruits);
+
+        // Verify that the list is not the same as the original
+        Assert.assertNotEquals(fruits, List.of("Banana", "Orange", "Grapes", "Apple"));
+    }
+
+    @Test
+    public void testShuffleEmptyList() {
+        List<String> emptyList = new ArrayList<>();
+
+        // Shuffle the empty list
+        ShuffleArrayList.shuffleList(emptyList);
+
+        // Verify that the empty list remains empty
+        Assert.assertTrue(emptyList.isEmpty());
+    }
+}
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class UpdateArrayElement {
+    public static void updateElement(List<String> elements, int index, String newElement) {
+        if (index >= 0 && index < elements.size()) {
+            elements.set(index, newElement);
+            System.out.println("List after updating element at index " + index + ": " + elements);
+        } else {
+            throw new IndexOutOfBoundsException("Index is out of bounds");
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        int indexToUpdate = 1;
+        String newFruit = "Apple";
+
+        try {
+            updateElement(fruits, indexToUpdate, newFruit);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UpdateArrayElementTest {
+
+    @Test
+    public void testUpdateElement() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        int indexToUpdate = 1;
+        String newFruit = "Apple";
+        List<String> expectedList = List.of("Banana", "Apple", "Grapes");
+
+        UpdateArrayElement.updateElement(fruits, indexToUpdate, newFruit);
+
+        Assert.assertEquals(fruits, expectedList);
+    }
+
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    public void testUpdateElementAtInvalidIndex() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        int invalidIndex = 3;
+        String newElement = "Pear";
+
+        UpdateArrayElement.updateElement(fruits, invalidIndex, newElement);
+    }
+}
+package javastreams;
+import java.util.Arrays;
+import java.util.List;
+
+public class AverageCalculator {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        double average = calculateAverage(numbers);
+        System.out.println("Average: " + average);
+    }
+
+    static double calculateAverage(List<Integer> numbers) {
+        return numbers.stream()
+                      .mapToDouble(Integer::doubleValue)
+                      .average()
+                      .orElse(0.0);
+    }
+}
+package javastreams;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class AverageCalculatorTest {
+
+    @Test
+    public void testCalculateAverage() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        double expectedAverage = 3.0;
+
+        double actualAverage = AverageCalculator.calculateAverage(numbers);
+
+        Assert.assertEquals(actualAverage, expectedAverage, 0.001);
+    }
+
+    @Test
+    public void testCalculateAverageEmptyList() {
+        List<Integer> numbers = Arrays.asList();
+        double expectedAverage = 0.0; // Since the list is empty, the average should be 0.0
+
+        double actualAverage = AverageCalculator.calculateAverage(numbers);
+
+        Assert.assertEquals(actualAverage, expectedAverage, 0.001);
+    }
+}
+package javastreams;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class DuplicateRemover {
+    public static List<Integer> removeDuplicates(List<Integer> numbers) {
+        return numbers.stream()
+                      .distinct()
+                      .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9, 10);
+
+        System.out.println("Original List: " + numbers);
+        System.out.println("List without Duplicates: " + removeDuplicates(numbers));
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class DuplicateRemoverTest {
+
+    @Test
+    public void testRemoveDuplicates() {
+        List<Integer> numbers = Arrays.asList(1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9, 10);
+        List<Integer> expectedList = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        List<Integer> actualList = DuplicateRemover.removeDuplicates(numbers);
+
+        Assert.assertEquals(actualList, expectedList);
+    }
+
+    @Test
+    public void testRemoveDuplicatesEmptyList() {
+        List<Integer> numbers = Arrays.asList();
+        List<Integer> expectedList = Arrays.asList();
+
+        List<Integer> actualList = DuplicateRemover.removeDuplicates(numbers);
+
+        Assert.assertEquals(actualList, expectedList);
+    }
+}
+package javastreams;
+import java.util.Arrays;
+import java.util.List;
+
+public class EvenOddSumCalculator {
+    public static int calculateEvenSum(List<Integer> numbers) {
+        return numbers.stream()
+                      .filter(n -> n % 2 == 0)
+                      .mapToInt(Integer::intValue)
+                      .sum();
+    }
+
+    public static int calculateOddSum(List<Integer> numbers) {
+        return numbers.stream()
+                      .filter(n -> n % 2 != 0)
+                      .mapToInt(Integer::intValue)
+                      .sum();
+    }
+
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        System.out.println("List: " + numbers);
+        System.out.println("Sum of Even Numbers: " + calculateEvenSum(numbers));
+        System.out.println("Sum of Odd Numbers: " + calculateOddSum(numbers));
+    }
+}
+package javastreams;
+import java.util.Arrays;
+import java.util.List;
+
+public class EvenOddSumCalculator {
+    public static int calculateEvenSum(List<Integer> numbers) {
+        return numbers.stream()
+                      .filter(n -> n % 2 == 0)
+                      .mapToInt(Integer::intValue)
+                      .sum();
+    }
+
+    public static int calculateOddSum(List<Integer> numbers) {
+        return numbers.stream()
+                      .filter(n -> n % 2 != 0)
+                      .mapToInt(Integer::intValue)
+                      .sum();
+    }
+
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        System.out.println("List: " + numbers);
+        System.out.println("Sum of Even Numbers: " + calculateEvenSum(numbers));
+        System.out.println("Sum of Odd Numbers: " + calculateOddSum(numbers));
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class EvenOddSumCalculatorTest {
+
+    @Test
+    public void testCalculateEvenSum() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        int expectedEvenSum = 6; // 2 + 4
+
+        int actualEvenSum = EvenOddSumCalculator.calculateEvenSum(numbers);
+
+        Assert.assertEquals(actualEvenSum, expectedEvenSum);
+    }
+
+    @Test
+    public void testCalculateEvenSumEmptyList() {
+        List<Integer> numbers = Arrays.asList();
+        int expectedEvenSum = 0;
+
+        int actualEvenSum = EvenOddSumCalculator.calculateEvenSum(numbers);
+
+        Assert.assertEquals(actualEvenSum, expectedEvenSum);
+    }
+
+    @Test
+    public void testCalculateOddSum() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        int expectedOddSum = 9; // 1 + 3 + 5
+
+        int actualOddSum = EvenOddSumCalculator.calculateOddSum(numbers);
+
+        Assert.assertEquals(actualOddSum, expectedOddSum);
+    }
+
+    @Test
+    public void testCalculateOddSumEmptyList() {
+        List<Integer> numbers = Arrays.asList();
+        int expectedOddSum = 0;
+
+        int actualOddSum = EvenOddSumCalculator.calculateOddSum(numbers);
+
+        Assert.assertEquals(actualOddSum, expectedOddSum);
+    }
+}
+package javastreams;
+import java.util.Arrays;
+import java.util.List;
+
+public class MinMaxFinder {
+    public static int findMax(List<Integer> numbers) {
+        return numbers.stream()
+                      .mapToInt(Integer::intValue)
+                      .max()
+                      .orElseThrow(() -> new IllegalArgumentException("List is empty"));
+    }
+
+    public static int findMin(List<Integer> numbers) {
+        return numbers.stream()
+                      .mapToInt(Integer::intValue)
+                      .min()
+                      .orElseThrow(() -> new IllegalArgumentException("List is empty"));
+    }
+
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6);
+
+        System.out.println("List: " + numbers);
+        System.out.println("Maximum Value: " + findMax(numbers));
+        System.out.println("Minimum Value: " + findMin(numbers));
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class MinMaxFinderTest {
+
+    @Test
+    public void testFindMax() {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6);
+        int expectedMax = 9;
+
+        int actualMax = MinMaxFinder.findMax(numbers);
+
+        Assert.assertEquals(actualMax, expectedMax);
+    }
+
+    @Test
+    public void testFindMaxEmptyList() {
+        List<Integer> numbers = Arrays.asList();
+        int expectedMax = 0; // Since the list is empty, the max should be 0
+
+        int actualMax = MinMaxFinder.findMax(numbers);
+
+        Assert.assertEquals(actualMax, expectedMax);
+    }
+
+    @Test
+    public void testFindMin() {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6);
+        int expectedMin = 1;
+
+        int actualMin = MinMaxFinder.findMin(numbers);
+
+        Assert.assertEquals(actualMin, expectedMin);
+    }
+
+    @Test
+    public void testFindMinEmptyList() {
+        List<Integer> numbers = Arrays.asList();
+        int expectedMin = 0; // Since the list is empty, the min should be 0
+
+        int actualMin = MinMaxFinder.findMin(numbers);
+
+        Assert.assertEquals(actualMin, expectedMin);
+    }
+}
+package javastreams;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class SecondMinMaxFinder {
+    public static int findSecondSmallest(List<Integer> numbers) {
+        return numbers.stream()
+                      .distinct()
+                      .sorted()
+                      .skip(1)
+                      .findFirst()
+                      .orElseThrow(() -> new IllegalArgumentException("List has less than two distinct elements"));
+    }
+
+    public static int findSecondLargest(List<Integer> numbers) {
+        return numbers.stream()
+                      .distinct()
+                      .sorted((a, b) -> Integer.compare(b, a))
+                      .skip(1)
+                      .findFirst()
+                      .orElseThrow(() -> new IllegalArgumentException("List has less than two distinct elements"));
+    }
+
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6);
+
+        System.out.println("List: " + numbers);
+        System.out.println("Second Smallest Element: " + findSecondSmallest(numbers));
+        System.out.println("Second Largest Element: " + findSecondLargest(numbers));
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class SecondMinMaxFinderTest {
+
+    @Test
+    public void testFindSecondSmallest() {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6);
+        int expectedSecondSmallest = 2;
+
+        int actualSecondSmallest = SecondMinMaxFinder.findSecondSmallest(numbers);
+
+        Assert.assertEquals(actualSecondSmallest, expectedSecondSmallest);
+    }
+
+    @Test
+    public void testFindSecondSmallestDuplicateValues() {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6, 2, 4);
+        int expectedSecondSmallest = 3;
+
+        int actualSecondSmallest = SecondMinMaxFinder.findSecondSmallest(numbers);
+
+        Assert.assertEquals(actualSecondSmallest, expectedSecondSmallest);
+    }
+
+    @Test
+    public void testFindSecondLargest() {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6);
+        int expectedSecondLargest = 8;
+
+        int actualSecondLargest = SecondMinMaxFinder.findSecondLargest(numbers);
+
+        Assert.assertEquals(actualSecondLargest, expectedSecondLargest);
+    }
+
+    @Test
+    public void testFindSecondLargestDuplicateValues() {
+        List<Integer> numbers = Arrays.asList(5, 2, 9, 1, 7, 3, 8, 4, 6, 8, 6);
+        int expectedSecondLargest = 7;
+
+        int actualSecondLargest = SecondMinMaxFinder.findSecondLargest(numbers);
+
+        Assert.assertEquals(actualSecondLargest, expectedSecondLargest);
+    }
+}
+package javastreams;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringCaseConverter {
+    public static List<String> convertToUpperCase(List<String> strings) {
+        return strings.stream()
+                      .map(String::toUpperCase)
+                      .collect(Collectors.toList());
+    }
+
+    public static List<String> convertToLowerCase(List<String> strings) {
+        return strings.stream()
+                      .map(String::toLowerCase)
+                      .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape");
+
+        System.out.println("Original List: " + words);
+        System.out.println("Uppercase List: " + convertToUpperCase(words));
+        System.out.println("Lowercase List: " + convertToLowerCase(words));
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StringCaseConverterTest {
+
+    @Test
+    public void testConvertToUpperCase() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape");
+        List<String> expectedUppercase = Arrays.asList("APPLE", "BANANA", "ORANGE", "GRAPE");
+
+        List<String> actualUppercase = StringCaseConverter.convertToUpperCase(words);
+
+        Assert.assertEquals(actualUppercase, expectedUppercase);
+    }
+
+    @Test
+    public void testConvertToUpperCaseEmptyList() {
+        List<String> words = Arrays.asList();
+        List<String> expectedUppercase = Arrays.asList();
+
+        List<String> actualUppercase = StringCaseConverter.convertToUpperCase(words);
+
+        Assert.assertEquals(actualUppercase, expectedUppercase);
+    }
+
+    @Test
+    public void testConvertToLowerCase() {
+        List<String> words = Arrays.asList("APPLE", "BANANA", "ORANGE", "GRAPE");
+        List<String> expectedLowercase = Arrays.asList("apple", "banana", "orange", "grape");
+
+        List<String> actualLowercase = StringCaseConverter.convertToLowerCase(words);
+
+        Assert.assertEquals(actualLowercase, expectedLowercase);
+    }
+
+    @Test
+    public void testConvertToLowerCaseEmptyList() {
+        List<String> words = Arrays.asList();
+        List<String> expectedLowercase = Arrays.asList();
+
+        List<String> actualLowercase = StringCaseConverter.convertToLowerCase(words);
+
+        Assert.assertEquals(actualLowercase, expectedLowercase);
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StringCaseConverterTest {
+
+    @Test
+    public void testConvertToUpperCase() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape");
+        List<String> expectedUppercase = Arrays.asList("APPLE", "BANANA", "ORANGE", "GRAPE");
+
+        List<String> actualUppercase = StringCaseConverter.convertToUpperCase(words);
+
+        Assert.assertEquals(actualUppercase, expectedUppercase);
+    }
+
+    @Test
+    public void testConvertToUpperCaseEmptyList() {
+        List<String> words = Arrays.asList();
+        List<String> expectedUppercase = Arrays.asList();
+
+        List<String> actualUppercase = StringCaseConverter.convertToUpperCase(words);
+
+        Assert.assertEquals(actualUppercase, expectedUppercase);
+    }
+
+    @Test
+    public void testConvertToLowerCase() {
+        List<String> words = Arrays.asList("APPLE", "BANANA", "ORANGE", "GRAPE");
+        List<String> expectedLowercase = Arrays.asList("apple", "banana", "orange", "grape");
+
+        List<String> actualLowercase = StringCaseConverter.convertToLowerCase(words);
+
+        Assert.assertEquals(actualLowercase, expectedLowercase);
+    }
+
+    @Test
+    public void testConvertToLowerCaseEmptyList() {
+        List<String> words = Arrays.asList();
+        List<String> expectedLowercase = Arrays.asList();
+
+        List<String> actualLowercase = StringCaseConverter.convertToLowerCase(words);
+
+        Assert.assertEquals(actualLowercase, expectedLowercase);
+    }
+}
+package javastreams;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringSorter {
+    public static List<String> sortAscending(List<String> strings) {
+        return strings.stream()
+                      .sorted()
+                      .collect(Collectors.toList());
+    }
+
+    public static List<String> sortDescending(List<String> strings) {
+        return strings.stream()
+                      .sorted((s1, s2) -> s2.compareTo(s1))
+                      .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "avocado");
+
+        System.out.println("Original List: " + words);
+        System.out.println("Ascending Order: " + sortAscending(words));
+        System.out.println("Descending Order: " + sortDescending(words));
+    }
+}
+package javastreams;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StringSorterTest {
+
+    @Test
+    public void testSortAscending() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "avocado");
+        List<String> expectedAscending = Arrays.asList("apple", "avocado", "banana", "grape", "orange");
+
+        List<String> actualAscending = StringSorter.sortAscending(words);
+
+        Assert.assertEquals(actualAscending, expectedAscending);
+    }
+
+    @Test
+    public void testSortAscendingEmptyList() {
+        List<String> words = Arrays.asList();
+        List<String> expectedAscending = Arrays.asList();
+
+        List<String> actualAscending = StringSorter.sortAscending(words);
+
+        Assert.assertEquals(actualAscending, expectedAscending);
+    }
+
+    @Test
+    public void testSortDescending() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "avocado");
+        List<String> expectedDescending = Arrays.asList("orange", "grape", "banana", "avocado", "apple");
+
+        List<String> actualDescending = StringSorter.sortDescending(words);
+
+        Assert.assertEquals(actualDescending, expectedDescending);
+    }
+
+    @Test
+    public void testSortDescendingEmptyList() {
+        List<String> words = Arrays.asList();
+        List<String> expectedDescending = Arrays.asList();
+
+        List<String> actualDescending = StringSorter.sortDescending(words);
+
+        Assert.assertEquals(actualDescending, expectedDescending);
+    }
+}
+package javastreams;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class StringStartsWithCounter {
+    public static long countStringsStartingWith(List<String> strings, char startLetter) {
+        return strings.stream()
+                      .filter(s -> s.length() > 0 && s.charAt(0) == startLetter)
+                      .count();
+    }
+
+    public static void main(String[] args) {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "avocado");
+
+        char targetLetter = 'a';
+        System.out.println("List: " + words);
+        System.out.println("Number of Strings starting with '" + targetLetter + "': " +
+                           countStringsStartingWith(words, targetLetter));
+    }
+}
+package javastreams;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StringStartsWithCounterTest {
+
+    @Test
+    public void testCountStringsStartingWith() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "avocado");
+        char targetLetter = 'a';
+        long expectedCount = 3; // "apple", "avocado"
+
+        long actualCount = StringStartsWithCounter.countStringsStartingWith(words, targetLetter);
+
+        Assert.assertEquals(actualCount, expectedCount);
+    }
+
+    @Test
+    public void testCountStringsStartingWithEmptyList() {
+        List<String> words = Arrays.asList();
+        char targetLetter = 'a';
+        long expectedCount = 0;
+
+        long actualCount = StringStartsWithCounter.countStringsStartingWith(words, targetLetter);
+
+        Assert.assertEquals(actualCount, expectedCount);
+    }
+}
+package javastreams;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StringStartsWithCounterTest {
+
+    @Test
+    public void testCountStringsStartingWith() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "avocado");
+        char targetLetter = 'a';
+        long expectedCount = 3; // "apple", "avocado"
+
+        long actualCount = StringStartsWithCounter.countStringsStartingWith(words, targetLetter);
+
+        Assert.assertEquals(actualCount, expectedCount);
+    }
+
+    @Test
+    public void testCountStringsStartingWithEmptyList() {
+        List<String> words = Arrays.asList();
+        char targetLetter = 'a';
+        long expectedCount = 0;
+
+        long actualCount = StringStartsWithCounter.countStringsStartingWith(words, targetLetter);
+
+        Assert.assertEquals(actualCount, expectedCount);
+    }
+}
