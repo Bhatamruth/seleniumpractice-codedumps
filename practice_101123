@@ -1,0 +1,1792 @@
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExtractArrayListPortion {
+    public static List<String> extractPortion(List<String> elements, int startIndex, int endIndex) {
+        if (startIndex >= 0 && startIndex < elements.size() && endIndex >= 0 && endIndex < elements.size()) {
+            return elements.subList(startIndex, endIndex + 1);
+        } else {
+            throw new IndexOutOfBoundsException("Invalid start or end index");
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        try {
+            List<String> extractedPortion = extractPortion(fruits, 1, 2);
+            System.out.println("Extracted Portion: " + extractedPortion);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+package javaarraylist;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExtractArrayListPortionTest {
+
+    @Test
+    public void testExtractPortion() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        List<String> expectedPortion = List.of("Orange", "Grapes");
+
+        List<String> extractedPortion = ExtractArrayListPortion.extractPortion(fruits, 1, 2);
+
+        Assert.assertEquals(extractedPortion, expectedPortion);
+    }
+
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    public void testExtractPortionInvalidIndices() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+        fruits.add("Apple");
+
+        ExtractArrayListPortion.extractPortion(fruits, 3, 5);
+    }
+}
+
+
+
+
+package javaarraylist;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReplaceSecondElement {
+    public static void replaceSecondElement(List<String> elements, String newElement) {
+        if (elements.size() >= 2) {
+            elements.set(1, newElement);
+            System.out.println("List after replacing the second element: " + elements);
+        } else {
+            throw new IndexOutOfBoundsException("List does not have a second element to replace");
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        String newFruit = "Apple";
+
+        try {
+            replaceSecondElement(fruits, newFruit);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}
+
+
+package javaarraylist;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ReplaceSecondElementTest {
+
+    @Test
+    public void testReplaceSecondElement() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+        fruits.add("Orange");
+        fruits.add("Grapes");
+
+        String newFruit = "Apple";
+        List<String> expectedList = List.of("Banana", "Apple", "Grapes");
+
+        ReplaceSecondElement.replaceSecondElement(fruits, newFruit);
+
+        Assert.assertEquals(fruits, expectedList);
+    }
+
+    @Test(expectedExceptions = IndexOutOfBoundsException.class)
+    public void testReplaceSecondElementInSmallList() {
+        List<String> fruits = new ArrayList<>();
+        fruits.add("Banana");
+
+        String newElement = "Pear";
+
+        ReplaceSecondElement.replaceSecondElement(fruits, newElement);
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class AppendToEndOfLinkedList {
+    public static void appendElement(LinkedList<String> linkedList, String newElement) {
+        linkedList.addLast(newElement);
+        System.out.println("LinkedList after appending the element: " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String newColor = "Yellow";
+        appendElement(colors, newColor);
+    }
+}
+package LinkedList;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.LinkedList;
+
+public class AppendToEndOfLinkedListTest {
+
+    @Test
+    public void testAppendElement() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String newColor = "Yellow";
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.addLast(newColor);
+
+        AppendToEndOfLinkedList.appendElement(colors, newColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testAppendElementToEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        String newElement = "Pink";
+        LinkedList<String> expectedList = new LinkedList<>();
+        expectedList.addLast(newElement);
+
+        AppendToEndOfLinkedList.appendElement(emptyList, newElement);
+
+        Assert.assertEquals(emptyList, expectedList);
+    }
+}
+package LinkedList;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.LinkedList;
+
+public class AppendToEndOfLinkedListTest {
+
+    @Test
+    public void testAppendElement() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String newColor = "Yellow";
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.addLast(newColor);
+
+        AppendToEndOfLinkedList.appendElement(colors, newColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testAppendElementToEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        String newElement = "Pink";
+        LinkedList<String> expectedList = new LinkedList<>();
+        expectedList.addLast(newElement);
+
+        AppendToEndOfLinkedList.appendElement(emptyList, newElement);
+
+        Assert.assertEquals(emptyList, expectedList);
+    }
+}
+
+
+package LinkedList;
+
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class IterateThroughLinkedList {
+    public static void iterateAndPrintList(LinkedList<String> linkedList) {
+        System.out.println("Iterating through the LinkedList:");
+        ListIterator<String> iterator = linkedList.listIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        iterateAndPrintList(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
+
+public class IterateThroughLinkedListTest {
+
+    @Test
+    public void testIterateAndPrintList() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        IterateThroughLinkedList.iterateAndPrintList(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements
+        Assert.assertTrue(printedOutput.contains("Red"));
+        Assert.assertTrue(printedOutput.contains("Green"));
+        Assert.assertTrue(printedOutput.contains("Blue"));
+    }
+
+    @Test
+    public void testIterateAndPrintEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        IterateThroughLinkedList.iterateAndPrintList(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output is empty for an empty list
+        Assert.assertTrue(printedOutput.isEmpty());
+    }
+}
+
+
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class AppendToHashSet {
+
+    @Test
+    public void testAppendElement() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+
+        // Append element
+        String newElement = "Orange";
+        hashSet.add(newElement);
+
+        Assert.assertTrue(hashSet.contains(newElement), "Element not appended to the hash set");
+    }
+
+    @Test
+    public void testAppendDuplicateElement() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+
+        // Try to append a duplicate element
+        String duplicateElement = "Banana";
+        hashSet.add(duplicateElement);
+
+        // Verify that the set size remains the same
+        Assert.assertEquals(hashSet.size(), 2, "Duplicate element should not be appended");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class CloneHashSet {
+
+    @Test
+    public void testCloneSet() {
+        HashSet<String> originalSet = new HashSet<>();
+        originalSet.add("Apple");
+        originalSet.add("Banana");
+        originalSet.add("Orange");
+
+        // Clone the hash set
+        HashSet<String> clonedSet = new HashSet<>(originalSet);
+
+        // Verify that the sets are equal
+        Assert.assertEquals(originalSet, clonedSet, "Cloned set should be equal to the original set");
+    }
+
+    @Test
+    public void testCloneEmptySet() {
+        HashSet<String> emptySet = new HashSet<>();
+
+        // Clone an empty set
+        HashSet<String> clonedSet = new HashSet<>(emptySet);
+
+        // Verify that the cloned set is also empty
+        Assert.assertTrue(clonedSet.isEmpty(), "Cloned set should be empty for an empty original set");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class CompareHashSets {
+
+    @Test
+    public void testEqualHashSets() {
+        HashSet<String> set1 = new HashSet<>();
+        set1.add("Apple");
+        set1.add("Banana");
+        set1.add("Orange");
+
+        HashSet<String> set2 = new HashSet<>();
+        set2.add("Banana");
+        set2.add("Apple");
+        set2.add("Orange");
+
+        // Compare the hash sets
+        boolean areEqual = set1.equals(set2);
+
+        // Verify that the sets are equal regardless of order
+        Assert.assertTrue(areEqual, "Hash sets should be equal");
+    }
+
+    @Test
+    public void testDifferentHashSets() {
+        HashSet<String> set1 = new HashSet<>();
+        set1.add("Apple");
+        set1.add("Banana");
+
+        HashSet<String> set2 = new HashSet<>();
+        set2.add("Orange");
+        set2.add("Banana");
+
+        // Compare the hash sets
+        boolean areEqual = set1.equals(set2);
+
+        // Verify that the sets are not equal
+        Assert.assertFalse(areEqual, "Hash sets should not be equal");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class ConvertHashSetToArray {
+
+    @Test
+    public void testConvertToArray() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+
+        // Convert the hash set to an array
+        String[] array = hashSet.toArray(new String[0]);
+
+        // Verify that the array contains all elements from the set
+        Assert.assertEquals(array.length, hashSet.size(), "Array length should be equal to the set size");
+
+        for (String element : array) {
+            Assert.assertTrue(hashSet.contains(element), "Array should contain all elements from the set");
+        }
+    }
+
+    @Test
+    public void testConvertEmptySetToArray() {
+        HashSet<String> emptySet = new HashSet<>();
+
+        // Convert an empty set to an array
+        String[] array = emptySet.toArray(new String[0]);
+
+        // Verify that the array is empty
+        Assert.assertEquals(array.length, 0, "Array should be empty for an empty set");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class EmptyHashSet {
+
+    @Test
+    public void testEmptySet() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+
+        // Empty the hash set
+        hashSet.clear();
+
+        // Verify that the set is empty
+        Assert.assertTrue(hashSet.isEmpty(), "Hash set should be empty after clearing");
+    }
+
+    @Test
+    public void testEmptyEmptySet() {
+        HashSet<String> emptyHashSet = new HashSet<>();
+
+        // Empty an already empty set
+        emptyHashSet.clear();
+
+        // Verify that the set remains empty
+        Assert.assertTrue(emptyHashSet.isEmpty(), "Empty hash set should remain empty after clearing");
+    }
+}
+package HashSet;
+import java.util.TreeSet;
+
+public class FindNumbersLessThanSeven {
+
+    public static void main(String[] args) {
+        // Create a TreeSet
+        TreeSet<Integer> treeSet = new TreeSet<>();
+
+        // Add elements to the TreeSet
+        treeSet.add(3);
+        treeSet.add(8);
+        treeSet.add(5);
+        treeSet.add(2);
+        treeSet.add(9);
+        treeSet.add(1);
+
+        // Find numbers less than 7 in the TreeSet
+        TreeSet<Integer> numbersLessThanSeven = new TreeSet<>();
+        for (Integer num : treeSet) {
+            if (num < 7) {
+                numbersLessThanSeven.add(num);
+            }
+        }
+
+        // Display the numbers less than 7
+        System.out.println("Numbers less than 7 in the TreeSet: " + numbersLessThanSeven);
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class GetHashSetSize {
+
+    @Test
+    public void testGetSize() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+
+        // Get the number of elements
+        int size = hashSet.size();
+
+        // Verify the size
+        Assert.assertEquals(size, 3, "Incorrect number of elements in the hash set");
+    }
+
+    @Test
+    public void testEmptyHashSetSize() {
+        HashSet<String> emptyHashSet = new HashSet<>();
+
+        // Get the number of elements in an empty set
+        int size = emptyHashSet.size();
+
+        // Verify that the size is 0
+        Assert.assertEquals(size, 0, "Empty set should have size 0");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+import java.util.Iterator;
+
+public class IterateHashSet {
+
+    @Test
+    public void testIteration() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+
+        // Iterate through elements
+        Iterator<String> iterator = hashSet.iterator();
+        while (iterator.hasNext()) {
+            String element = iterator.next();
+            Assert.assertTrue(hashSet.contains(element), "Element not found in the hash set");
+        }
+    }
+
+    @Test
+    public void testEmptyHashSetIteration() {
+        HashSet<String> emptyHashSet = new HashSet<>();
+
+        // Iterate through elements of an empty set
+        Iterator<String> iterator = emptyHashSet.iterator();
+
+        // Verify that there are no elements to iterate
+        Assert.assertFalse(iterator.hasNext(), "Iterator should not have elements for an empty set");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class RemoveAllElements {
+
+    @Test
+    public void testRemoveAllElements() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+
+        // Remove all elements from the hash set
+        hashSet.clear();
+
+        // Verify that the set is empty after removal
+        Assert.assertTrue(hashSet.isEmpty(), "Hash set should be empty after removing all elements");
+    }
+
+    @Test
+    public void testRemoveAllElementsFromEmptySet() {
+        HashSet<String> emptyHashSet = new HashSet<>();
+
+        // Remove all elements from an empty set
+        emptyHashSet.clear();
+
+        // Verify that the set remains empty
+        Assert.assertTrue(emptyHashSet.isEmpty(), "Empty hash set should remain empty after removing all elements");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+import java.util.Set;
+
+public class RetainCommonElements {
+
+    @Test
+    public void testRetainCommonElements() {
+        Set<String> set1 = new HashSet<>();
+        set1.add("Apple");
+        set1.add("Banana");
+        set1.add("Orange");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("Banana");
+        set2.add("Orange");
+        set2.add("Grapes");
+
+        // Retain common elements in set1
+        set1.retainAll(set2);
+
+        // Verify that set1 now contains only common elements
+        Assert.assertTrue(set1.contains("Banana"), "Common element 'Banana' should be retained");
+        Assert.assertTrue(set1.contains("Orange"), "Common element 'Orange' should be retained");
+        Assert.assertFalse(set1.contains("Apple"), "Non-common element 'Apple' should be removed");
+        Assert.assertFalse(set1.contains("Grapes"), "Non-common element 'Grapes' should not be added");
+    }
+
+    @Test
+    public void testRetainNoCommonElements() {
+        Set<String> set1 = new HashSet<>();
+        set1.add("Apple");
+        set1.add("Banana");
+
+        Set<String> set2 = new HashSet<>();
+        set2.add("Orange");
+        set2.add("Grapes");
+
+        // Retain common elements in set1
+        set1.retainAll(set2);
+
+        // Verify that set1 is now empty as there are no common elements
+        Assert.assertTrue(set1.isEmpty(), "Set should be empty as there are no common elements");
+    }
+}
+package HashSet;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashSet;
+
+public class TestHashSetEmpty {
+
+    @Test
+    public void testEmptyHashSet() {
+        HashSet<String> emptyHashSet = new HashSet<>();
+
+        // Verify that the set is empty
+        Assert.assertTrue(emptyHashSet.isEmpty(), "Hash set should be empty");
+    }
+
+    @Test
+    public void testNonEmptyHashSet() {
+        HashSet<String> hashSet = new HashSet<>();
+        hashSet.add("Apple");
+
+        // Verify that the set is not empty
+        Assert.assertFalse(hashSet.isEmpty(), "Hash set should not be empty");
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class AppendToEndOfLinkedList {
+    public static void appendElement(LinkedList<String> linkedList, String newElement) {
+        linkedList.addLast(newElement);
+        System.out.println("LinkedList after appending the element: " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String newColor = "Yellow";
+        appendElement(colors, newColor);
+    }
+}
+package LinkedList;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.LinkedList;
+
+public class AppendToEndOfLinkedListTest {
+
+    @Test
+    public void testAppendElement() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String newColor = "Yellow";
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.addLast(newColor);
+
+        AppendToEndOfLinkedList.appendElement(colors, newColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testAppendElementToEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        String newElement = "Pink";
+        LinkedList<String> expectedList = new LinkedList<>();
+        expectedList.addLast(newElement);
+
+        AppendToEndOfLinkedList.appendElement(emptyList, newElement);
+
+        Assert.assertEquals(emptyList, expectedList);
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class CheckElementExists {
+    public static boolean elementExists(LinkedList<String> linkedList, String targetElement) {
+        boolean exists = linkedList.contains(targetElement);
+        System.out.println("Does '" + targetElement + "' exist in the LinkedList? " + exists);
+        return exists;
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String elementToCheck = "Green";
+        elementExists(colors, elementToCheck);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class CheckElementExistsTest {
+
+    @Test
+    public void testElementExists() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String elementToCheck = "Green";
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        boolean result = CheckElementExists.elementExists(colors, elementToCheck);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates whether the element exists
+        Assert.assertTrue(printedOutput.contains("Does 'Green' exist in the LinkedList? true"));
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testElementDoesNotExist() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Blue");
+
+        String elementToCheck = "Green";
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        boolean result = CheckElementExists.elementExists(colors, elementToCheck);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates whether the element does not exist
+        Assert.assertTrue(printedOutput.contains("Does 'Green' exist in the LinkedList? false"));
+        Assert.assertFalse(result);
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class CompareLinkedLists {
+    public static boolean compareLists(LinkedList<String> list1, LinkedList<String> list2) {
+        boolean isEqual = list1.equals(list2);
+        System.out.println("Are the two LinkedLists equal? " + isEqual);
+        return isEqual;
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors1 = new LinkedList<>();
+        colors1.add("Red");
+        colors1.add("Green");
+        colors1.add("Blue");
+
+        LinkedList<String> colors2 = new LinkedList<>();
+        colors2.add("Red");
+        colors2.add("Green");
+        colors2.add("Blue");
+
+        compareLists(colors1, colors2);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class CompareLinkedListsTest {
+
+    @Test
+    public void testCompareListsEqual() {
+        LinkedList<String> colors1 = new LinkedList<>();
+        colors1.add("Red");
+        colors1.add("Green");
+        colors1.add("Blue");
+
+        LinkedList<String> colors2 = new LinkedList<>();
+        colors2.add("Red");
+        colors2.add("Green");
+        colors2.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        boolean result = CompareLinkedLists.compareLists(colors1, colors2);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates the two lists are equal
+        Assert.assertTrue(printedOutput.contains("Are the two LinkedLists equal? true"));
+        Assert.assertTrue(result);
+    }
+
+    @Test
+    public void testCompareListsNotEqual() {
+        LinkedList<String> colors1 = new LinkedList<>();
+        colors1.add("Red");
+        colors1.add("Green");
+
+        LinkedList<String> colors2 = new LinkedList<>();
+        colors2.add("Red");
+        colors2.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+    }}
+package LinkedList;
+
+import java.util.LinkedList;
+import java.util.ArrayList;
+
+public class ConvertToArrayList {
+    public static ArrayList<String> convertToList(LinkedList<String> linkedList) {
+        ArrayList<String> arrayList = new ArrayList<>(linkedList);
+        System.out.println("Converted ArrayList: " + arrayList);
+        return arrayList;
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        convertToList(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+import java.util.ArrayList;
+
+public class ConvertToArrayListTest {
+
+    @Test
+    public void testConvertToList() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        ArrayList<String> expectedArrayList = new ArrayList<>(colors);
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        ArrayList<String> result = ConvertToArrayList.convertToList(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the converted ArrayList
+        Assert.assertEquals(result, expectedArrayList);
+        Assert.assertTrue(printedOutput.contains("Converted ArrayList: " + expectedArrayList));
+    }
+
+    @Test
+    public void testConvertToListEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        ArrayList<String> result = ConvertToArrayList.convertToList(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates an empty ArrayList for an empty list
+        Assert.assertTrue(printedOutput.contains("Converted ArrayList: []"));
+        Assert.assertTrue(result.isEmpty());
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class DisplayElementsAndPositions {
+    public static void displayElementsAndPositions(LinkedList<String> linkedList) {
+        ListIterator<String> iterator = linkedList.listIterator();
+        System.out.println("Elements and their positions in the LinkedList:");
+        while (iterator.hasNext()) {
+            int position = iterator.nextIndex();
+            String element = iterator.next();
+            System.out.println("Position: " + position + ", Element: " + element);
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        displayElementsAndPositions(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
+
+public class DisplayElementsAndPositionsTest {
+
+    @Test
+    public void testDisplayElementsAndPositions() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        DisplayElementsAndPositions.displayElementsAndPositions(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements and positions
+        Assert.assertTrue(printedOutput.contains("Position: 0, Element: Red"));
+        Assert.assertTrue(printedOutput.contains("Position: 1, Element: Green"));
+        Assert.assertTrue(printedOutput.contains("Position: 2, Element: Blue"));
+    }
+
+    @Test
+    public void testDisplayElementsAndPositionsEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        DisplayElementsAndPositions.displayElementsAndPositions(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output is empty for an empty list
+        Assert.assertTrue(printedOutput.isEmpty());
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class FirstAndLastOccurrencesInLinkedList {
+    public static void findOccurrences(LinkedList<String> linkedList, String targetElement) {
+        int firstOccurrence = linkedList.indexOf(targetElement);
+        int lastOccurrence = linkedList.lastIndexOf(targetElement);
+
+        if (firstOccurrence != -1) {
+            System.out.println("First occurrence of '" + targetElement + "': " + firstOccurrence);
+        } else {
+            System.out.println("'" + targetElement + "' not found in the list.");
+        }
+
+        if (lastOccurrence != -1) {
+            System.out.println("Last occurrence of '" + targetElement + "': " + lastOccurrence);
+        } else {
+            System.out.println("'" + targetElement + "' not found in the list.");
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+        colors.add("Green");
+        colors.add("Yellow");
+
+        String targetColor = "Green";
+        findOccurrences(colors, targetColor);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class FirstAndLastOccurrencesInLinkedListTest {
+
+    @Test
+    public void testFindOccurrences() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+        colors.add("Green");
+        colors.add("Yellow");
+
+        String targetColor = "Green";
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        FirstAndLastOccurrencesInLinkedList.findOccurrences(colors, targetColor);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected occurrences
+        Assert.assertTrue(printedOutput.contains("First occurrence of 'Green': 1"));
+        Assert.assertTrue(printedOutput.contains("Last occurrence of 'Green': 3"));
+    }
+
+    @Test
+    public void testFindOccurrencesNotFound() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Blue");
+        colors.add("Yellow");
+
+        String targetColor = "Green";
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        FirstAndLastOccurrencesInLinkedList.findOccurrences(colors, targetColor);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains messages for not finding the element
+        Assert.assertTrue(printedOutput.contains("'Green' not found in the list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class InsertAtFirstAndLastInLinkedList {
+    public static void insertAtFirstAndLast(LinkedList<String> linkedList, String firstElement, String lastElement) {
+        linkedList.addFirst(firstElement);
+        linkedList.addLast(lastElement);
+
+        System.out.println("LinkedList after inserting at first and last positions: " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Green");
+        colors.add("Blue");
+
+        String firstColor = "Red";
+        String lastColor = "Yellow";
+
+        insertAtFirstAndLast(colors, firstColor, lastColor);
+    }
+}
+package LinkedList;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.LinkedList;
+
+public class InsertAtFirstAndLastInLinkedListTest {
+
+    @Test
+    public void testInsertAtFirstAndLast() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Green");
+        colors.add("Blue");
+
+        String firstColor = "Red";
+        String lastColor = "Yellow";
+
+        LinkedList<String> expectedList = new LinkedList<>();
+        expectedList.add(firstColor);
+        expectedList.add("Green");
+        expectedList.add("Blue");
+        expectedList.add(lastColor);
+
+        InsertAtFirstAndLastInLinkedList.insertAtFirstAndLast(colors, firstColor, lastColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testInsertAtFirstAndLastEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        String firstElement = "First";
+        String lastElement = "Last";
+
+        LinkedList<String> expectedList = new LinkedList<>();
+        expectedList.add(firstElement);
+        expectedList.add(lastElement);
+
+        InsertAtFirstAndLastInLinkedList.insertAtFirstAndLast(emptyList, firstElement, lastElement);
+
+        Assert.assertEquals(emptyList, expectedList);
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class InsertAtFrontAndEndInLinkedList {
+    public static void insertAtFront(LinkedList<String> linkedList, String newElement) {
+        linkedList.addFirst(newElement);
+        System.out.println("LinkedList after inserting at the front: " + linkedList);
+    }
+
+    public static void insertAtEnd(LinkedList<String> linkedList, String newElement) {
+        linkedList.addLast(newElement);
+        System.out.println("LinkedList after inserting at the end: " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Green");
+        colors.add("Blue");
+
+        String frontColor = "Red";
+        String endColor = "Yellow";
+
+        insertAtFront(colors, frontColor);
+        insertAtEnd(colors, endColor);
+    }
+}
+package LinkedList;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.LinkedList;
+
+public class InsertAtFrontAndEndInLinkedListTest {
+
+    @Test
+    public void testInsertAtFront() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Green");
+        colors.add("Blue");
+
+        String frontColor = "Red";
+        LinkedList<String> expectedList = new LinkedList<>();
+        expectedList.add(frontColor);
+        expectedList.add("Green");
+        expectedList.add("Blue");
+
+        InsertAtFrontAndEndInLinkedList.insertAtFront(colors, frontColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testInsertAtEnd() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Green");
+        colors.add("Blue");
+
+        String endColor = "Yellow";
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.add(endColor);
+
+        InsertAtFrontAndEndInLinkedList.insertAtEnd(colors, endColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class InsertElementAtPositionInLinkedList {
+    public static void insertElementAtPosition(LinkedList<String> linkedList, int position, String newElement) {
+        if (position >= 0 && position <= linkedList.size()) {
+            linkedList.add(position, newElement);
+            System.out.println("LinkedList after inserting '" + newElement + "' at position " + position + ": " + linkedList);
+        } else {
+            System.out.println("Invalid position for insertion");
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int positionToInsert = 1;
+        String newColor = "Yellow";
+
+        insertElementAtPosition(colors, positionToInsert, newColor);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class InsertElementAtPositionInLinkedListTest {
+
+    @Test
+    public void testInsertElementAtPosition() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int positionToInsert = 1;
+        String newColor = "Yellow";
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.add(positionToInsert, newColor);
+
+        InsertElementAtPositionInLinkedList.insertElementAtPosition(colors, positionToInsert, newColor);
+
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testInsertElementAtInvalidPosition() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int invalidPosition = 4;
+        String newElement = "Purple";
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        InsertElementAtPositionInLinkedList.insertElementAtPosition(colors, invalidPosition, newElement);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains an error message for an invalid position
+        Assert.assertTrue(printedOutput.contains("Invalid position for insertion"));
+    }
+}
+package LinkedList;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class IterateFromPositionInLinkedList {
+    public static void iterateAndPrintFromPosition(LinkedList<String> linkedList, int startPosition) {
+        if (startPosition >= 0 && startPosition < linkedList.size()) {
+            System.out.println("Iterating through the LinkedList from position " + startPosition + ":");
+            ListIterator<String> iterator = linkedList.listIterator(startPosition);
+            while (iterator.hasNext()) {
+                System.out.println(iterator.next());
+            }
+        } else {
+            System.out.println("Invalid starting position");
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int startPosition = 1;
+        iterateAndPrintFromPosition(colors, startPosition);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
+
+public class IterateFromPositionInLinkedListTest {
+
+    @Test
+    public void testIterateAndPrintFromPosition() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int startPosition = 1;
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        IterateFromPositionInLinkedList.iterateAndPrintFromPosition(colors, startPosition);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements starting from the specified position
+        Assert.assertTrue(printedOutput.contains("Green"));
+        Assert.assertTrue(printedOutput.contains("Blue"));
+    }
+
+    @Test
+    public void testIterateFromInvalidPosition() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int invalidPosition = 3;
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        IterateFromPositionInLinkedList.iterateAndPrintFromPosition(colors, invalidPosition);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains an error message for an invalid position
+        Assert.assertTrue(printedOutput.contains("Invalid starting position"));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class IterateThroughLinkedList {
+    public static void iterateAndPrintList(LinkedList<String> linkedList) {
+        System.out.println("Iterating through the LinkedList:");
+        ListIterator<String> iterator = linkedList.listIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        iterateAndPrintList(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.LinkedList;
+
+public class IterateThroughLinkedListTest {
+
+    @Test
+    public void testIterateAndPrintList() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        IterateThroughLinkedList.iterateAndPrintList(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements
+        Assert.assertTrue(printedOutput.contains("Red"));
+        Assert.assertTrue(printedOutput.contains("Green"));
+        Assert.assertTrue(printedOutput.contains("Blue"));
+    }
+
+    @Test
+    public void testIterateAndPrintEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        IterateThroughLinkedList.iterateAndPrintList(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output is empty for an empty list
+        Assert.assertTrue(printedOutput.isEmpty());
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class JoinTwoLinkedLists {
+    public static LinkedList<String> joinLists(LinkedList<String> list1, LinkedList<String> list2) {
+        LinkedList<String> joinedList = new LinkedList<>(list1);
+        joinedList.addAll(list2);
+        System.out.println("Joined LinkedList: " + joinedList);
+        return joinedList;
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> list1 = new LinkedList<>();
+        list1.add("Red");
+        list1.add("Green");
+
+        LinkedList<String> list2 = new LinkedList<>();
+        list2.add("Blue");
+        list2.add("Yellow");
+
+        joinLists(list1, list2);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class JoinTwoLinkedListsTest {
+
+    @Test
+    public void testJoinLists() {
+        LinkedList<String> list1 = new LinkedList<>();
+        list1.add("Red");
+        list1.add("Green");
+
+        LinkedList<String> list2 = new LinkedList<>();
+        list2.add("Blue");
+        list2.add("Yellow");
+
+        LinkedList<String> expectedList = new LinkedList<>(list1);
+        expectedList.addAll(list2);
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        JoinTwoLinkedLists.joinLists(list1, list2);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the joined LinkedList
+        Assert.assertTrue(printedOutput.contains("Joined LinkedList: " + expectedList));
+    }
+
+    @Test
+    public void testJoinListsEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        JoinTwoLinkedLists.joinLists(emptyList, emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates an empty list for joining two empty lists
+        Assert.assertTrue(printedOutput.contains("Joined LinkedList: []"));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RemoveAllElementsInLinkedList {
+    public static void removeAllElements(LinkedList<String> linkedList) {
+        linkedList.clear();
+        System.out.println("LinkedList after removing all elements: " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        removeAllElements(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RemoveAllElementsInLinkedListTest {
+
+    @Test
+    public void testRemoveAllElements() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveAllElementsInLinkedList.removeAllElements(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates an empty list after removal
+        Assert.assertTrue(printedOutput.contains("LinkedList after removing all elements: []"));
+    }
+
+    @Test
+    public void testRemoveAllElementsEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveAllElementsInLinkedList.removeAllElements(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates an empty list for an already empty list
+        Assert.assertTrue(printedOutput.contains("LinkedList after removing all elements: []"));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RemoveAndReturnFirstElement {
+    public static String removeAndReturnFirst(LinkedList<String> linkedList) {
+        if (!linkedList.isEmpty()) {
+            String firstElement = linkedList.removeFirst();
+            System.out.println("Removed and returned first element: " + firstElement);
+            return firstElement;
+        } else {
+            System.out.println("Cannot remove from an empty list.");
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        removeAndReturnFirst(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RemoveAndReturnFirstElementTest {
+
+    @Test
+    public void testRemoveAndReturnFirst() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        String removedElement = expectedList.removeFirst();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RemoveAndReturnFirstElement.removeAndReturnFirst(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the removed and returned first element
+        Assert.assertEquals(result, removedElement);
+    }
+
+    @Test
+    public void testRemoveAndReturnFirstEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RemoveAndReturnFirstElement.removeAndReturnFirst(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for removing from an empty list
+        Assert.assertNull(result);
+        Assert.assertTrue(printedOutput.contains("Cannot remove from an empty list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RemoveFirstAndLastElements {
+    public static void removeFirstAndLast(LinkedList<String> linkedList) {
+        if (!linkedList.isEmpty()) {
+            linkedList.removeFirst();
+            linkedList.removeLast();
+            System.out.println("LinkedList after removing first and last elements: " + linkedList);
+        } else {
+            System.out.println("Cannot remove from an empty list.");
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        removeFirstAndLast(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RemoveFirstAndLastElementsTest {
+
+    @Test
+    public void testRemoveFirstAndLast() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.removeFirst();
+        expectedList.removeLast();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveFirstAndLastElements.removeFirstAndLast(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements after removal
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testRemoveFirstAndLastEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveFirstAndLastElements.removeFirstAndLast(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for an empty list
+        Assert.assertTrue(printedOutput.contains("Cannot remove from an empty list."));
+    }
+}
