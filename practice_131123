@@ -1,1 +1,1366 @@
+package LinkedList;
 
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList {
+    Node head;
+
+    // Method to replace an element in the linked list
+    void replaceElement(int oldData, int newData) {
+        Node current = head;
+        while (current != null) {
+            if (current.data == oldData) {
+                current.data = newData;
+                return;
+            }
+            current = current.next;
+        }
+    }
+}
+
+public class TestReplaceElementInLinkedList {
+
+    @Test
+    public void testReplaceElement() {
+        LinkedList list = new LinkedList();
+        list.head = new Node(1);
+        list.head.next = new Node(2);
+        list.head.next.next = new Node(3);
+
+        int oldData = 2;
+        int newData = 5;
+
+        list.replaceElement(oldData, newData);
+
+        // Verify that the element has been replaced
+        Node current = list.head;
+        while (current != null) {
+            if (current.data == oldData) {
+                Assert.fail("Element not replaced successfully");
+            }
+            if (current.data == newData) {
+                Assert.assertTrue(true, "Element replaced successfully");
+            }
+            current = current.next;
+        }
+    }
+
+    @Test
+    public void testReplaceNonExistentElement() {
+        LinkedList list = new LinkedList();
+        list.head = new Node(1);
+        list.head.next = new Node(2);
+        list.head.next.next = new Node(3);
+
+        int oldData = 5;
+        int newData = 8;
+
+        list.replaceElement(oldData, newData);
+
+        // Verify that the element has not been replaced
+        Node current = list.head;
+        while (current != null) {
+            if (current.data == newData) {
+                Assert.fail("Element should not be replaced");
+            }
+            current = current.next;
+        }
+        Assert.assertTrue(true, "Element not replaced as expected");
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+class Node1 {
+    int data;
+    Node1 next;
+
+    Node1(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class LinkedList1 {
+    Node1 head;
+
+    // Method to check if the linked list is empty
+    boolean isEmpty() {
+        return head == null;
+    }
+}
+
+public class TestLinkedListEmpty {
+
+    @Test
+    public void testEmptyLinkedList() {
+        LinkedList1 list = new LinkedList1();
+        Assert.assertTrue(list.isEmpty(), "The linked list should be empty");
+    }
+
+    @Test
+    public void testNonEmptyLinkedList() {
+        LinkedList1 list = new LinkedList1();
+        list.head = new Node1(1);
+        Assert.assertFalse(list.isEmpty(), "The linked list should not be empty");
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.Collections;
+import java.util.LinkedList;
+
+public class SwapTwoElementsInLinkedListTest {
+
+    @Test
+    public void testSwapElements() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+ 
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        Collections.swap(expectedList, 0, 2);
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        SwapTwoElementsInLinkedList.swapElements(colors, 0, 2);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements after swapping
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testSwapElementsInvalidIndices() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int invalidIndex1 = 0;
+        int invalidIndex2 = 3;
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        SwapTwoElementsInLinkedList.swapElements(colors, invalidIndex1, invalidIndex2);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for invalid indices
+        Assert.assertTrue(printedOutput.contains("Invalid indices for swapping elements"));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+import java.util.Collections;
+
+public class SwapTwoElementsInLinkedList {
+    public static void swapElements(LinkedList<String> linkedList, int index1, int index2) {
+        Collections.swap(linkedList, index1, index2);
+        System.out.println("LinkedList after swapping elements at positions " + index1 + " and " + index2 + ": " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        int index1 = 0;
+        int index2 = 2;
+
+        swapElements(colors, index1, index2);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class ShuffleElementsInLinkedListTest {
+
+    @Test
+    public void testShuffleElements() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        ShuffleElementsInLinkedList.shuffleElements(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates shuffled elements
+        Assert.assertTrue(printedOutput.contains("LinkedList after shuffling elements:"));
+    }
+
+    @Test
+    public void testShuffleElementsEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        ShuffleElementsInLinkedList.shuffleElements(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output indicates an empty list for an already empty list
+        Assert.assertTrue(printedOutput.contains("LinkedList after shuffling elements: []"));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+import java.util.Collections;
+
+public class ShuffleElementsInLinkedList {
+    public static void shuffleElements(LinkedList<String> linkedList) {
+        Collections.shuffle(linkedList);
+        System.out.println("LinkedList after shuffling elements: " + linkedList);
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        shuffleElements(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RetrieveLastElementTest {
+
+    @Test
+    public void testRetrieveLast() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String expectedLastElement = colors.getLast();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+  
+        String result = RetrieveLastElement.retrieveLast(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the retrieved but not removed last element
+        Assert.assertEquals(result, expectedLastElement);
+    }
+
+    @Test
+    public void testRetrieveLastEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RetrieveLastElement.retrieveLast(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for retrieving from an empty list
+        Assert.assertNull(result);
+        Assert.assertTrue(printedOutput.contains("Cannot retrieve from an empty list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RetrieveLastElement {
+    public static String retrieveLast(LinkedList<String> linkedList) {
+        if (!linkedList.isEmpty()) {
+            String lastElement = linkedList.getLast();
+            System.out.println("Last element (retrieved but not removed): " + lastElement);
+            return lastElement;
+        } else {
+            System.out.println("Cannot retrieve from an empty list.");
+            return null;
+        }
+    }
+  
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        retrieveLast(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RetrieveFirstElementTest {
+
+    @Test
+    public void testRetrieveFirst() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+ 
+        String expectedFirstElement = colors.getFirst();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RetrieveFirstElement.retrieveFirst(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the retrieved but not removed first element
+        Assert.assertEquals(result, expectedFirstElement);
+    }
+
+    @Test
+    public void testRetrieveFirstEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RetrieveFirstElement.retrieveFirst(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for retrieving from an empty list
+        Assert.assertNull(result);
+        Assert.assertTrue(printedOutput.contains("Cannot retrieve from an empty list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RetrieveFirstElement {
+    public static String retrieveFirst(LinkedList<String> linkedList) {
+        if (!linkedList.isEmpty()) {
+            String firstElement = linkedList.getFirst();
+            System.out.println("First element (retrieved but not removed): " + firstElement);
+            return firstElement;
+        } else {
+            System.out.println("Cannot retrieve from an empty list.");
+            return null;
+        }
+    }
+ 
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        retrieveFirst(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RemoveSpecifiedElementTest {
+
+    @Test
+    public void testRemoveElement() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+  
+        String elementToRemove = "Green";
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.remove(elementToRemove);
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveSpecifiedElement.removeElement(colors, elementToRemove);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements after removal
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testRemoveElementNotFound() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Blue");
+
+        String elementToRemove = "Green";
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveSpecifiedElement.removeElement(colors, elementToRemove);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for not finding the element
+        Assert.assertTrue(printedOutput.contains("'Green' not found in the list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RemoveSpecifiedElement {
+    public static void removeElement(LinkedList<String> linkedList, String targetElement) {
+        boolean removed = linkedList.remove(targetElement);
+        if (removed) {
+            System.out.println("LinkedList after removing '" + targetElement + "': " + linkedList);
+        } else {
+            System.out.println("'" + targetElement + "' not found in the list.");
+        }
+    }
+    
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        String elementToRemove = "Green";
+        removeElement(colors, elementToRemove);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RemoveFirstAndLastElementsTest {
+
+    @Test
+    public void testRemoveFirstAndLast() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+          
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        expectedList.removeFirst();
+        expectedList.removeLast();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveFirstAndLastElements.removeFirstAndLast(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the expected elements after removal
+        Assert.assertEquals(colors, expectedList);
+    }
+
+    @Test
+    public void testRemoveFirstAndLastEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        RemoveFirstAndLastElements.removeFirstAndLast(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for an empty list
+        Assert.assertTrue(printedOutput.contains("Cannot remove from an empty list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RemoveFirstAndLastElements {
+    public static void removeFirstAndLast(LinkedList<String> linkedList) {
+        if (!linkedList.isEmpty()) {
+            linkedList.removeFirst();
+            linkedList.removeLast();
+            System.out.println("LinkedList after removing first and last elements: " + linkedList);
+        } else {
+            System.out.println("Cannot remove from an empty list.");
+        }
+    }
+   
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        removeFirstAndLast(colors);
+    }
+}
+package LinkedList;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import javaarraylist.CaptureSystemOutput;
+
+import java.util.LinkedList;
+
+public class RemoveAndReturnFirstElementTest {
+
+    @Test
+    public void testRemoveAndReturnFirst() {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+    
+        LinkedList<String> expectedList = new LinkedList<>(colors);
+        String removedElement = expectedList.removeFirst();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RemoveAndReturnFirstElement.removeAndReturnFirst(colors);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains the removed and returned first element
+        Assert.assertEquals(result, removedElement);
+    }
+
+    @Test
+    public void testRemoveAndReturnFirstEmptyList() {
+        LinkedList<String> emptyList = new LinkedList<>();
+
+        // Redirect System.out to capture printed output
+        CaptureSystemOutput.captureOutput();
+
+        String result = RemoveAndReturnFirstElement.removeAndReturnFirst(emptyList);
+
+        // Retrieve printed output
+        String printedOutput = CaptureSystemOutput.getOutput();
+
+        // Verify the output contains a message for removing from an empty list
+        Assert.assertNull(result);
+        Assert.assertTrue(printedOutput.contains("Cannot remove from an empty list."));
+    }
+}
+package LinkedList;
+
+import java.util.LinkedList;
+
+public class RemoveAndReturnFirstElement {
+    public static String removeAndReturnFirst(LinkedList<String> linkedList) {
+        if (!linkedList.isEmpty()) {
+            String firstElement = linkedList.removeFirst();
+            System.out.println("Removed and returned first element: " + firstElement);
+            return firstElement;
+        } else {
+            System.out.println("Cannot remove from an empty list.");
+              return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedList<String> colors = new LinkedList<>();
+        colors.add("Red");
+        colors.add("Green");
+        colors.add("Blue");
+
+        removeAndReturnFirst(colors);
+    }
+}
+//////////////////////////////////////////////////////////////////
+package HashMap;
+
+import java.util.HashMap;
+
+public class AssociateValueWithKey {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        // Associate a value with a key
+        String key = "example";
+        int value = 42;
+        hashMap.put(key, value);
+
+        // Display the HashMap
+        System.out.println("HashMap: " + hashMap);
+    }
+}
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+
+public class TestAssociateValueWithKey {
+
+    @Test
+    public void testAssociateValueWithKey() {
+        // Create a HashMap
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        // Associate a value with a key
+        String key = "example";
+        int value = 42;
+        hashMap.put(key, value);
+
+        // Verify that the key-value mapping exists in the HashMap
+        Assert.assertTrue(hashMap.containsKey(key), "HashMap should contain the specified key");
+        Assert.assertEquals(hashMap.get(key), Integer.valueOf(value), "Incorrect value associated with the key");
+    }
+}
+
+
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CountMappings {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Get input from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter key-value pairs (Enter 'done' to finish):");
+
+        // Accept key-value pairs until the user enters 'done'
+        while (true) {
+            System.out.print("Enter key: ");
+            String key = scanner.nextLine();
+            if (key.equals("done")) {
+                break;
+            }
+
+            System.out.print("Enter value: ");
+            int value = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            // Associate the value with the key
+            map.put(key, value);
+        }
+
+        // Display the number of key-value mappings
+        System.out.println("Number of key-value mappings: " + map.size());
+    }
+}
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestCountMappings {
+
+    @Test
+    public void testCountMappings() {
+        // Create a test input with key-value pairs
+        String input = "key1\n1\nkey2\n2\ndone\n";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        // Run the main program to get the map
+        Map<String, Integer> map = CountMappings.createMapFromUserInput();
+
+        // Verify the size of the map
+        Assert.assertEquals(map.size(), 2, "Incorrect number of key-value mappings");
+
+        // Reset System.in to the original input stream
+        System.setIn(System.in);
+    }
+}
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CountMappings {
+
+    public static void main(String[] args) {
+        // Get the map from user input
+        Map<String, Integer> map = createMapFromUserInput();
+
+        // Display the number of key-value mappings
+        System.out.println("Number of key-value mappings: " + map.size());
+    }
+
+    public static Map<String, Integer> createMapFromUserInput() {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Get input from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter key-value pairs (Enter 'done' to finish):");
+
+        // Accept key-value pairs until the user enters 'done'
+        while (true) {
+            System.out.print("Enter key: ");
+            String key = scanner.nextLine();
+            if (key.equals("done")) {
+                break;
+            }
+
+            System.out.print("Enter value: ");
+            int value = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            // Associate the value with the key
+            map.put(key, value);
+        }
+
+        return map;
+    }
+}
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestCopyMappingsFromMap {
+
+    @Test
+    public void testCopyMappingsFromMap() {
+        // Create the source map
+        Map<String, Integer> sourceMap = new HashMap<>();
+        sourceMap.put("A", 1);
+        sourceMap.put("B", 2);
+        sourceMap.put("C", 3);
+
+        // Create the destination map
+        Map<String, Integer> destinationMap = new HashMap<>();
+
+        // Copy all mappings from the source map to the destination map
+        destinationMap.putAll(sourceMap);
+
+        // Verify that the destination map contains all mappings from the source map
+        for (Map.Entry<String, Integer> entry : sourceMap.entrySet()) {
+            Assert.assertTrue(destinationMap.containsKey(entry.getKey()), "Key not found in the destination map");
+            Assert.assertEquals(destinationMap.get(entry.getKey()), entry.getValue(), "Incorrect value in the destination map");
+        }
+    }
+}
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CopyMappingsFromMap {
+
+    public static void main(String[] args) {
+        // Create the source map
+        Map<String, Integer> sourceMap = new HashMap<>();
+
+        // Populate the source map with user input
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of mappings: ");
+        int numMappings = scanner.nextInt();
+
+        for (int i = 0; i < numMappings; i++) {
+            System.out.print("Enter key #" + (i + 1) + ": ");
+            String key = scanner.next();
+            System.out.print("Enter value for key '" + key + "': ");
+            int value = scanner.nextInt();
+
+            sourceMap.put(key, value);
+        }
+
+        // Create the destination map
+        Map<String, Integer> destinationMap = new HashMap<>();
+
+        // Copy all mappings from the source map to the destination map
+        destinationMap.putAll(sourceMap);
+
+        // Display the destination map
+        System.out.println("Destination Map: " + destinationMap);
+    }
+}
+
+
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class RemoveAllMappings {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        Map<String, Integer> hashMap = new HashMap<>();
+
+        // Take values from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of key-value pairs: ");
+        int numPairs = scanner.nextInt();
+
+        for (int i = 0; i < numPairs; i++) {
+            System.out.print("Enter key: ");
+            String key = scanner.next();
+            System.out.print("Enter value: ");
+            int value = scanner.nextInt();
+            hashMap.put(key, value);
+        }
+
+        // Display the original HashMap
+        System.out.println("Original HashMap: " + hashMap);
+
+        // Remove all mappings
+        hashMap.clear();
+
+        // Display the HashMap after removing all mappings
+        System.out.println("HashMap after removing all mappings: " + hashMap);
+    }
+}
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestRemoveAllMappings {
+
+    @Test
+    public void testRemoveAllMappings() {
+        // Create a HashMap
+        Map<String, Integer> hashMap = new HashMap<>();
+        hashMap.put("key1", 1);
+        hashMap.put("key2", 2);
+        hashMap.put("key3", 3);
+
+        // Verify that the original HashMap is not empty
+        Assert.assertFalse(hashMap.isEmpty(), "Original HashMap should not be empty");
+
+        // Remove all mappings
+        hashMap.clear();
+
+        // Verify that the HashMap is empty after removal
+        Assert.assertTrue(hashMap.isEmpty(), "HashMap should be empty after removing all mappings");
+    }
+}
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CheckMapEmpty {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        Map<String, String> map = new HashMap<>();
+
+        // Take key-value mappings from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter key-value mappings (Enter 'exit' to stop):");
+
+        while (true) {
+            System.out.print("Enter key: ");
+            String key = scanner.nextLine();
+
+            if (key.equals("exit")) {
+                break;
+            }
+
+            System.out.print("Enter value: ");
+            String value = scanner.nextLine();
+
+            // Associate the value with the key
+            map.put(key, value);
+        }
+
+        // Check if the map is empty
+        boolean isEmpty = map.isEmpty();
+
+        // Display the result
+        if (isEmpty) {
+            System.out.println("The map is empty.");
+        } else {
+            System.out.println("The map is not empty. It contains the following mappings:");
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                System.out.println(entry.getKey() + ": " + entry.getValue());
+            }
+        }
+    }
+}
+
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestCheckMapEmpty {
+
+    @Test
+    public void testCheckMapEmpty() {
+        // Create a HashMap
+        Map<String, String> map = new HashMap<>();
+
+        // Check if the map is empty
+        boolean isEmpty = map.isEmpty();
+
+        // Verify that the map is initially empty
+        Assert.assertTrue(isEmpty, "Map should be empty initially");
+
+        // Add a key-value mapping
+        map.put("Key", "Value");
+
+        // Check if the map is empty after adding a mapping
+        isEmpty = map.isEmpty();
+
+        // Verify that the map is not empty after adding a mapping
+        Assert.assertFalse(isEmpty, "Map should not be empty after adding a mapping");
+    }
+}
+
+
+
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class MapContainsKeyAndValue {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Take values from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String key = scanner.nextLine();
+        System.out.print("Enter a value: ");
+        int value = scanner.nextInt();
+
+        // Associate the key-value pair in the map
+        map.put(key, value);
+
+        // Test if the map contains a mapping for the specified key
+        if (map.containsKey(key)) {
+            System.out.println("Map contains a mapping for the specified key: " + key);
+        } else {
+            System.out.println("Map does not contain a mapping for the specified key: " + key);
+        }
+
+        // Test if the map contains a mapping for the specified value
+        if (map.containsValue(value)) {
+            System.out.println("Map contains a mapping for the specified value: " + value);
+        } else {
+            System.out.println("Map does not contain a mapping for the specified value: " + value);
+        }
+    }
+}
+
+
+
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestMapContainsKeyAndValue {
+
+    @Test
+    public void testMapContainsKeyAndValue() {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Add a key-value pair to the map
+        String key = "exampleKey";
+        int value = 42;
+        map.put(key, value);
+
+        // Test if the map contains a mapping for the specified key
+        Assert.assertTrue(map.containsKey(key), "Map should contain the specified key");
+
+        // Test if the map contains a mapping for the specified value
+        Assert.assertTrue(map.containsValue(value), "Map should contain the specified value");
+    }
+}
+
+
+
+package HashMap;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+public class GetValueAndKeysFromUser {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Take values from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String key = scanner.nextLine();
+        System.out.print("Enter a value: ");
+        int value = scanner.nextInt();
+
+        // Associate the key-value pair in the map
+        map.put(key, value);
+
+        // Get the value of the specified key
+        Integer retrievedValue = map.get(key);
+        System.out.println("Value associated with the specified key (" + key + "): " + retrievedValue);
+
+        // Get a set view of the keys contained in the map
+        Set<String> keySet = map.keySet();
+        System.out.println("Set view of keys in the map: " + keySet);
+    }
+}
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+public class TestGetValueAndKeysFromUser {
+
+    @Test
+    public void testGetValueAndKeysFromUser() {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Add a key-value pair to the map
+        String key = "exampleKey";
+        int value = 42;
+        map.put(key, value);
+
+        // Test getting the value of the specified key
+        Integer retrievedValue = map.get(key);
+        Assert.assertEquals(retrievedValue, Integer.valueOf(value), "Incorrect value retrieved for the specified key");
+
+        // Test getting a set view of the keys in the map
+        Set<String> keySet = map.keySet();
+        Assert.assertTrue(keySet.contains(key), "Set view of keys should contain the specified key");
+    }
+}
+
+
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Collection;
+
+public class TestGetValuesFromUser {
+
+    @Test
+    public void testGetValuesFromUser() {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Add a key-value pair to the map
+        String key = "exampleKey";
+        int value = 42;
+        map.put(key, value);
+
+        // Test getting a collection view of the values in the map
+        Collection<Integer> values = map.values();
+        Assert.assertTrue(values.contains(value), "Collection view of values should contain the specified value");
+    }
+}
+
+
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Collection;
+
+public class GetValuesFromUser {
+
+    public static void main(String[] args) {
+        // Create a HashMap
+        Map<String, Integer> map = new HashMap<>();
+
+        // Take values from the user
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String key = scanner.nextLine();
+        System.out.print("Enter a value: ");
+        int value = scanner.nextInt();
+
+        // Associate the key-value pair in the map
+        map.put(key, value);
+
+        // Get a collection view of the values in the map
+        Collection<Integer> values = map.values();
+        System.out.println("Collection view of values in the map: " + values);
+    }
+}
+
+
+package HashMap;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+public class ComplexHashMapProgram {
+
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Map<String, Integer> hashMap = new HashMap<>();
+
+    public static void main(String[] args) {
+        // Custom program demonstrating HashMap operations
+        performHashMapOperations();
+    }
+
+    private static void performHashMapOperations() {
+        int choice;
+        do {
+            System.out.println("\n----- Custom HashMap Operations -----");
+            System.out.println("1. Add Entry");
+            System.out.println("2. Check if Key Exists");
+            System.out.println("3. Update Value");
+            System.out.println("4. Remove Entry");
+            System.out.println("5. Display HashMap");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    addEntry();
+                    break;
+                case 2:
+                    checkKeyExists();
+                    break;
+                case 3:
+                    updateValue();
+                    break;
+                case 4:
+                    removeEntry();
+                    break;
+                case 5:
+                    displayHashMap();
+                    break;
+                case 0:
+                    System.out.println("Exiting the program. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        } while (choice != 0);
+    }
+
+    private static void addEntry() {
+        System.out.print("Enter key: ");
+        String key = scanner.nextLine();
+        System.out.print("Enter value: ");
+        int value = scanner.nextInt();
+
+        hashMap.put(key, value);
+        System.out.println("Entry added successfully.");
+    }
+
+    private static void checkKeyExists() {
+        System.out.print("Enter key to check: ");
+        String key = scanner.nextLine();
+
+        if (hashMap.containsKey(key)) {
+            System.out.println("Key '" + key + "' exists in the HashMap.");
+        } else {
+            System.out.println("Key '" + key + "' does not exist in the HashMap.");
+        }
+    }
+
+    private static void updateValue() {
+        System.out.print("Enter key to update: ");
+        String key = scanner.nextLine();
+
+        if (hashMap.containsKey(key)) {
+            System.out.print("Enter new value: ");
+            int newValue = scanner.nextInt();
+
+            hashMap.put(key, newValue);
+            System.out.println("Value updated successfully.");
+        } else {
+            System.out.println("Key '" + key + "' does not exist in the HashMap. Cannot update value.");
+        }
+    }
+
+    private static void removeEntry() {
+        System.out.print("Enter key to remove: ");
+        String key = scanner.nextLine();
+
+        if (hashMap.containsKey(key)) {
+            hashMap.remove(key);
+            System.out.println("Entry with key '" + key + "' removed successfully.");
+        } else {
+            System.out.println("Key '" + key + "' does not exist in the HashMap. Cannot remove entry.");
+        }
+    }
+
+    private static void displayHashMap() {
+        System.out.println("HashMap Contents:");
+        Set<Map.Entry<String, Integer>> entrySet = hashMap.entrySet();
+        for (Map.Entry<String, Integer> entry : entrySet) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+    }
+}
+
+
+package HashMap;
+
+import org.testng.Assert;
+import org.testng.annotations.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Scanner;
+
+public class TestComplexHashMapProgram {
+
+    private final InputStream originalSystemIn = System.in;
+    private final Scanner scanner = new Scanner(System.in);
+    private static Map<String, Integer> hashMap;
+
+    @BeforeMethod
+    public void setUp() {
+        // Redirect System.in to provide input for testing
+        String input = "1\nTestKey\n42\n2\nTestKey\n3\nTestKey\n99\n5\n0\n";
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStream);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        // Restore System.in
+        System.setIn(originalSystemIn);
+    }
+
+    @Test
+    public void testAddEntry() {
+        ComplexHashMapProgram.main(null);
+        Assert.assertTrue(hashMap.containsKey("TestKey"));
+        Assert.assertEquals(hashMap.get("TestKey"), Integer.valueOf(42));
+    }
+
+    @Test
+    public void testCheckKeyExists() {
+        ComplexHashMapProgram.main(null);
+        Assert.assertTrue(hashMap.containsKey("TestKey"));
+    }
+
+    @Test
+    public void testUpdateValue() {
+        ComplexHashMapProgram.main(null);
+        Assert.assertTrue(hashMap.containsKey("TestKey"));
+        Assert.assertEquals(hashMap.get("TestKey"), Integer.valueOf(99));
+    }
+
+    @Test
+    public void testRemoveEntry() {
+        ComplexHashMapProgram.main(null);
+        Assert.assertFalse(hashMap.containsKey("TestKey"));
+    }
+
+    @BeforeClass
+    public void initializeHashMap() {
+        // Initialize the hashMap before running any tests
+        hashMap = ComplexHashMapProgram.getHashMap();
+    }
+}
