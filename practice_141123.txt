@@ -1,0 +1,1477 @@
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class a7 {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the key to search for: ");
+        String searchKey = scanner.nextLine();
+
+        // Get the least key greater than or equal to the specified key
+        String resultKey = getLeastKeyGreaterThanOrEqual(treeMap, searchKey);
+
+        // Display the result
+        if (resultKey != null) {
+            System.out.println("Least Key Greater Than or Equal to '" + searchKey + "': " + resultKey);
+        } else {
+            System.out.println("No such key found in the map.");
+        }
+    }
+
+    public static String getLeastKeyGreaterThanOrEqual(TreeMap<String, Integer> map, String searchKey) {
+        // Get the least key greater than or equal to the specified key
+        Map.Entry<String, Integer> resultEntry = map.ceilingEntry(searchKey);
+        return (resultEntry != null) ? resultEntry.getKey() : null;
+    }
+}
+
+package TreeMap;
+
+import java.util.TreeMap;
+
+public class CopyTreeMapExample {
+
+    public static void main(String[] args) {
+        // Create the source TreeMap
+        TreeMap<String, Integer> sourceMap = new TreeMap<>();
+        sourceMap.put("one", 1);
+        sourceMap.put("two", 2);
+        sourceMap.put("three", 3);
+
+        // Create the destination TreeMap and copy the content
+        TreeMap<String, Integer> destinationMap = copyTreeMapContent(sourceMap);
+
+        // Display the original and copied TreeMaps
+        System.out.println("Original TreeMap: " + sourceMap);
+        System.out.println("Copied TreeMap: " + destinationMap);
+    }
+
+    public static TreeMap<String, Integer> copyTreeMapContent(TreeMap<String, Integer> sourceMap) {
+        // Create a new TreeMap and copy the content of the source TreeMap
+        TreeMap<String, Integer> destinationMap = new TreeMap<>(sourceMap);
+        return destinationMap;
+    }
+}
+
+
+package TreeMap;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class CustomComparatorExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap with a custom comparator
+        TreeMap<String, Integer> customMap = new TreeMap<>(new CustomComparator());
+
+        // Insert entries into the TreeMap
+        insertEntries(customMap, "apple", 1);
+        insertEntries(customMap, "banana", 2);
+        insertEntries(customMap, "orange", 3);
+        insertEntries(customMap, "grape", 4);
+        insertEntries(customMap, "kiwi", 5);
+
+        // Display the TreeMap
+        System.out.println("Custom TreeMap: " + customMap);
+    }
+
+    private static void insertEntries(TreeMap<String, Integer> map, String key, int value) {
+        // Insert entries into the TreeMap
+        map.put(key, value);
+    }
+
+    // Custom Comparator class that considers both length and lexicographical order of keys
+    static class CustomComparator implements Comparator<String> {
+        @Override
+        public int compare(String str1, String str2) {
+            // Compare based on length first
+            int lengthComparison = Integer.compare(str1.length(), str2.length());
+
+            // If lengths are equal, compare lexicographically
+            return (lengthComparison == 0) ? str1.compareTo(str2) : lengthComparison;
+        }
+    }
+}
+package TreeMap;
+
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class DeleteAllElementsTreeMapExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("two", 2);
+        treeMap.put("three", 3);
+
+        // Delete all elements from the TreeMap
+        deleteAllElements(treeMap);
+
+        // Display the TreeMap after deletion
+        System.out.println("TreeMap after deleting all elements: " + treeMap);
+    }
+
+    public static void deleteAllElements(TreeMap<String, Integer> map) {
+        // Delete all elements from the TreeMap
+        map.clear();
+    }
+}
+package TreeMap;
+
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
+
+public class GetAllKeysTreeMapExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("two", 2);
+        treeMap.put("three", 3);
+
+        // Get all keys from the TreeMap
+        Set<String> keys = getAllKeys(treeMap);
+
+        // Display the keys
+        System.out.println("All Keys in the TreeMap: " + keys);
+    }
+
+    public static Set<String> getAllKeys(TreeMap<String, Integer> map) {
+        // Get all keys from the TreeMap
+        return map.keySet();
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class GetFirstLastKeyExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the first (lowest) and last (highest) key
+        String firstKey = getFirstKey(treeMap);
+        String lastKey = getLastKey(treeMap);
+
+        // Display the results
+        System.out.println("First (Lowest) Key: " + firstKey);
+        System.out.println("Last (Highest) Key: " + lastKey);
+    }
+
+    public static String getFirstKey(TreeMap<String, Integer> map) {
+        // Get the first (lowest) key
+        return map.firstKey();
+    }
+
+    public static String getLastKey(TreeMap<String, Integer> map) {
+        // Get the last (highest) key
+        return map.lastKey();
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class GetMinMaxKeyValueMappingExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get key-value mapping associated with the greatest key and the least key
+        Map.Entry<String, Integer> maxEntry = getMaxKeyValueMapping(treeMap);
+        Map.Entry<String, Integer> minEntry = getMinKeyValueMapping(treeMap);
+
+        // Display the results
+        System.out.println("Key-Value Mapping for Greatest Key: " + maxEntry);
+        System.out.println("Key-Value Mapping for Least Key: " + minEntry);
+    }
+
+    public static Map.Entry<String, Integer> getMaxKeyValueMapping(TreeMap<String, Integer> map) {
+        // Get key-value mapping associated with the greatest key
+        return map.lastEntry();
+    }
+
+    public static Map.Entry<String, Integer> getMinKeyValueMapping(TreeMap<String, Integer> map) {
+        // Get key-value mapping associated with the least key
+        return map.firstEntry();
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class GreatestKeyLessThanEqualExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String inputKey = scanner.nextLine();
+
+        // Get the greatest key less than or equal to the given key
+        String resultKey = getGreatestKeyLessThanEqual(treeMap, inputKey);
+
+        // Display the result
+        System.out.println("Greatest Key Less Than or Equal: " + resultKey);
+    }
+
+    public static String getGreatestKeyLessThanEqual(TreeMap<String, Integer> map, String key) {
+        // Get the greatest key less than or equal to the given key
+        return map.floorKey(key);
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class GreatestKeyStrictlyLessThanGivenKeyExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String inputKey = scanner.nextLine();
+
+        // Get the key-value mapping associated with the greatest key strictly less than the given key
+        Map.Entry<String, Integer> resultEntry = getGreatestKeyStrictlyLessThanGivenKey(treeMap, inputKey);
+
+        // Display the result
+        System.out.println("Key-Value Mapping associated with Greatest Key Strictly Less Than " + inputKey + ": " + resultEntry);
+    }
+
+    public static Map.Entry<String, Integer> getGreatestKeyStrictlyLessThanGivenKey(TreeMap<String, Integer> map, String key) {
+        // Get the key-value mapping associated with the greatest key strictly less than the given key
+        Map.Entry<String, Integer> entry = map.lowerEntry(key);
+        return (entry != null) ? entry : null;
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class LeastKeyGreaterThanGivenKeyExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String inputKey = scanner.nextLine();
+
+        // Get the least key strictly greater than the given key
+        String resultKey = getLeastKeyGreaterThanGivenKey(treeMap, inputKey);
+
+        // Display the result
+        System.out.println("Least Key Strictly Greater Than " + inputKey + ": " + resultKey);
+    }
+
+    public static String getLeastKeyGreaterThanGivenKey(TreeMap<String, Integer> map, String key) {
+        // Get the least key strictly greater than the given key
+        Map.Entry<String, Integer> entry = map.higherEntry(key);
+        return (entry != null) ? entry.getKey() : null;
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class LeastKeyGreaterThanOrEqualExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the key to search for: ");
+        String searchKey = scanner.nextLine();
+
+        // Get the least key-value mapping greater than or equal to the specified key
+        Map.Entry<String, Integer> resultEntry = getLeastKeyGreaterThanOrEqual(treeMap, searchKey);
+
+        // Display the result
+        if (resultEntry != null) {
+            System.out.println("Key-Value Mapping: " + resultEntry);
+        } else {
+            System.out.println("No such key found in the map.");
+        }
+    }
+
+    public static Map.Entry<String, Integer> getLeastKeyGreaterThanOrEqual(TreeMap<String, Integer> map, String searchKey) {
+        // Get the least key-value mapping greater than or equal to the specified key
+        Map.Entry<String, Integer> resultEntry = map.ceilingEntry(searchKey);
+        return resultEntry;
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class PortionOfMapLessThanGivenKeyExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String inputKey = scanner.nextLine();
+
+        // Get the portion of the map whose keys are strictly less than the given key
+        Map<String, Integer> resultPortion = getPortionLessThanGivenKey(treeMap, inputKey);
+
+        // Display the result
+        System.out.println("Portion of Map with Keys Strictly Less Than " + inputKey + ": " + resultPortion);
+    }
+
+    public static Map<String, Integer> getPortionLessThanGivenKey(TreeMap<String, Integer> map, String key) {
+        // Get the portion of the map whose keys are strictly less than the given key
+        return map.headMap(key);
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class PortionOfMapLessThanOrEqualExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key: ");
+        String inputKey = scanner.nextLine();
+
+        // Take user input for inclusivity
+        System.out.print("Include the key in the portion? (true/false): ");
+        boolean inclusive = scanner.nextBoolean();
+
+        // Get the portion of the map whose keys are less than or equal to the given key
+        Map<String, Integer> resultPortion = getPortionLessThanOrEqual(treeMap, inputKey, inclusive);
+
+        // Display the result
+        System.out.println("Portion of Map with Keys Less Than or Equal to " + inputKey + ": " + resultPortion);
+    }
+
+    public static Map<String, Integer> getPortionLessThanOrEqual(TreeMap<String, Integer> map, String key, boolean inclusive) {
+        // Get the portion of the map whose keys are less than or equal to the given key
+        return inclusive ? map.headMap(key, true) : map.headMap(key);
+    }
+}
+
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class RemoveAndGetGreatestKeyMappingExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key to remove and get its mapping: ");
+        String inputKey = scanner.nextLine();
+
+        // Remove and get the key-value mapping associated with the greatest key
+        Map.Entry<String, Integer> removedEntry = removeAndGetGreatestKeyMapping(treeMap, inputKey);
+
+        // Display the result
+        if (removedEntry != null) {
+            System.out.println("Removed Key-Value Mapping: " + removedEntry);
+            System.out.println("Updated Map: " + treeMap);
+        } else {
+            System.out.println("No such key found in the map.");
+        }
+    }
+
+    public static Map.Entry<String, Integer> removeAndGetGreatestKeyMapping(TreeMap<String, Integer> map, String key) {
+        // Remove and get the key-value mapping associated with the greatest key
+        Map.Entry<String, Integer> removedEntry = map.pollLastEntry();
+        return (removedEntry != null && removedEntry.getKey().equals(key)) ? removedEntry : null;
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class RemoveAndGetLeastKeyMappingExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key to remove and get its mapping: ");
+        String inputKey = scanner.nextLine();
+
+        // Remove and get the key-value mapping associated with the least key
+        Map.Entry<String, Integer> removedEntry = removeAndGetLeastKeyMapping(treeMap, inputKey);
+
+        // Display the result
+        if (removedEntry != null) {
+            System.out.println("Removed Key-Value Mapping: " + removedEntry);
+            System.out.println("Updated Map: " + treeMap);
+        } else {
+            System.out.println("No such key found in the map.");
+        }
+    }
+
+    public static Map.Entry<String, Integer> removeAndGetLeastKeyMapping(TreeMap<String, Integer> map, String key) {
+        // Remove and get the key-value mapping associated with the least key
+        Map.Entry<String, Integer> removedEntry = map.pollFirstEntry();
+        return (removedEntry != null && removedEntry.getKey().equals(key)) ? removedEntry : null;
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class ReverseOrderKeysViewExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get a reverse order view of the keys
+        String[] reversedKeys = getReverseOrderKeys(treeMap);
+
+        // Display the reversed keys
+        System.out.println("Reverse Order View of Keys: ");
+        for (String key : reversedKeys) {
+            System.out.println(key);
+        }
+    }
+
+    public static String[] getReverseOrderKeys(TreeMap<String, Integer> map) {
+        // Get a reverse order view of the keys
+        return map.descendingKeySet().toArray(new String[0]);
+    }
+}
+package TreeMap;
+
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class SearchTreeMapExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("two", 2);
+        treeMap.put("three", 3);
+
+        // Take user input for the key to search
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key to search: ");
+        String keyToSearch = scanner.nextLine();
+
+        // Search for the key in the TreeMap
+        searchForKey(treeMap, keyToSearch);
+    }
+
+    public static void searchForKey(TreeMap<String, Integer> map, String key) {
+        // Check if the key exists in the TreeMap
+        if (map.containsKey(key)) {
+            System.out.println("Key '" + key + "' found. Value: " + map.get(key));
+        } else {
+            System.out.println("Key '" + key + "' not found in the TreeMap.");
+        }
+    }
+}
+package TreeMap;
+
+import java.util.*;
+
+public class SortKeysTreeMapExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("two", 2);
+
+        // Sort keys in the TreeMap using a comparator
+        TreeMap<String, Integer> sortedMap = sortKeys(treeMap);
+
+        // Display the sorted TreeMap
+        System.out.println("Sorted TreeMap by Keys: " + sortedMap);
+    }
+
+    public static TreeMap<String, Integer> sortKeys(TreeMap<String, Integer> map) {
+        // Sort keys in the TreeMap using a comparator
+        TreeMap<String, Integer> sortedMap = new TreeMap<>(Comparator.reverseOrder());
+        sortedMap.putAll(map);
+        return sortedMap;
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class SubMapForKeyGreaterThanEqualExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the key to start from: ");
+        String startKey = scanner.nextLine();
+
+        // Get the portion of the map for keys greater than or equal to the specified key
+        Map<String, Integer> subMap = getSubMapForKeyGreaterThanEqual(treeMap, startKey);
+
+        // Display the result
+        System.out.println("SubMap for Keys Greater Than or Equal to '" + startKey + "': " + subMap);
+    }
+
+    public static Map<String, Integer> getSubMapForKeyGreaterThanEqual(TreeMap<String, Integer> map, String startKey) {
+        // Get the portion of the map for keys greater than or equal to the specified key
+        return map.tailMap(startKey, true);
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class SubMapForKeyRangeExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Take user input for the key range
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the start key (inclusive): ");
+        String startKey = scanner.nextLine();
+        System.out.print("Enter the end key (exclusive): ");
+        String endKey = scanner.nextLine();
+
+        // Get the portion of the map for the specified key range
+        Map<String, Integer> subMap = getSubMapForKeyRange(treeMap, startKey, endKey);
+
+        // Display the result
+        System.out.println("SubMap for Key Range [" + startKey + ", " + endKey + "): " + subMap);
+    }
+
+    public static Map<String, Integer> getSubMapForKeyRange(TreeMap<String, Integer> map, String startKey, String endKey) {
+        // Get the portion of the map for the specified key range
+        return map.subMap(startKey, endKey);
+    }
+}
+package TreeMap;
+
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class SubMapForKeysStrictlyLessThanExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Take user input for the key
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the key: ");
+        String key = scanner.nextLine();
+
+        // Get the portion of the map for keys strictly less than the specified key
+        Map<String, Integer> subMap = getSubMapForKeysStrictlyLessThan(treeMap, key);
+
+        // Display the result
+        System.out.println("SubMap for Keys Strictly Less Than '" + key + "': " + subMap);
+    }
+
+    public static Map<String, Integer> getSubMapForKeysStrictlyLessThan(TreeMap<String, Integer> map, String key) {
+        // Get the portion of the map for keys strictly less than the specified key
+        return map.headMap(key, false);
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestCopyTreeMapExample {
+
+    @Test
+    public void testCopyTreeMapContent() {
+        // Create the source TreeMap
+        TreeMap<String, Integer> sourceMap = new TreeMap<>();
+        sourceMap.put("one", 1);
+        sourceMap.put("two", 2);
+        sourceMap.put("three", 3);
+
+        // Copy the content of the source TreeMap to a new TreeMap
+        TreeMap<String, Integer> copiedMap = CopyTreeMapExample.copyTreeMapContent(sourceMap);
+
+        // Verify that the contents are the same
+        Assert.assertEquals(copiedMap, sourceMap, "Copied TreeMap should have the same content as the source TreeMap");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestDeleteAllElementsTreeMapExample {
+
+    @Test
+    public void testDeleteAllElements() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("two", 2);
+        treeMap.put("three", 3);
+
+        // Delete all elements from the TreeMap
+        DeleteAllElementsTreeMapExample.deleteAllElements(treeMap);
+
+        // Verify that the TreeMap is empty after deletion
+        Assert.assertTrue(treeMap.isEmpty(), "TreeMap should be empty after deleting all elements");
+        Assert.assertEquals(treeMap.size(), 0, "Size of TreeMap should be 0 after deletion");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeMap;
+
+public class TestGetAllKeysTreeMapExample {
+
+    @Test
+    public void testGetAllKeys() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("two", 2);
+        treeMap.put("three", 3);
+
+        // Get all keys from the TreeMap
+        Set<String> keys = GetAllKeysTreeMapExample.getAllKeys(treeMap);
+
+        // Verify the keys using assertions
+        Assert.assertEquals(keys.size(), treeMap.size(), "Number of keys should match the size of the TreeMap");
+        for (String key : keys) {
+            Assert.assertTrue(treeMap.containsKey(key), "Key should exist in the TreeMap");
+        }
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestGetFirstLastKeyExample {
+
+    @Test
+    public void testGetFirstKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the first (lowest) key
+        String firstKey = GetFirstLastKeyExample.getFirstKey(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(firstKey, "five", "First key should be 'five'");
+    }
+
+    @Test
+    public void testGetLastKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the last (highest) key
+        String lastKey = GetFirstLastKeyExample.getLastKey(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(lastKey, "three", "Last key should be 'three'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestGetFirstLastKeyExample {
+
+    @Test
+    public void testGetFirstKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the first (lowest) key
+        String firstKey = GetFirstLastKeyExample.getFirstKey(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(firstKey, "five", "First key should be 'five'");
+    }
+
+    @Test
+    public void testGetLastKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the last (highest) key
+        String lastKey = GetFirstLastKeyExample.getLastKey(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(lastKey, "three", "Last key should be 'three'");
+    }
+}
+ package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestGetFirstLastKeyExample {
+
+    @Test
+    public void testGetFirstKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the first (lowest) key
+        String firstKey = GetFirstLastKeyExample.getFirstKey(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(firstKey, "five", "First key should be 'five'");
+    }
+
+    @Test
+    public void testGetLastKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the last (highest) key
+        String lastKey = GetFirstLastKeyExample.getLastKey(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(lastKey, "three", "Last key should be 'three'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestGetMinMaxKeyValueMappingExample {
+
+    @Test
+    public void testGetMaxKeyValueMapping() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get key-value mapping associated with the greatest key
+        Map.Entry<String, Integer> maxEntry = GetMinMaxKeyValueMappingExample.getMaxKeyValueMapping(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(maxEntry.getKey(), "three", "Greatest key should be 'three'");
+        Assert.assertEquals(maxEntry.getValue(), Integer.valueOf(3), "Value should be 3");
+    }
+
+    @Test
+    public void testGetMinKeyValueMapping() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get key-value mapping associated with the least key
+        Map.Entry<String, Integer> minEntry = GetMinMaxKeyValueMappingExample.getMinKeyValueMapping(treeMap);
+
+        // Verify the result using assertions
+        Assert.assertEquals(minEntry.getKey(), "five", "Least key should be 'five'");
+        Assert.assertEquals(minEntry.getValue(), Integer.valueOf(5), "Value should be 5");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestGreatestKeyLessThanEqualExample {
+
+    @Test
+    public void testGetGreatestKeyLessThanEqual() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the greatest key less than or equal to the given key
+        String resultKey = GreatestKeyLessThanEqualExample.getGreatestKeyLessThanEqual(treeMap, "four");
+
+        // Verify the result using assertions
+        Assert.assertEquals(resultKey, "three", "Greatest key less than or equal should be 'three'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestGreatestKeyStrictlyLessThanGivenKeyExample {
+
+    @Test
+    public void testGetGreatestKeyStrictlyLessThanGivenKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the key-value mapping associated with the greatest key strictly less than the given key
+        Map.Entry<String, Integer> resultEntry = GreatestKeyStrictlyLessThanGivenKeyExample.getGreatestKeyStrictlyLessThanGivenKey(treeMap, "four");
+
+        // Verify the result using assertions
+        Assert.assertEquals(resultEntry.getKey(), "three", "Greatest key strictly less than should be 'three'");
+        Assert.assertEquals(resultEntry.getValue(), Integer.valueOf(3), "Value should be 3");
+    }
+
+    @Test
+    public void testGetGreatestKeyStrictlyLessThanGivenKeyNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the key-value mapping associated with the greatest key strictly less than a key that does not exist
+        Map.Entry<String, Integer> resultEntry = GreatestKeyStrictlyLessThanGivenKeyExample.getGreatestKeyStrictlyLessThanGivenKey(treeMap, "zero");
+
+        // Verify the result using assertions
+        Assert.assertNull(resultEntry, "There should be no key strictly less than 'zero'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestLeastKeyGreaterThanGivenKeyExample {
+
+    @Test
+    public void testGetLeastKeyGreaterThanGivenKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the least key strictly greater than the given key
+        String resultKey = LeastKeyGreaterThanGivenKeyExample.getLeastKeyGreaterThanGivenKey(treeMap, "three");
+
+        // Verify the result using assertions
+        Assert.assertEquals(resultKey, "five", "Least key strictly greater than should be 'five'");
+    }
+
+    @Test
+    public void testGetLeastKeyGreaterThanGivenKeyNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the least key strictly greater than a key that does not exist
+        String resultKey = LeastKeyGreaterThanGivenKeyExample.getLeastKeyGreaterThanGivenKey(treeMap, "six");
+
+        // Verify the result using assertions
+        Assert.assertNull(resultKey, "There should be no key strictly greater than 'six'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestLeastKeyGreaterThanOrEqualExample {
+
+    @Test
+    public void testGetLeastKeyGreaterThanOrEqual() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Get the least key-value mapping greater than or equal to "four"
+        Map.Entry<String, Integer> resultEntry = LeastKeyGreaterThanOrEqualExample.getLeastKeyGreaterThanOrEqual(treeMap, "four");
+
+        // Verify the result using assertions
+        Assert.assertNotNull(resultEntry, "Key-Value Mapping should not be null");
+        Assert.assertEquals(resultEntry.getKey(), "five", "Key should be 'five'");
+        Assert.assertEquals(resultEntry.getValue(), Integer.valueOf(5), "Value should be 5");
+    }
+
+    @Test
+    public void testGetLeastKeyGreaterThanOrEqualNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Get the least key-value mapping greater than or equal to a key that does not exist
+        Map.Entry<String, Integer> resultEntry = LeastKeyGreaterThanOrEqualExample.getLeastKeyGreaterThanOrEqual(treeMap, "ten");
+
+        // Verify the result using assertions
+        Assert.assertNull(resultEntry, "Key-Value Mapping should be null for non-existent key");
+    }
+}
+package TreeMap;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestPortionOfMapLessThanGivenKeyExample {
+
+    @Test
+    public void testGetPortionLessThanGivenKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the portion of the map whose keys are strictly less than the given key
+        Map<String, Integer> resultPortion = PortionOfMapLessThanGivenKeyExample.getPortionLessThanGivenKey(treeMap, "four");
+
+        // Verify the result using assertions
+        Assert.assertTrue(resultPortion.containsKey("one"), "Portion should contain key 'one'");
+        Assert.assertTrue(resultPortion.containsKey("three"), "Portion should contain key 'three'");
+        Assert.assertFalse(resultPortion.containsKey("five"), "Portion should not contain key 'five'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestPortionOfMapLessThanOrEqualExample {
+
+    @Test
+    public void testGetPortionLessThanOrEqualInclusive() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the portion of the map whose keys are less than or equal to the given key (inclusive)
+        Map<String, Integer> resultPortion = PortionOfMapLessThanOrEqualExample.getPortionLessThanOrEqual(treeMap, "three", true);
+
+        // Verify the result using assertions
+        Assert.assertTrue(resultPortion.containsKey("one"), "Portion should contain key 'one'");
+        Assert.assertTrue(resultPortion.containsKey("three"), "Portion should contain key 'three'");
+        Assert.assertFalse(resultPortion.containsKey("five"), "Portion should not contain key 'five'");
+    }
+
+    @Test
+    public void testGetPortionLessThanOrEqualExclusive() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get the portion of the map whose keys are less than the given key (exclusive)
+        Map<String, Integer> resultPortion = PortionOfMapLessThanOrEqualExample.getPortionLessThanOrEqual(treeMap, "three", false);
+
+        // Verify the result using assertions
+        Assert.assertTrue(resultPortion.containsKey("one"), "Portion should contain key 'one'");
+        Assert.assertFalse(resultPortion.containsKey("three"), "Portion should not contain key 'three'");
+        Assert.assertFalse(resultPortion.containsKey("five"), "Portion should not contain key 'five'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestRemoveAndGetGreatestKeyMappingExample {
+
+    @Test
+    public void testRemoveAndGetGreatestKeyMapping() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Remove and get the key-value mapping associated with the greatest key
+        Map.Entry<String, Integer> removedEntry = RemoveAndGetGreatestKeyMappingExample.removeAndGetGreatestKeyMapping(treeMap, "five");
+
+        // Verify the result using assertions
+        Assert.assertNotNull(removedEntry, "Key-Value Mapping should not be null");
+        Assert.assertEquals(removedEntry.getKey(), "five", "Removed key should be 'five'");
+        Assert.assertEquals(removedEntry.getValue(), Integer.valueOf(5), "Removed value should be 5");
+        Assert.assertFalse(treeMap.containsKey("five"), "Map should not contain key 'five' after removal");
+    }
+
+    @Test
+    public void testRemoveAndGetGreatestKeyMappingNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Remove and get the key-value mapping associated with a key that does not exist
+        Map.Entry<String, Integer> removedEntry = RemoveAndGetGreatestKeyMappingExample.removeAndGetGreatestKeyMapping(treeMap, "six");
+
+        // Verify the result using assertions
+        Assert.assertNull(removedEntry, "Key-Value Mapping should be null for non-existent key");
+        Assert.assertTrue(treeMap.containsKey("five"), "Map should still contain key 'five'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestRemoveAndGetLeastKeyMappingExample {
+
+    @Test
+    public void testRemoveAndGetLeastKeyMapping() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Remove and get the key-value mapping associated with the least key
+        Map.Entry<String, Integer> removedEntry = RemoveAndGetLeastKeyMappingExample.removeAndGetLeastKeyMapping(treeMap, "one");
+
+        // Verify the result using assertions
+        Assert.assertNotNull(removedEntry, "Key-Value Mapping should not be null");
+        Assert.assertEquals(removedEntry.getKey(), "one", "Removed key should be 'one'");
+        Assert.assertEquals(removedEntry.getValue(), Integer.valueOf(1), "Removed value should be 1");
+        Assert.assertFalse(treeMap.containsKey("one"), "Map should not contain key 'one' after removal");
+    }
+
+    @Test
+    public void testRemoveAndGetLeastKeyMappingNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Remove and get the key-value mapping associated with a key that does not exist
+        Map.Entry<String, Integer> removedEntry = RemoveAndGetLeastKeyMappingExample.removeAndGetLeastKeyMapping(treeMap, "zero");
+
+        // Verify the result using assertions
+        Assert.assertNull(removedEntry, "Key-Value Mapping should be null for non-existent key");
+        Assert.assertTrue(treeMap.containsKey("one"), "Map should still contain key 'one'");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestReverseOrderKeysViewExample {
+
+    @Test
+    public void testGetReverseOrderKeys() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Get a reverse order view of the keys
+        String[] reversedKeys = ReverseOrderKeysViewExample.getReverseOrderKeys(treeMap);
+
+        // Verify the result using assertions
+        String[] expectedKeys = {"five", "three", "one"};
+        Assert.assertEquals(reversedKeys, expectedKeys, "Keys should be in reverse order");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Scanner;
+import java.util.TreeMap;
+
+public class TestSearchTreeMapExample {
+
+    @Test
+    public void testSearchForKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("two", 2);
+        treeMap.put("three", 3);
+
+        // Take user input for the key to search
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a key to search: ");
+        String keyToSearch = scanner.nextLine();
+
+        // Search for the key in the TreeMap
+        SearchTreeMapExample.searchForKey(treeMap, keyToSearch);
+
+        // Verify that the key exists using assertions
+        if (treeMap.containsKey(keyToSearch)) {
+            Assert.assertTrue(treeMap.containsKey(keyToSearch), "Key should be found in the TreeMap");
+        } else {
+            Assert.assertFalse(treeMap.containsKey(keyToSearch), "Key should not be found in the TreeMap");
+        }
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestSortKeysTreeMapExample {
+
+    @Test
+    public void testSortKeys() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+
+        // Sort keys in the TreeMap using a comparator
+        TreeMap<String, Integer> sortedTreeMap = SortKeysTreeMapExample.sortKeys(treeMap);
+
+        // Verify that the keys are sorted using assertions
+        String[] sortedKeys = {"five", "one", "three"};
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : sortedTreeMap.entrySet()) {
+            Assert.assertEquals(entry.getKey(), sortedKeys[i], "Keys should be sorted");
+            i++;
+        }
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestSubMapForKeyGreaterThanEqualExample {
+
+    @Test
+    public void testGetSubMapForKeyGreaterThanEqual() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Get the portion of the map for keys greater than or equal to "five"
+        Map<String, Integer> subMap = SubMapForKeyGreaterThanEqualExample.getSubMapForKeyGreaterThanEqual(treeMap, "five");
+
+        // Verify the result using assertions
+        Assert.assertEquals(subMap.size(), 3, "SubMap size should be 3");
+        Assert.assertTrue(subMap.containsKey("five"), "SubMap should contain key 'five'");
+        Assert.assertTrue(subMap.containsKey("seven"), "SubMap should contain key 'seven'");
+        Assert.assertTrue(subMap.containsKey("nine"), "SubMap should contain key 'nine'");
+    }
+
+    @Test
+    public void testGetSubMapForKeyGreaterThanEqualNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Get the portion of the map for keys greater than or equal to a key that does not exist
+        Map<String, Integer> subMap = SubMapForKeyGreaterThanEqualExample.getSubMapForKeyGreaterThanEqual(treeMap, "ten");
+
+        // Verify the result using assertions
+        Assert.assertTrue(subMap.isEmpty(), "SubMap should be empty for a key that does not exist");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+import java.util.TreeMap;
+
+public class TestSubMapForKeyRangeExample {
+
+    @Test
+    public void testGetSubMapForKeyRange() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Get the portion of the map for the key range ["three" (inclusive), "seven" (exclusive))
+        Map<String, Integer> subMap = SubMapForKeyRangeExample.getSubMapForKeyRange(treeMap, "three", "seven");
+
+        // Verify the result using assertions
+        Assert.assertEquals(subMap.size(), 2, "SubMap size should be 2");
+        Assert.assertTrue(subMap.containsKey("three"), "SubMap should contain key 'three'");
+        Assert.assertTrue(subMap.containsKey("five"), "SubMap should contain key 'five'");
+        Assert.assertFalse(subMap.containsKey("seven"), "SubMap should not contain key 'seven'");
+    }
+
+    @Test
+    public void testGetSubMapForKeyRangeNoKey() {
+        // Create a TreeMap and populate it with some values
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+        treeMap.put("one", 1);
+        treeMap.put("three", 3);
+        treeMap.put("five", 5);
+        treeMap.put("seven", 7);
+        treeMap.put("nine", 9);
+
+        // Get the portion of the map for a key range with no keys
+        Map<String, Integer> subMap = SubMapForKeyRangeExample.getSubMapForKeyRange(treeMap, "four", "six");
+
+        // Verify the result using assertions
+        Assert.assertTrue(subMap.isEmpty(), "SubMap should be empty for a key range with no keys");
+    }
+}
+package TreeMap;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.TreeMap;
+
+public class TestTreeMapExample {
+
+    @Test
+    public void testAssociateValueWithKey() {
+        // Create a TreeMap
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+
+        // Associate a value with a key
+        TreeMapExample.associateValueWithKey(treeMap, "testKey", 99);
+
+        // Verify that the key-value mapping exists in the TreeMap
+        Assert.assertTrue(treeMap.containsKey("testKey"), "TreeMap should contain the specified key");
+        Assert.assertEquals(treeMap.get("testKey"), Integer.valueOf(99), "Incorrect value associated with the key");
+    }
+}
+
+package TreeMap;
+import java.util.TreeMap;
+
+public class TreeMapExample {
+
+    public static void main(String[] args) {
+        // Create a TreeMap
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+
+        // Associate a value with a key
+        associateValueWithKey(treeMap, "key1", 42);
+
+        // Display the TreeMap
+        System.out.println("TreeMap: " + treeMap);
+    }
+
+    public static void associateValueWithKey(TreeMap<String, Integer> map, String key, int value) {
+        // Associate the specified value with the specified key
+        map.put(key, value);
+    }
+}
