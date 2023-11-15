@@ -1,0 +1,2332 @@
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class AddDashToVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Add dashes before and after vowels and return the result
+        String resultString = addDashToVowels(inputString);
+
+        // Display the result
+        System.out.println("Input string: " + inputString);
+        System.out.println("Result string: " + resultString);
+    }
+
+    public static String addDashToVowels(String inputString) {
+        // Regular expression to identify vowels
+        String vowelRegex = "[aeiouAEIOU]";
+
+        // Replace each vowel with a dash before and after
+        return inputString.replaceAll(vowelRegex, "-$0-");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class CharacterCheckProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string contains only a certain set of characters
+        boolean result = containsOnlyAllowedCharacters(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string contains only allowed characters.");
+        } else {
+            System.out.println("The string contains characters other than a-z, A-Z, and 0-9.");
+        }
+    }
+
+    public static boolean containsOnlyAllowedCharacters(String str) {
+        // Define the allowed characters regex pattern
+        String pattern = "^[a-zA-Z0-9]+$";
+        // Check if the string matches the pattern
+        return str.matches(pattern);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class CharacterCheckProgram1 {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string contains the character 'g'
+        boolean result = containsCharacterG(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string contains the character 'g'.");
+        } else {
+            System.out.println("The string does not contain the character 'g'.");
+        }
+    }
+
+    public static boolean containsCharacterG(String str) {
+        // Check if the string contains the character 'g'
+        return str.contains("g");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class CountDecimalPlacesProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the number
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        double inputNumber = scanner.nextDouble();
+
+        // Count the number of decimal places and return the result
+        int result = countDecimalPlaces(inputNumber);
+
+        // Display the result
+        System.out.println("Given number: " + inputNumber);
+        System.out.println("Number of decimal places: " + result);
+    }
+
+    public static int countDecimalPlaces(double number) {
+        // Convert the number to a string
+        String numberAsString = Double.toString(number);
+
+        // Check if the string contains a decimal point
+        if (numberAsString.contains(".")) {
+            // Get the substring after the decimal point
+            String decimalPart = numberAsString.split("\\.")[1];
+            
+            // Return the length of the decimal part
+            return decimalPart.length();
+        } else {
+            // If there is no decimal point, return 0
+            return 0;
+        }
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class CountVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Count the number of vowels and return the result
+        int result = countVowels(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Number of vowels: " + result);
+    }
+
+    public static int countVowels(String str) {
+        // Define the vowel pattern regex
+        Pattern pattern = Pattern.compile("[aeiouAEIOU]");
+        Matcher matcher = pattern.matcher(str);
+
+        // Count the number of vowels
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+
+        return count;
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class CountVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Count the number of vowels and return the result
+        int result = countVowels(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Number of vowels: " + result);
+    }
+
+    public static int countVowels(String str) {
+        // Define the vowel pattern regex
+        Pattern pattern = Pattern.compile("[aeiouAEIOU]");
+        Matcher matcher = pattern.matcher(str);
+
+        // Count the number of vowels
+        int count = 0;
+        while (matcher.find()) {
+            count++;
+        }
+
+        return count;
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class DateValidator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+
+        boolean isValid = validateDate(date);
+        System.out.println("Is the date valid? " + isValid);
+    }
+
+    public static boolean validateDate(String date) {
+        // Regular expression for validating date in the format "YYYY-MM-DD"
+        String regex = "^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
+        return date.matches(regex);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class DomainExtractor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a list of URLs (separated by spaces): ");
+        String urlList = scanner.nextLine();
+
+        extractDomainNames(urlList);
+    }
+
+    public static void extractDomainNames(String urlList) {
+        // Regular expression for extracting domain names from URLs
+        String regex = "https?://([a-zA-Z0-9.-]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(urlList);
+
+        System.out.println("Extracted domain names:");
+        while (matcher.find()) {
+            System.out.println(matcher.group(1));
+        }
+    }
+}
+package RegularExpression;
+//Write a Java program to extract email addresses from a given text using a regular expression.
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class EmailExtractor {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a text: ");
+        String text = scanner.nextLine();
+
+        extractEmailAddresses(text);
+    }
+
+    public static void extractEmailAddresses(String text) {
+        // Regular expression for extracting email addresses
+        String regex = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(text);
+
+        System.out.println("Extracted email addresses:");
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+        }
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class FindWordProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check for the word "Python" and return the result
+        String result = findWord(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Result: " + result);
+    }
+
+    public static String findWord(String str) {
+        // Check for the word "Python" (case-insensitive)
+        if (str.toLowerCase().contains("python")) {
+            return "Java";
+        } else {
+            return "C++";
+        }
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class InsertDashBetweenCase {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Insert dashes between upper case and lower case letters and return the result
+        String resultString = insertDashBetweenCase(inputString);
+
+        // Display the result
+        System.out.println("Input string: " + inputString);
+        System.out.println("Result string: " + resultString);
+    }
+
+    public static String insertDashBetweenCase(String inputString) {
+        // Regular expression to identify positions where a dash should be inserted
+        String insertionRegex = "(?<=[a-z])(?=[A-Z])";
+
+        // Insert a dash between an upper case letter and a lower case letter
+        return inputString.replaceAll(insertionRegex, "-");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class LastNVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string and value of n
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+        System.out.print("Enter the value of n: ");
+        int n = scanner.nextInt();
+
+        // Get the last n vowels and return the result
+        String result = getLastNVowels(inputString, n);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Last " + n + " vowels: " + result);
+    }
+
+    public static String getLastNVowels(String str, int n) {
+        // Convert the string to lowercase for case-insensitive check
+        str = str.toLowerCase();
+
+        // Count the vowels in the string
+        int vowelCount = 0;
+        for (char c : str.toCharArray()) {
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                vowelCount++;
+            }
+        }
+
+        // If n is greater than the vowel count, return all vowels
+        if (n >= vowelCount) {
+            return str.replaceAll("[^aeiou]", "");
+        }
+
+        // Find and return the last n vowels
+        StringBuilder lastNVowels = new StringBuilder();
+        for (int i = str.length() - 1; i >= 0 && n > 0; i--) {
+            char c = str.charAt(i);
+            if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                lastNVowels.insert(0, c);
+                n--;
+            }
+        }
+
+        return lastNVowels.toString();
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class MathExpressionChecker {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string is a mathematical expression and return the result
+        boolean isMathExpression = isMathematicalExpression(inputString);
+
+        // Display the result
+        System.out.println("Input string: " + inputString);
+        System.out.println("Is a mathematical expression? " + isMathExpression);
+    }
+
+    public static boolean isMathematicalExpression(String inputString) {
+        // Regular expression to check if the string is a mathematical expression
+        String mathExpressionRegex = "^[+\\-*/0-9()\\s]+$";
+
+        // Check if the input string matches the pattern
+        return inputString.matches(mathExpressionRegex);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class MoveLowerCaseToFrontProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the word
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a word: ");
+        String inputWord = scanner.nextLine();
+
+        // Move lowercase letters to the front and return the updated word
+        String result = moveLowerCaseToFront(inputWord);
+
+        // Display the result
+        System.out.println("Given word: " + inputWord);
+        System.out.println("Updated word: " + result);
+    }
+
+    public static String moveLowerCaseToFront(String word) {
+        // Separate lowercase and uppercase letters
+        StringBuilder lowerCaseLetters = new StringBuilder();
+        StringBuilder upperCaseLetters = new StringBuilder();
+
+        for (char c : word.toCharArray()) {
+            if (Character.isLowerCase(c)) {
+                lowerCaseLetters.append(c);
+            } else {
+                upperCaseLetters.append(c);
+            }
+        }
+
+        // Combine the letters while keeping the relative position
+        return lowerCaseLetters.toString() + upperCaseLetters.toString();
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class NumberAtEndCheck {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string has a number at the end
+        boolean result = hasNumberAtEnd(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string has a number at the end.");
+        } else {
+            System.out.println("The string does not have a number at the end.");
+        }
+    }
+
+    public static boolean hasNumberAtEnd(String str) {
+        // Define the pattern regex
+        String pattern = "\\D\\d*$";
+        // Check if the string has a number at the end
+        return str.matches(pattern);
+    }
+}
+package RegularExpression;
+//Write a Java program to validate a password using a regular expression. The password must have at least 8 characters, including uppercase and lowercase letters, numbers, and special characters.
+import java.util.Scanner;
+
+public class PasswordValidator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a password: ");
+        String password = scanner.nextLine();
+
+        boolean isValid = validatePassword(password);
+        System.out.println("Is the password valid? " + isValid);
+    }
+
+    public static boolean validatePassword(String password) {
+        // Regular expression for a strong password
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=]).{8,}$";
+        return password.matches(regex);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class PhoneNumberValidationProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the phone number
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a phone number: ");
+        String phoneNumber = scanner.nextLine();
+
+        // Validate the phone number
+        boolean isValid = validatePhoneNumber(phoneNumber);
+
+        // Display the result
+        System.out.println("Given phone number: " + phoneNumber);
+        System.out.println("Is valid phone number? " + isValid);
+    }
+
+    public static boolean validatePhoneNumber(String phoneNumber) {
+        // Define a simple pattern for a valid phone number (10 digits)
+        String phonePattern = "\\d{10}";
+
+        // Create a Pattern object
+        Pattern pattern = Pattern.compile(phonePattern);
+
+        // Create a Matcher object
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        // Check if the phone number matches the pattern
+        return matcher.matches();
+    }
+}
+package RegularExpression;
+///Program Question:
+//Write a Java program to validate a U.S. phone number using a regular expression.
+import java.util.Scanner;
+
+public class PhoneValidator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a U.S. phone number: ");
+        String phoneNumber = scanner.nextLine();
+
+        boolean isValid = validatePhoneNumber(phoneNumber);
+        System.out.println("Is the phone number valid? " + isValid);
+    }
+
+    public static boolean validatePhoneNumber(String phoneNumber) {
+        // Regular expression for U.S. phone number (10 digits, optional dashes or spaces)
+        String regex = "^\\s*\\d{3}[-\\s]?\\d{3}[-\\s]?\\d{4}\\s*$";
+        return phoneNumber.matches(regex);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class RemoveLeadingZeros {
+
+    public static void main(String[] args) {
+        // Take user input for the IP address
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an IP address: ");
+        String ipAddress = scanner.nextLine();
+
+        // Remove leading zeros from the IP address
+        String result = removeLeadingZeros(ipAddress);
+
+        // Display the result
+        System.out.println("Original IP address: " + ipAddress);
+        System.out.println("IP address after removing leading zeros: " + result);
+    }
+
+    public static String removeLeadingZeros(String ipAddress) {
+        // Split the IP address into parts
+        String[] parts = ipAddress.split("\\.");
+
+        // Remove leading zeros from each part
+        for (int i = 0; i < parts.length; i++) {
+            parts[i] = Integer.toString(Integer.parseInt(parts[i]));
+        }
+
+        // Join the parts back into an IP address
+        return String.join(".", parts);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class RemoveLettersProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Remove specific letters and return the updated string
+        String result = removeLetters(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Updated string: " + result);
+    }
+
+    public static String removeLetters(String str) {
+        // Use regex to remove specific letters ("p", "q", or "r")
+        return str.replaceAll("[pqrPQR]", "");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class RemoveNonAlphanumericProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Remove non-alphanumeric characters and return the updated string
+        String result = removeNonAlphanumericCharacters(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Updated string: " + result);
+    }
+
+    public static String removeNonAlphanumericCharacters(String str) {
+        // Use regex to remove all non-alphanumeric characters
+        return str.replaceAll("[^a-zA-Z0-9]", "");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class RemoveVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Remove vowels and return the updated string
+        String result = removeVowels(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Updated string: " + result);
+    }
+
+    public static String removeVowels(String str) {
+        // Use regex to remove vowels
+        return str.replaceAll("[aeiouAEIOU]", "");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class ReplaceVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Take user input for the replacement character
+        System.out.print("Enter the replacement character: ");
+        char replacementChar = scanner.next().charAt(0);
+
+        // Replace vowels and return the updated string
+        String result = replaceVowels(inputString, replacementChar);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Updated string: " + result);
+    }
+
+    public static String replaceVowels(String str, char replacementChar) {
+        // Use regex to replace vowels with the specified character
+        return str.replaceAll("[aeiouAEIOU]", String.valueOf(replacementChar));
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class SeparateConsonantsAndVowelsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Separate consonants and vowels and return the result
+        String[] result = separateConsonantsAndVowels(inputString);
+
+        // Display the result
+        System.out.println("Given string: " + inputString);
+        System.out.println("Consonants: " + result[0]);
+        System.out.println("Vowels: " + result[1]);
+    }
+
+    public static String[] separateConsonantsAndVowels(String str) {
+        // Convert the string to lowercase for case-insensitive separation
+        str = str.toLowerCase();
+
+        // Separate consonants and vowels
+        StringBuilder consonants = new StringBuilder();
+        StringBuilder vowels = new StringBuilder();
+
+        for (char c : str.toCharArray()) {
+            if (c >= 'a' && c <= 'z') {
+                if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+                    vowels.append(c);
+                } else {
+                    consonants.append(c);
+                }
+            }
+        }
+
+        return new String[]{consonants.toString(), vowels.toString()};
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class SequenceFindingProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Find sequences of lowercase letters joined by an underscore
+        String result = findSequences(inputString);
+
+        // Display the result
+        if (result.isEmpty()) {
+            System.out.println("No sequences found in the string.");
+        } else {
+            System.out.println("Sequences found: " + result);
+        }
+    }
+
+    public static String findSequences(String str) {
+        // Define the pattern regex
+        String pattern = "[a-z]+_[a-z]+";
+        // Create a pattern object
+        Pattern regex = Pattern.compile(pattern);
+        // Create a matcher object
+        Matcher matcher = regex.matcher(str);
+
+        // Find and concatenate sequences
+        StringBuilder sequences = new StringBuilder();
+        while (matcher.find()) {
+            sequences.append(matcher.group()).append(" ");
+        }
+
+        return sequences.toString().trim();
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StringMatchingEndingWithQ {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string matches the pattern
+        boolean result = matchesPattern(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string matches the pattern: 'p' followed by anything ending in 'q'.");
+        } else {
+            System.out.println("The string does not match the pattern.");
+        }
+    }
+
+    public static boolean matchesPattern(String str) {
+        // Define the pattern regex
+        String pattern = "p.*q$";
+        // Create a pattern object
+        Pattern regex = Pattern.compile(pattern);
+        // Create a matcher object
+        Matcher matcher = regex.matcher(str);
+
+        // Check if the string matches the pattern
+        return matcher.matches();
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class StringMatchingProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string matches the pattern
+        boolean result = matchesPattern(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string matches the pattern: 'p' followed by zero or more 'q's.");
+        } else {
+            System.out.println("The string does not match the pattern.");
+        }
+    }
+
+    public static boolean matchesPattern(String str) {
+        // Define the pattern regex
+        String pattern = "p*q*";
+        // Check if the string matches the pattern
+        return str.matches(pattern);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class StringMatchingProgram1 {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string contains only upper and lowercase letters, numbers, and underscores
+        boolean result = matchesPattern(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string contains only upper and lowercase letters, numbers, and underscores.");
+        } else {
+            System.out.println("The string contains other characters besides upper and lowercase letters, numbers, and underscores.");
+        }
+    }
+
+    public static boolean matchesPattern(String str) {
+        // Define the pattern regex
+        String pattern = "^[a-zA-Z0-9_]+$";
+        // Create a pattern object
+        Pattern regex = Pattern.compile(pattern);
+        // Create a matcher object
+        Matcher matcher = regex.matcher(str);
+
+        // Check if the string matches the pattern
+        return matcher.matches();
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class StringReplaceProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Replace "Python" with "Java" and "code" with "coding"
+        String result = replaceStrings(inputString);
+
+        // Display the result
+        System.out.println("Original string: " + inputString);
+        System.out.println("Modified string: " + result);
+    }
+
+    public static String replaceStrings(String str) {
+        // Replace "Python" with "Java"
+        str = str.replaceAll("Python", "Java");
+        // Replace "code" with "coding"
+        str = str.replaceAll("code", "coding");
+        return str;
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class StringStartsWithNumber {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Take user input for the specific number
+        System.out.print("Enter the specific number to check if the string starts with: ");
+        int specificNumber = scanner.nextInt();
+
+        // Check if the string starts with the specific number
+        boolean result = startsWithNumber(inputString, specificNumber);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string starts with the specific number " + specificNumber + ".");
+        } else {
+            System.out.println("The string does not start with the specific number " + specificNumber + ".");
+        }
+    }
+
+    public static boolean startsWithNumber(String str, int number) {
+        // Check if the string starts with the specific number
+        return str.startsWith(Integer.toString(number));
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class StringStartsWithNumbers {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Take user input for the specific number
+        System.out.print("Enter the specific number to check if the string starts with: ");
+        int specificNumber = scanner.nextInt();
+
+        // Check if the string starts with the specific number
+        boolean result = startsWithNumber(inputString, specificNumber);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string starts with the specific number " + specificNumber + ".");
+        } else {
+            System.out.println("The string does not start with the specific number " + specificNumber + ".");
+        }
+    }
+
+    public static boolean startsWithNumber(String str, int number) {
+        // Check if the string starts with the specific number
+        return str.startsWith(Integer.toString(number));
+    }
+}
+package RegularExpression;
+
+public class test {
+	 
+	   public static void main(String[] args) {	   
+		    String text = "Java";
+			System.out.println("Original String: "+text);
+			System.out.println("Move all lower case letters to the front of the said word: "+validate(text));
+			text = "JavaScript";
+			System.out.println("\nOriginal String: "+text);
+			System.out.println("Move all lower case letters to the front of the said word: "+validate(text));
+			text = "SQLite";
+			System.out.println("\nOriginal String: "+text);
+			System.out.println("Move all lower case letters to the front of the said word: "+validate(text));		
+		}
+
+	   public static String validate(String text) {
+	        String upper_ch = "",lower_ch = "";
+	        for(char ch : text.toCharArray())
+				if(Character.isLowerCase(ch))
+					lower_ch+=ch;
+				else 
+					upper_ch+= ch;
+	        return lower_ch + upper_ch;
+	   }
+	}
+package RegularExpression;
+
+public class test1 {
+	 
+	   public static void main(String[] args) {	   
+		    String text = "Java";
+			System.out.println("Original String: "+text);
+			System.out.println("Separate consonants and vowels of the said string: "+validate(text));
+			text = "JavaScript";
+			System.out.println("\nOriginal String: "+text);
+			System.out.println("Separate consonants and vowels of the said string: "+validate(text));
+			text = "SQLite";
+			System.out.println("\nOriginal String: "+text);
+			System.out.println("Separate consonants and vowels of the said string: "+validate(text));		
+		}
+
+	   public static String validate(String text) {
+		    return text.replaceAll("[AEIOUaeiou]", "") +
+			text.replaceAll("[^AEIOUaeiou]", "");
+	   }
+	}
+package RegularExpression;
+
+public class test2 {
+	 
+	   public static void main(String[] args) {	   
+		    String text = "Java";
+			System.out.println("Original String: "+text);
+			System.out.println("Separate consonants and vowels of the said string: "+validate(text));
+			text = "JavaScript";
+			System.out.println("\nOriginal String: "+text);
+			System.out.println("Separate consonants and vowels of the said string: "+validate(text));
+			text = "SQLite";
+			System.out.println("\nOriginal String: "+text);
+			System.out.println("Separate consonants and vowels of the said string: "+validate(text));		
+		}
+
+	   public static String validate(String text) {
+			String text1 = text.replaceAll("(?i)[^aeiou]", "");
+			String text2 = text.replaceAll("(?i)[aeiou]", "");
+			return text2 + text1;
+	   }
+	}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestAddDashToVowelsProgram {
+
+    @Test
+    public void testAddDashToVowels() {
+        // Test case 1: String with vowels
+        String inputString1 = "Hello";
+        String result1 = AddDashToVowelsProgram.addDashToVowels(inputString1);
+        Assert.assertEquals(result1, "H-e-l-l-o", "Test case 1 failed");
+
+        // Test case 2: String without vowels
+        String inputString2 = "123";
+        String result2 = AddDashToVowelsProgram.addDashToVowels(inputString2);
+        Assert.assertEquals(result2, "123", "Test case 2 failed");
+
+        // Test case 3: String with mixed characters
+        String inputString3 = "Java Programming";
+        String result3 = AddDashToVowelsProgram.addDashToVowels(inputString3);
+        Assert.assertEquals(result3, "J-a-v-a Pr-o-gr-a-mm-i-ng", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestCharacterCheckProgram {
+
+    @Test
+    public void testContainsOnlyAllowedCharacters() {
+        // Test case 1: String with only allowed characters
+        String inputString1 = "abcXYZ123";
+        boolean result1 = CharacterCheckProgram.containsOnlyAllowedCharacters(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String with special characters
+        String inputString2 = "abc@123";
+        boolean result2 = CharacterCheckProgram.containsOnlyAllowedCharacters(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        boolean result3 = CharacterCheckProgram.containsOnlyAllowedCharacters(inputString3);
+        Assert.assertTrue(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestCharacterCheckProgram1 {
+
+    @Test
+    public void testContainsCharacterG() {
+        // Test case 1: String contains 'g'
+        String inputString1 = "Java";
+        boolean result1 = CharacterCheckProgram1.containsCharacterG(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String does not contain 'g'
+        String inputString2 = "Programming";
+        boolean result2 = CharacterCheckProgram1.containsCharacterG(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: String is empty
+        String inputString3 = "";
+        boolean result3 = CharacterCheckProgram1.containsCharacterG(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestCountDecimalPlacesProgram {
+
+    @Test
+    public void testCountDecimalPlaces() {
+        // Test case 1: Decimal number
+        double inputNumber1 = 123.456;
+        int result1 = CountDecimalPlacesProgram.countDecimalPlaces(inputNumber1);
+        Assert.assertEquals(result1, 3, "Test case 1 failed");
+
+        // Test case 2: Integer number
+        double inputNumber2 = 789;
+        int result2 = CountDecimalPlacesProgram.countDecimalPlaces(inputNumber2);
+        Assert.assertEquals(result2, 0, "Test case 2 failed");
+
+        // Test case 3: Negative decimal number
+        double inputNumber3 = -45.6789;
+        int result3 = CountDecimalPlacesProgram.countDecimalPlaces(inputNumber3);
+        Assert.assertEquals(result3, 4, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestCountVowelsProgram {
+
+    @Test
+    public void testCountVowels() {
+        // Test case 1: String with vowels
+        String inputString1 = "Hello, World!";
+        int result1 = CountVowelsProgram.countVowels(inputString1);
+        Assert.assertEquals(result1, 4, "Test case 1 failed");
+
+        // Test case 2: String without vowels
+        String inputString2 = "C++, Java, Python";
+        int result2 = CountVowelsProgram.countVowels(inputString2);
+        Assert.assertEquals(result2, 4, "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        int result3 = CountVowelsProgram.countVowels(inputString3);
+        Assert.assertEquals(result3, 0, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestDateValidator {
+
+    @Test
+    public void testValidateDate() {
+        // Test case 1: Valid date
+        String validDate = "2023-11-10";
+        boolean result1 = DateValidator.validateDate(validDate);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Invalid month
+        String invalidDate = "2023-13-10";
+        boolean result2 = DateValidator.validateDate(invalidDate);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestDomainExtractor {
+
+    @Test
+    public void testExtractDomainNames() {
+        // Test case 1: Extract domain names from a list of URLs
+        String urlList = "https://www.example.com https://blog.test.org https://api.demo.net";
+        // You can manually check the extracted domain names
+        DomainExtractor.extractDomainNames(urlList);
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestEmailExtractor {
+
+    @Test
+    public void testExtractEmailAddresses() {
+        // Test case 1: Extract email addresses from a text
+        String text1 = "Contact us at info@example.com or support@test.org";
+        // You can manually check the extracted email addresses
+        EmailExtractor.extractEmailAddresses(text1);
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestFindWordProgram {
+
+    @Test
+    public void testFindWord() {
+        // Test case 1: String contains "Python"
+        String inputString1 = "Java and Python are popular languages.";
+        String result1 = FindWordProgram.findWord(inputString1);
+        Assert.assertEquals(result1, "Java", "Test case 1 failed");
+
+        // Test case 2: String does not contain "Python"
+        String inputString2 = "C++ is a powerful language.";
+        String result2 = FindWordProgram.findWord(inputString2);
+        Assert.assertEquals(result2, "C++", "Test case 2 failed");
+
+        // Test case 3: String is empty
+        String inputString3 = "";
+        String result3 = FindWordProgram.findWord(inputString3);
+        Assert.assertEquals(result3, "C++", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestInsertDashBetweenCase {
+
+    @Test
+    public void testInsertDashBetweenCase() {
+        // Test case 1: String with upper and lower case letters
+        String inputString1 = "JavaProgramming";
+        String result1 = InsertDashBetweenCase.insertDashBetweenCase(inputString1);
+        Assert.assertEquals(result1, "Java-Programming", "Test case 1 failed");
+
+        // Test case 2: String without upper and lower case letters
+        String inputString2 = "123";
+        String result2 = InsertDashBetweenCase.insertDashBetweenCase(inputString2);
+        Assert.assertEquals(result2, "123", "Test case 2 failed");
+
+        // Test case 3: String with consecutive upper case letters
+        String inputString3 = "UpperCase";
+        String result3 = InsertDashBetweenCase.insertDashBetweenCase(inputString3);
+        Assert.assertEquals(result3, "Upper-Case", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestLastNVowelsProgram {
+
+    @Test
+    public void testGetLastNVowels() {
+        // Test case 1: Random string with mixed case and symbols, n = 2
+        String inputString1 = "Hello! World123";
+        String result1 = LastNVowelsProgram.getLastNVowels(inputString1, 2);
+        Assert.assertEquals(result1, "o", "Test case 1 failed");
+
+        // Test case 2: String with only consonants, n = 3
+        String inputString2 = "HllWrlD";
+        String result2 = LastNVowelsProgram.getLastNVowels(inputString2, 3);
+        Assert.assertEquals(result2, "", "Test case 2 failed");
+
+        // Test case 3: String with only vowels, n = 4
+        String inputString3 = "aeiou";
+        String result3 = LastNVowelsProgram.getLastNVowels(inputString3, 4);
+        Assert.assertEquals(result3, "aeiou", "Test case 3 failed");
+
+        // Test case 4: Empty string, n = 1
+        String inputString4 = "";
+        String result4 = LastNVowelsProgram.getLastNVowels(inputString4, 1);
+        Assert.assertEquals(result4, "", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestMathExpressionChecker {
+
+    @Test
+    public void testIsMathematicalExpression() {
+        // Test case 1: Valid mathematical expression
+        String inputString1 = "2 + 3 * (4 / 2)";
+        boolean result1 = MathExpressionChecker.isMathematicalExpression(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Invalid characters in the expression
+        String inputString2 = "2a + 3b";
+        boolean result2 = MathExpressionChecker.isMathematicalExpression(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Missing operators
+        String inputString3 = "2 3";
+        boolean result3 = MathExpressionChecker.isMathematicalExpression(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestMoveLowerCaseToFrontProgram {
+
+    @Test
+    public void testMoveLowerCaseToFront() {
+        // Test case 1: Random word with mixed case
+        String inputWord1 = "HeLLoWorLD";
+        String result1 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord1);
+        Assert.assertEquals(result1, "elloorldHWDL", "Test case 1 failed");
+
+        // Test case 2: Word with only uppercase letters
+        String inputWord2 = "HELLO";
+        String result2 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord2);
+        Assert.assertEquals(result2, "HELLO", "Test case 2 failed");
+
+        // Test case 3: Word with only lowercase letters
+        String inputWord3 = "hello";
+        String result3 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord3);
+        Assert.assertEquals(result3, "hello", "Test case 3 failed");
+
+        // Test case 4: Empty word
+        String inputWord4 = "";
+        String result4 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord4);
+        Assert.assertEquals(result4, "", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestLastNVowelsProgram {
+
+    @Test
+    public void testGetLastNVowels() {
+        // Test case 1: Random string with mixed case and symbols, n = 2
+        String inputString1 = "Hello! World123";
+        String result1 = LastNVowelsProgram.getLastNVowels(inputString1, 2);
+        Assert.assertEquals(result1, "o", "Test case 1 failed");
+
+        // Test case 2: String with only consonants, n = 3
+        String inputString2 = "HllWrlD";
+        String result2 = LastNVowelsProgram.getLastNVowels(inputString2, 3);
+        Assert.assertEquals(result2, "", "Test case 2 failed");
+
+        // Test case 3: String with only vowels, n = 4
+        String inputString3 = "aeiou";
+        String result3 = LastNVowelsProgram.getLastNVowels(inputString3, 4);
+        Assert.assertEquals(result3, "aeiou", "Test case 3 failed");
+
+        // Test case 4: Empty string, n = 1
+        String inputString4 = "";
+        String result4 = LastNVowelsProgram.getLastNVowels(inputString4, 1);
+        Assert.assertEquals(result4, "", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestMathExpressionChecker {
+
+    @Test
+    public void testIsMathematicalExpression() {
+        // Test case 1: Valid mathematical expression
+        String inputString1 = "2 + 3 * (4 / 2)";
+        boolean result1 = MathExpressionChecker.isMathematicalExpression(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Invalid characters in the expression
+        String inputString2 = "2a + 3b";
+        boolean result2 = MathExpressionChecker.isMathematicalExpression(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Missing operators
+        String inputString3 = "2 3";
+        boolean result3 = MathExpressionChecker.isMathematicalExpression(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestMoveLowerCaseToFrontProgram {
+
+    @Test
+    public void testMoveLowerCaseToFront() {
+        // Test case 1: Random word with mixed case
+        String inputWord1 = "HeLLoWorLD";
+        String result1 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord1);
+        Assert.assertEquals(result1, "elloorldHWDL", "Test case 1 failed");
+
+        // Test case 2: Word with only uppercase letters
+        String inputWord2 = "HELLO";
+        String result2 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord2);
+        Assert.assertEquals(result2, "HELLO", "Test case 2 failed");
+
+        // Test case 3: Word with only lowercase letters
+        String inputWord3 = "hello";
+        String result3 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord3);
+        Assert.assertEquals(result3, "hello", "Test case 3 failed");
+
+        // Test case 4: Empty word
+        String inputWord4 = "";
+        String result4 = MoveLowerCaseToFrontProgram.moveLowerCaseToFront(inputWord4);
+        Assert.assertEquals(result4, "", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestNumberAtEndCheck {
+
+    @Test
+    public void testHasNumberAtEnd() {
+        // Test case 1: String has a number at the end
+        String inputString1 = "Hello123";
+        boolean result1 = NumberAtEndCheck.hasNumberAtEnd(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String does not have a number at the end
+        String inputString2 = "World";
+        boolean result2 = NumberAtEndCheck.hasNumberAtEnd(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: String is empty
+        String inputString3 = "";
+        boolean result3 = NumberAtEndCheck.hasNumberAtEnd(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestPasswordValidator {
+
+    @Test
+    public void testValidatePassword() {
+        // Test case 1: Valid strong password
+        String password1 = "P@ssw0rd";
+        boolean result1 = PasswordValidator.validatePassword(password1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Missing uppercase letter
+        String password2 = "passw0rd";
+        boolean result2 = PasswordValidator.validatePassword(password2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Missing special character
+        String password3 = "Password1";
+        boolean result3 = PasswordValidator.validatePassword(password3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestPhoneNumberValidationProgram {
+
+    @Test
+    public void testValidatePhoneNumber() {
+        // Test case 1: Valid phone number
+        String validPhoneNumber = "1234567890";
+        boolean result1 = PhoneNumberValidationProgram.validatePhoneNumber(validPhoneNumber);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Invalid phone number (less than 10 digits)
+        String invalidPhoneNumber1 = "987654";
+        boolean result2 = PhoneNumberValidationProgram.validatePhoneNumber(invalidPhoneNumber1);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Invalid phone number (more than 10 digits)
+        String invalidPhoneNumber2 = "98765432109";
+        boolean result3 = PhoneNumberValidationProgram.validatePhoneNumber(invalidPhoneNumber2);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Test case 4: Invalid phone number (contains non-digit characters)
+        String invalidPhoneNumber3 = "12a4567890";
+        boolean result4 = PhoneNumberValidationProgram.validatePhoneNumber(invalidPhoneNumber3);
+        Assert.assertFalse(result4, "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestPhoneValidator {
+
+    @Test
+    public void testValidatePhoneNumber() {
+        // Test case 1: Valid U.S. phone number
+        String phoneNumber1 = "123-456-7890";
+        boolean result1 = PhoneValidator.validatePhoneNumber(phoneNumber1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Invalid characters in the phone number
+        String phoneNumber2 = "(123) 456-7890";
+        boolean result2 = PhoneValidator.validatePhoneNumber(phoneNumber2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Missing digits in the phone number
+        String phoneNumber3 = "123-456";
+        boolean result3 = PhoneValidator.validatePhoneNumber(phoneNumber3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestRemoveLeadingZeros {
+
+    @Test
+    public void testRemoveLeadingZeros() {
+        // Test case 1: IP address with leading zeros
+        String ipAddress1 = "192.012.001.001";
+        String result1 = RemoveLeadingZeros.removeLeadingZeros(ipAddress1);
+        Assert.assertEquals(result1, "192.12.1.1", "Test case 1 failed");
+
+        // Test case 2: IP address without leading zeros
+        String ipAddress2 = "10.20.30.40";
+        String result2 = RemoveLeadingZeros.removeLeadingZeros(ipAddress2);
+        Assert.assertEquals(result2, "10.20.30.40", "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String ipAddress3 = "";
+        String result3 = RemoveLeadingZeros.removeLeadingZeros(ipAddress3);
+        Assert.assertEquals(result3, "", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestRemoveLettersProgram {
+
+    @Test
+    public void testRemoveLetters() {
+        // Test case 1: String with "p"
+        String inputString1 = "apple";
+        String result1 = RemoveLettersProgram.removeLetters(inputString1);
+        Assert.assertEquals(result1, "ale", "Test case 1 failed");
+
+        // Test case 2: String with "q"
+        String inputString2 = "quick";
+        String result2 = RemoveLettersProgram.removeLetters(inputString2);
+        Assert.assertEquals(result2, "ui", "Test case 2 failed");
+
+        // Test case 3: String with "r"
+        String inputString3 = "programming";
+        String result3 = RemoveLettersProgram.removeLetters(inputString3);
+        Assert.assertEquals(result3, "ogamming", "Test case 3 failed");
+
+        // Test case 4: String without "p", "q", or "r"
+        String inputString4 = "java";
+        String result4 = RemoveLettersProgram.removeLetters(inputString4);
+        Assert.assertEquals(result4, "java", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestRemoveNonAlphanumericProgram {
+
+    @Test
+    public void testRemoveNonAlphanumericCharacters() {
+        // Test case 1: String with non-alphanumeric characters
+        String inputString1 = "Hello123!@#";
+        String result1 = RemoveNonAlphanumericProgram.removeNonAlphanumericCharacters(inputString1);
+        Assert.assertEquals(result1, "Hello123", "Test case 1 failed");
+
+        // Test case 2: String without non-alphanumeric characters
+        String inputString2 = "JavaProgramming";
+        String result2 = RemoveNonAlphanumericProgram.removeNonAlphanumericCharacters(inputString2);
+        Assert.assertEquals(result2, "JavaProgramming", "Test case 2 failed");
+
+        // Test case 3: String with spaces
+        String inputString3 = "Hello World";
+        String result3 = RemoveNonAlphanumericProgram.removeNonAlphanumericCharacters(inputString3);
+        Assert.assertEquals(result3, "HelloWorld", "Test case 3 failed");
+
+        // Test case 4: Empty string
+        String inputString4 = "";
+        String result4 = RemoveNonAlphanumericProgram.removeNonAlphanumericCharacters(inputString4);
+        Assert.assertEquals(result4, "", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestRemoveVowelsProgram {
+
+    @Test
+    public void testRemoveVowels() {
+        // Test case 1: String with vowels
+        String inputString1 = "Hello, World!";
+        String result1 = RemoveVowelsProgram.removeVowels(inputString1);
+        Assert.assertEquals(result1, "Hll, Wrld!", "Test case 1 failed");
+
+        // Test case 2: String without vowels
+        String inputString2 = "C++, Java, Python";
+        String result2 = RemoveVowelsProgram.removeVowels(inputString2);
+        Assert.assertEquals(result2, "C++, Jv, Pythn", "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        String result3 = RemoveVowelsProgram.removeVowels(inputString3);
+        Assert.assertEquals(result3, "", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestReplaceVowelsProgram {
+
+    @Test
+    public void testReplaceVowels() {
+        // Test case 1: String with vowels
+        String inputString1 = "Hello, World!";
+        char replacementChar1 = '*';
+        String result1 = ReplaceVowelsProgram.replaceVowels(inputString1, replacementChar1);
+        Assert.assertEquals(result1, "H*ll*, W*rld!", "Test case 1 failed");
+
+        // Test case 2: String without vowels
+        String inputString2 = "C++, Java, Python";
+        char replacementChar2 = '#';
+        String result2 = ReplaceVowelsProgram.replaceVowels(inputString2, replacementChar2);
+        Assert.assertEquals(result2, "C++, J#v#, Pyth#n", "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        char replacementChar3 = '$';
+        String result3 = ReplaceVowelsProgram.replaceVowels(inputString3, replacementChar3);
+        Assert.assertEquals(result3, "", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestSeparateConsonantsAndVowelsProgram {
+
+    @Test
+    public void testSeparateConsonantsAndVowels() {
+        // Test case 1: Random string with mixed case and symbols
+        String inputString1 = "Hello! World123";
+        String[] result1 = SeparateConsonantsAndVowelsProgram.separateConsonantsAndVowels(inputString1);
+        Assert.assertEquals(result1[0], "hllWrld", "Test case 1 (Consonants) failed");
+        Assert.assertEquals(result1[1], "eoo", "Test case 1 (Vowels) failed");
+
+        // Test case 2: String with only consonants
+        String inputString2 = "HllWrlD";
+        String[] result2 = SeparateConsonantsAndVowelsProgram.separateConsonantsAndVowels(inputString2);
+        Assert.assertEquals(result2[0], "hllwrld", "Test case 2 (Consonants) failed");
+        Assert.assertEquals(result2[1], "", "Test case 2 (Vowels) failed");
+
+        // Test case 3: String with only vowels
+        String inputString3 = "aeiou";
+        String[] result3 = SeparateConsonantsAndVowelsProgram.separateConsonantsAndVowels(inputString3);
+        Assert.assertEquals(result3[0], "", "Test case 3 (Consonants) failed");
+        Assert.assertEquals(result3[1], "aeiou", "Test case 3 (Vowels) failed");
+
+        // Test case 4: Empty string
+        String inputString4 = "";
+        String[] result4 = SeparateConsonantsAndVowelsProgram.separateConsonantsAndVowels(inputString4);
+        Assert.assertEquals(result4[0], "", "Test case 4 (Consonants) failed");
+        Assert.assertEquals(result4[1], "", "Test case 4 (Vowels) failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestSequenceFindingProgram {
+
+    @Test
+    public void testFindSequences() {
+        // Test case 1: String with one sequence
+        String inputString1 = "abc_def";
+        String result1 = SequenceFindingProgram.findSequences(inputString1);
+        Assert.assertEquals(result1, "abc_def", "Test case 1 failed");
+
+        // Test case 2: String with multiple sequences
+        String inputString2 = "abc_def_ghi_xyz";
+        String result2 = SequenceFindingProgram.findSequences(inputString2);
+        Assert.assertEquals(result2, "abc_def ghi_xyz", "Test case 2 failed");
+
+        // Test case 3: String without any sequence
+        String inputString3 = "123_456";
+        String result3 = SequenceFindingProgram.findSequences(inputString3);
+        Assert.assertEquals(result3, "", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestStringMatchingEndingWithQ {
+
+    @Test
+    public void testMatchesPattern() {
+        // Test case 1: String with 'p' followed by anything ending in 'q'
+        String inputString1 = "pqrst";
+        boolean result1 = StringMatchingEndingWithQ.matchesPattern(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String without 'p'
+        String inputString2 = "xyz";
+        boolean result2 = StringMatchingEndingWithQ.matchesPattern(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: String with 'p' but not ending in 'q'
+        String inputString3 = "pqrs";
+        boolean result3 = StringMatchingEndingWithQ.matchesPattern(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestStringMatchingProgram {
+
+    @Test
+    public void testMatchesPattern() {
+        // Test case 1: String with 'p' followed by zero 'q's
+        String inputString1 = "p";
+        boolean result1 = StringMatchingProgram.matchesPattern(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String with 'p' followed by multiple 'q's
+        String inputString2 = "pqq";
+        boolean result2 = StringMatchingProgram.matchesPattern(inputString2);
+        Assert.assertTrue(result2, "Test case 2 failed");
+
+        // Test case 3: String without 'p'
+        String inputString3 = "xyz";
+        boolean result3 = StringMatchingProgram.matchesPattern(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestStringMatchingProgram1 {
+
+    @Test
+    public void testMatchesPattern() {
+        // Test case 1: String with only valid characters
+        String inputString1 = "Abc123_xyz";
+        boolean result1 = StringMatchingProgram1.matchesPattern(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String with invalid characters
+        String inputString2 = "Special@Chars";
+        boolean result2 = StringMatchingProgram1.matchesPattern(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        boolean result3 = StringMatchingProgram1.matchesPattern(inputString3);
+        Assert.assertTrue(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestStringReplaceProgram {
+
+    @Test
+    public void testReplaceStrings() {
+        // Test case 1: Replace "Python" and "code" in a string
+        String inputString1 = "Python is a programming language. Let's code.";
+        String result1 = StringReplaceProgram.replaceStrings(inputString1);
+        String expected1 = "Java is a programming language. Let's coding.";
+        Assert.assertEquals(result1, expected1, "Test case 1 failed");
+
+        // Test case 2: String without "Python" and "code"
+        String inputString2 = "Java is a powerful language for coding.";
+        String result2 = StringReplaceProgram.replaceStrings(inputString2);
+        Assert.assertEquals(result2, inputString2, "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        String result3 = StringReplaceProgram.replaceStrings(inputString3);
+        Assert.assertEquals(result3, inputString3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestStringStartsWithNumber {
+
+    @Test
+    public void testStartsWithNumber() {
+        // Test case 1: String starts with the specific number
+        String inputString1 = "123abc";
+        int specificNumber1 = 123;
+        boolean result1 = StringStartsWithNumbers.startsWithNumber(inputString1, specificNumber1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String does not start with the specific number
+        String inputString2 = "456def";
+        int specificNumber2 = 123;
+        boolean result2 = StringStartsWithNumbers.startsWithNumber(inputString2, specificNumber2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Empty string
+        String inputString3 = "";
+        int specificNumber3 = 789;
+        boolean result3 = StringStartsWithNumbers.startsWithNumber(inputString3, specificNumber3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestThousandSeparatorProgram {
+
+    @Test
+    public void testFormatWithThousandSeparators() {
+        // Test case 1: Positive integer
+        double inputNumber1 = 1234567;
+        String result1 = ThousandSeparatorProgram.formatWithThousandSeparators(inputNumber1);
+        Assert.assertEquals(result1, "1,234,567", "Test case 1 failed");
+
+        // Test case 2: Positive decimal
+        double inputNumber2 = 98765.4321;
+        String result2 = ThousandSeparatorProgram.formatWithThousandSeparators(inputNumber2);
+        Assert.assertEquals(result2, "98,765.4321", "Test case 2 failed");
+
+        // Test case 3: Negative integer
+        double inputNumber3 = -54321;
+        String result3 = ThousandSeparatorProgram.formatWithThousandSeparators(inputNumber3);
+        Assert.assertEquals(result3, "-54,321", "Test case 3 failed");
+
+        // Test case 4: Zero
+        double inputNumber4 = 0;
+        String result4 = ThousandSeparatorProgram.formatWithThousandSeparators(inputNumber4);
+        Assert.assertEquals(result4, "0", "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestUppercaseSequenceFindingProgram {
+
+    @Test
+    public void testFindUppercaseSequences() {
+        // Test case 1: String with one sequence
+        String inputString1 = "Abc";
+        String result1 = UppercaseSequenceFindingProgram.findUppercaseSequences(inputString1);
+        Assert.assertEquals(result1, "Abc", "Test case 1 failed");
+
+        // Test case 2: String with multiple sequences
+        String inputString2 = "XyzUvw";
+        String result2 = UppercaseSequenceFindingProgram.findUppercaseSequences(inputString2);
+        Assert.assertEquals(result2, "Xyz Uvw", "Test case 2 failed");
+
+        // Test case 3: String without any sequence
+        String inputString3 = "123_abc";
+        String result3 = UppercaseSequenceFindingProgram.findUppercaseSequences(inputString3);
+        Assert.assertEquals(result3, "", "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestValidatePINProgram {
+
+    @Test
+    public void testValidatePIN() {
+        // Test case 1: Valid PIN (4 digits)
+        String inputPIN1 = "1234";
+        boolean result1 = ValidatePINProgram.validatePIN(inputPIN1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Valid PIN (6 digits)
+        String inputPIN2 = "987654";
+        boolean result2 = ValidatePINProgram.validatePIN(inputPIN2);
+        Assert.assertTrue(result2, "Test case 2 failed");
+
+        // Test case 3: Valid PIN (8 digits)
+        String inputPIN3 = "00001111";
+        boolean result3 = ValidatePINProgram.validatePIN(inputPIN3);
+        Assert.assertTrue(result3, "Test case 3 failed");
+
+        // Test case 4: Invalid PIN (3 digits)
+        String inputPIN4 = "999";
+        boolean result4 = ValidatePINProgram.validatePIN(inputPIN4);
+        Assert.assertFalse(result4, "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestValidHexCodeProgram {
+
+    @Test
+    public void testIsValidHexCode() {
+        // Test case 1: Valid hex code with #, 6 characters
+        String hexCode1 = "#1a2b3c";
+        boolean result1 = ValidHexCodeProgram.isValidHexCode(hexCode1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Valid hex code without #, 3 characters
+        String hexCode2 = "1f8";
+        boolean result2 = ValidHexCodeProgram.isValidHexCode(hexCode2);
+        Assert.assertTrue(result2, "Test case 2 failed");
+
+        // Test case 3: Invalid hex code, contains invalid character
+        String hexCode3 = "#1g2h3i";
+        boolean result3 = ValidHexCodeProgram.isValidHexCode(hexCode3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Test case 4: Invalid hex code, too short
+        String hexCode4 = "#abc";
+        boolean result4 = ValidHexCodeProgram.isValidHexCode(hexCode4);
+        Assert.assertFalse(result4, "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestValidHexCodeProgram1 {
+
+    @Test
+    public void testIsValidHexCode() {
+        // Test case 1: Valid hex code with #, 6 characters
+        String hexCode1 = "#1a2b3c";
+        boolean result1 = ValidHexCodeProgram1.isValidHexCode(hexCode1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Valid hex code without #, 3 characters
+        String hexCode2 = "1f8";
+        boolean result2 = ValidHexCodeProgram1.isValidHexCode(hexCode2);
+        Assert.assertTrue(result2, "Test case 2 failed");
+
+        // Test case 3: Invalid hex code, contains invalid character
+        String hexCode3 = "#1g2h3i";
+        boolean result3 = ValidHexCodeProgram1.isValidHexCode(hexCode3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Test case 4: Invalid hex code, too short
+        String hexCode4 = "#abc";
+        boolean result4 = ValidHexCodeProgram1.isValidHexCode(hexCode4);
+        Assert.assertFalse(result4, "Test case 4 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestWordMatchingProgram {
+
+    @Test
+    public void testContainsWordWithG() {
+        // Test case 1: String contains a word with 'g', not at the start or end
+        String inputString1 = "Programming";
+        boolean result1 = WordMatchingProgram.containsWordWithG(inputString1);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: String does not contain a word with 'g'
+        String inputString2 = "Java";
+        boolean result2 = WordMatchingProgram.containsWordWithG(inputString2);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: String is empty
+        String inputString3 = "";
+        boolean result3 = WordMatchingProgram.containsWordWithG(inputString3);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package RegularExpression;
+
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Scanner;
+
+public class ThousandSeparatorProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the number
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a number: ");
+        double inputNumber = scanner.nextDouble();
+
+        // Set thousand separators and return the formatted string
+        String result = formatWithThousandSeparators(inputNumber);
+
+        // Display the result
+        System.out.println("Given number: " + inputNumber);
+        System.out.println("Formatted number: " + result);
+    }
+
+    public static String formatWithThousandSeparators(double number) {
+        // Use NumberFormat to set thousand separators
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.US);
+        return numberFormat.format(number);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class UppercaseSequenceFindingProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Find sequences of one uppercase letter followed by lowercase letters
+        String result = findUppercaseSequences(inputString);
+
+        // Display the result
+        if (result.isEmpty()) {
+            System.out.println("No sequences found in the string.");
+        } else {
+            System.out.println("Sequences found: " + result);
+        }
+    }
+
+    public static String findUppercaseSequences(String str) {
+        // Define the pattern regex
+        String pattern = "[A-Z][a-z]+";
+        // Create a pattern object
+        Pattern regex = Pattern.compile(pattern);
+        // Create a matcher object
+        Matcher matcher = regex.matcher(str);
+
+        // Find and concatenate sequences
+        StringBuilder sequences = new StringBuilder();
+        while (matcher.find()) {
+            sequences.append(matcher.group()).append(" ");
+        }
+
+        return sequences.toString().trim();
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class ValidatePINProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the PIN
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a PIN: ");
+        String inputPIN = scanner.nextLine();
+
+        // Validate the PIN and return the result
+        boolean result = validatePIN(inputPIN);
+
+        // Display the result
+        System.out.println("Given PIN: " + inputPIN);
+        System.out.println("Is the PIN valid? " + result);
+    }
+
+    public static boolean validatePIN(String pin) {
+        // Use regex to check if the PIN is 4, 6, or 8 digits long
+        return pin.matches("\\d{4}|\\d{6}|\\d{8}");
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class ValidHexCodeProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the hex code
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a hex code: ");
+        String hexCode = scanner.nextLine();
+
+        // Check if the hex code is valid and return the result
+        boolean isValidHexCode = isValidHexCode(hexCode);
+
+        // Display the result
+        System.out.println("Hex code: " + hexCode);
+        System.out.println("Is valid hex code? " + isValidHexCode);
+    }
+
+    public static boolean isValidHexCode(String hexCode) {
+        // Regular expression to check if the string is a valid hex code
+        String hexPattern = "^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$";
+
+        // Check if the hex code matches the pattern
+        return hexCode.matches(hexPattern);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class ValidHexCodeProgram1 {
+
+    public static void main(String[] args) {
+        // Take user input for the hex code
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a hex code: ");
+        String hexCode = scanner.nextLine();
+
+        // Check if the hex code is valid and return the result
+        boolean isValidHexCode = isValidHexCode(hexCode);
+
+        // Display the result
+        System.out.println("Hex code: " + hexCode);
+        System.out.println("Is valid hex code? " + isValidHexCode);
+    }
+
+    public static boolean isValidHexCode(String hexCode) {
+        // Regular expression to check if the string is a valid hex code
+        String hexPattern = "^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$";
+
+        // Check if the hex code matches the pattern
+        return hexCode.matches(hexPattern);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+
+public class ValidHexCodeProgram1 {
+
+    public static void main(String[] args) {
+        // Take user input for the hex code
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a hex code: ");
+        String hexCode = scanner.nextLine();
+
+        // Check if the hex code is valid and return the result
+        boolean isValidHexCode = isValidHexCode(hexCode);
+
+        // Display the result
+        System.out.println("Hex code: " + hexCode);
+        System.out.println("Is valid hex code? " + isValidHexCode);
+    }
+
+    public static boolean isValidHexCode(String hexCode) {
+        // Regular expression to check if the string is a valid hex code
+        String hexPattern = "^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$";
+
+        // Check if the hex code matches the pattern
+        return hexCode.matches(hexPattern);
+    }
+}
+package RegularExpression;
+
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class WordMatchingProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check if the string contains a word with 'g', not at the start or end
+        boolean result = containsWordWithG(inputString);
+
+        // Display the result
+        if (result) {
+            System.out.println("The string contains a word with 'g', not at the start or end.");
+        } else {
+            System.out.println("The string does not contain a word with 'g' in the specified position.");
+        }
+    }
+
+    public static boolean containsWordWithG(String str) {
+        // Define the pattern regex
+        String pattern = "\\b\\w*g\\w*\\b";
+        // Create a pattern object
+        Pattern regex = Pattern.compile(pattern);
+        // Create a matcher object
+        Matcher matcher = regex.matcher(str);
+
+        // Check if the string contains a word with 'g', not at the start or end
+        return matcher.find();
+    }
+}
