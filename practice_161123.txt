@@ -1,0 +1,1837 @@
+package GenericMethods;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class TestSumOfEvenOddProgram {
+
+    @Test
+    public void testSumOfEvenAndOddNumbers() {
+        // Test case 1: Sum of even and odd numbers
+        List<Integer> numbers1 = Arrays.asList(1, 2, 3, 4, 5);
+        int sumEven1 = SumOfEvenOddProgram.sumOfEvenNumbers(numbers1);
+        int sumOdd1 = SumOfEvenOddProgram.sumOfOddNumbers(numbers1);
+        Assert.assertEquals(sumEven1, 6, "Test case 1 failed");
+        Assert.assertEquals(sumOdd1, 9, "Test case 1 failed");
+    
+        // Test case 2: Sum of even and odd numbers (empty list)
+        List<Integer> numbers2 = Arrays.asList();
+        int sumEven2 = SumOfEvenOddProgram.sumOfEvenNumbers(numbers2);
+        int sumOdd2 = SumOfEvenOddProgram.sumOfOddNumbers(numbers2);
+        Assert.assertEquals(sumEven2, 0, "Test case 2 failed");
+        Assert.assertEquals(sumOdd2, 0, "Test case 2 failed");
+
+        // Test case 3: Sum of even and odd numbers (negative numbers)
+        List<Integer> numbers3 = Arrays.asList(-2, -4, 1, 3, 5);
+        int sumEven3 = SumOfEvenOddProgram.sumOfEvenNumbers(numbers3);
+        int sumOdd3 = SumOfEvenOddProgram.sumOfOddNumbers(numbers3);
+        Assert.assertEquals(sumEven3, -6, "Test case 3 failed");
+        Assert.assertEquals(sumOdd3, 9, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+
+
+package GenericMethods;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class TestSearchElementProgram {
+
+    @Test
+    public void testIndexOfElement() {
+        // Test case 1: Index of the target element found
+        List<String> elements1 = Arrays.asList("apple", "banana", "orange", "apple");
+        int index1 = SearchElementProgram.indexOfElement(elements1, "banana");
+        Assert.assertEquals(index1, 1, "Test case 1 failed");
+  
+        // Test case 2: Index of the target element not found
+        List<Integer> elements2 = Arrays.asList(1, 2, 3, 4, 5);
+        int index2 = SearchElementProgram.indexOfElement(elements2, 6);
+        Assert.assertEquals(index2, -1, "Test case 2 failed");
+
+        // Test case 3: Index of the target element in an empty list
+        List<Double> elements3 = Arrays.asList();
+        int index3 = SearchElementProgram.indexOfElement(elements3, 2.5);
+        Assert.assertEquals(index3, -1, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package GenericMethods;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class TestReverseListProgram {
+  
+    @Test
+    public void testReverseList() {
+        // Test case 1: Reverse list with String elements
+        List<String> originalList1 = Arrays.asList("apple", "banana", "orange");
+        List<String> reversedList1 = ReverseListProgram.reverseList(originalList1);
+        List<String> expectedList1 = Arrays.asList("orange", "banana", "apple");
+        Assert.assertEquals(reversedList1, expectedList1, "Test case 1 failed");
+
+        // Test case 2: Reverse list with Integer elements
+        List<Integer> originalList2 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> reversedList2 = ReverseListProgram.reverseList(originalList2);
+        List<Integer> expectedList2 = Arrays.asList(5, 4, 3, 2, 1);
+        Assert.assertEquals(reversedList2, expectedList2, "Test case 2 failed");
+
+        // Test case 3: Reverse empty list
+        List<Double> originalList3 = Arrays.asList();
+        List<Double> reversedList3 = ReverseListProgram.reverseList(originalList3);
+        Assert.assertTrue(reversedList3.isEmpty(), "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package GenericMethods;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class TestMergeListsProgram {
+
+    @Test
+    public void testMergeLists() {
+        // Test case 1: Merge lists with String elements
+        List<String> list1 = Arrays.asList("a", "b", "c");
+        List<String> list2 = Arrays.asList("x", "y", "z");
+        List<String> mergedList1 = MergeListsProgram.mergeLists(list1, list2);
+        List<String> expectedList1 = Arrays.asList("a", "x", "b", "y", "c", "z");
+        Assert.assertEquals(mergedList1, expectedList1, "Test case 1 failed");
+   
+        // Test case 2: Merge lists with Integer elements
+        List<Integer> list3 = Arrays.asList(1, 2, 3);
+        List<Integer> list4 = Arrays.asList(4, 5, 6, 7);
+        List<Integer> mergedList2 = MergeListsProgram.mergeLists(list3, list4);
+        List<Integer> expectedList2 = Arrays.asList(1, 4, 2, 5, 3, 6, 7);
+        Assert.assertEquals(mergedList2, expectedList2, "Test case 2 failed");
+
+        // Test case 3: Merge empty lists
+        List<Double> list5 = Arrays.asList();
+        List<Double> list6 = Arrays.asList(2.5, 3.5);
+        List<Double> mergedList3 = MergeListsProgram.mergeLists(list5, list6);
+        Assert.assertEquals(mergedList3, list6, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package GenericMethods;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestArrayEqualityProgram {
+  
+    @Test
+    public void testAreArraysEqual() {
+        // Test case 1: Arrays are equal
+        Integer[] array1 = {1, 2, 3};
+        Integer[] array2 = {1, 2, 3};
+        boolean result1 = ArrayEqualityProgram.areArraysEqual(array1, array2);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Arrays are not equal
+        String[] array3 = {"apple", "orange", "banana"};
+        String[] array4 = {"apple", "banana", "orange"};
+        boolean result2 = ArrayEqualityProgram.areArraysEqual(array3, array4);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Arrays with different lengths
+        Double[] array5 = {1.1, 2.2, 3.3};
+        Double[] array6 = {1.1, 2.2};
+        boolean result3 = ArrayEqualityProgram.areArraysEqual(array5, array6);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package GenericMethods;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TestArrayEqualityProgram {
+  
+    @Test
+    public void testAreArraysEqual() {
+        // Test case 1: Arrays are equal
+        Integer[] array1 = {1, 2, 3};
+        Integer[] array2 = {1, 2, 3};
+        boolean result1 = ArrayEqualityProgram.areArraysEqual(array1, array2);
+        Assert.assertTrue(result1, "Test case 1 failed");
+
+        // Test case 2: Arrays are not equal
+        String[] array3 = {"apple", "orange", "banana"};
+        String[] array4 = {"apple", "banana", "orange"};
+        boolean result2 = ArrayEqualityProgram.areArraysEqual(array3, array4);
+        Assert.assertFalse(result2, "Test case 2 failed");
+
+        // Test case 3: Arrays with different lengths
+        Double[] array5 = {1.1, 2.2, 3.3};
+        Double[] array6 = {1.1, 2.2};
+        boolean result3 = ArrayEqualityProgram.areArraysEqual(array5, array6);
+        Assert.assertFalse(result3, "Test case 3 failed");
+
+        // Add more test cases as needed
+    }
+}
+package GenericMethods;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+//Write a Java program to create a generic method that takes a list of numbers and returns the sum of all the even and odd numbers.
+public class SumOfEvenOddProgram {
+
+    public static void main(String[] args) {
+        // Take user input for a list of numbers
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter numbers separated by spaces: ");
+        String input = scanner.nextLine();
+        String[] numbersString = input.split(" ");
+  
+        // Convert string array to list of integers
+        List<Integer> numbersList = new ArrayList<>();
+        for (String num : numbersString) {
+            numbersList.add(Integer.parseInt(num));
+        }
+
+        // Calculate the sum of even and odd numbers
+        int sumEven = sumOfEvenNumbers(numbersList);
+        int sumOdd = sumOfOddNumbers(numbersList);
+
+        // Display the results
+        System.out.println("Sum of even numbers: " + sumEven);
+        System.out.println("Sum of odd numbers: " + sumOdd);
+    }
+
+    public static int sumOfEvenNumbers(List<Integer> numbers) {
+        int sum = 0;
+        for (int num : numbers) {
+            if (num % 2 == 0) {
+                sum += num;
+            }
+        }
+        return sum;
+    }
+
+    public static int sumOfOddNumbers(List<Integer> numbers) {
+        int sum = 0;
+        for (int num : numbers) {
+            if (num % 2 != 0) {
+                sum += num;
+            }
+        }
+        return sum;
+    }
+}
+package GenericMethods;
+//Write a Java program to create a generic method that takes a list of any type and a target element. It returns the index of the first occurrence of the target element in the list. Return -1 if the target element cannot be found.
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class SearchElementProgram {
+
+    public static void main(String[] args) {
+        // Take user input for a list of any type
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter elements separated by spaces: ");
+        String input = scanner.nextLine();
+        String[] elements = input.split(" ");
+
+        // Convert string array to a list of any type
+        List<String> elementsList = new ArrayList<>();
+        for (String element : elements) {
+            elementsList.add(element);
+        }
+  
+        // Take user input for the target element
+        System.out.print("Enter the target element to search: ");
+        String targetElement = scanner.next();
+
+        // Search for the target element and display the result
+        int index = indexOfElement(elementsList, targetElement);
+        System.out.println("Index of the first occurrence: " + index);
+    }
+
+    public static <T> int indexOfElement(List<T> list, T targetElement) {
+        // Search for the index of the target element using indexOf method
+        return list.indexOf(targetElement);
+    }
+}
+package GenericMethods;
+//Write a Java program to create a generic method that takes a list of any type and returns it as a new list with the elements in reverse order.
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ReverseListProgram {
+
+    public static void main(String[] args) {
+        // Take user input for a list of any type
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter elements separated by spaces: ");
+        String input = scanner.nextLine();
+        String[] elements = input.split(" ");
+  
+        // Convert string array to a list of any type
+        List<String> originalList = new ArrayList<>();
+        for (String element : elements) {
+            originalList.add(element);
+        }
+
+        // Reverse the list and display the result
+        List<String> reversedList = reverseList(originalList);
+        System.out.println("Original List: " + originalList);
+        System.out.println("Reversed List: " + reversedList);
+    }
+
+    public static <T> List<T> reverseList(List<T> originalList) {
+        // Create a new list and add elements from the original list in reverse order
+        List<T> reversedList = new ArrayList<>();
+        for (int i = originalList.size() - 1; i >= 0; i--) {
+            reversedList.add(originalList.get(i));
+        }
+        return reversedList;
+    }
+}
+package GenericMethods;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+//Write a Java program to create a generic method that takes two lists of the same type and merges them into a single list. This method alternates the elements of each list.
+public class MergeListsProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the first list of any type
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter elements for the first list separated by spaces: ");
+        String input1 = scanner.nextLine();
+        String[] elements1 = input1.split(" ");
+  
+        // Convert string array to the first list of any type
+        List<String> list1 = new ArrayList<>();
+        for (String element : elements1) {
+            list1.add(element);
+        }
+
+        // Take user input for the second list of any type
+        System.out.print("Enter elements for the second list separated by spaces: ");
+        String input2 = scanner.nextLine();
+        String[] elements2 = input2.split(" ");
+
+        // Convert string array to the second list of any type
+        List<String> list2 = new ArrayList<>();
+        for (String element : elements2) {
+            list2.add(element);
+        }
+
+        // Merge the lists and display the result
+        List<String> mergedList = mergeLists(list1, list2);
+        System.out.println("List 1: " + list1);
+        System.out.println("List 2: " + list2);
+        System.out.println("Merged List: " + mergedList);
+    }
+
+    public static <T> List<T> mergeLists(List<T> list1, List<T> list2) {
+        // Merge the lists by alternating elements
+        List<T> mergedList = new ArrayList<>();
+        int size = Math.max(list1.size(), list2.size());
+        for (int i = 0; i < size; i++) {
+            if (i < list1.size()) {
+                mergedList.add(list1.get(i));
+            }
+            if (i < list2.size()) {
+                mergedList.add(list2.get(i));
+            }
+        }
+        return mergedList;
+    }
+}
+package GenericMethods;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class ArrayEqualityProgram {
+
+    public static void main(String[] args) {
+        // Take user input for the first array
+        Scanner scanner = new Scanner(System.in);
+          System.out.print("Enter elements of the first array (comma-separated): ");
+        String input1 = scanner.nextLine();
+        String[] array1 = input1.split(", ");
+
+        // Take user input for the second array
+        System.out.print("Enter elements of the second array (comma-separated): ");
+        String input2 = scanner.nextLine();
+        String[] array2 = input2.split(", ");
+
+        // Check if arrays are equal and display the result
+        boolean result = areArraysEqual(array1, array2);
+        System.out.println("Arrays are equal: " + result);
+    }
+
+    public static <T> boolean areArraysEqual(T[] array1, T[] array2) {
+        // Check if arrays are equal using Arrays.equals
+        return Arrays.equals(array1, array2);
+    }
+}
+package GenericMethods;
+
+//ArrayCompare.java
+//ArrayCompare Class
+import java.util.Arrays;
+public class ArrayCompare {
+public static < T > boolean compare_Arrays(T[] array1, T[] array2) {
+ if (array1.length != array2.length) {
+   return false;
+ }
+
+ for (int i = 0; i < array1.length; i++) {
+   if (!array1[i].equals(array2[i])) {
+     return false;
+    }
+ }
+ return true;
+}
+
+public static void main(String[] args) {
+ Integer[] arr1 = {
+   1,
+   2,
+   3,
+   4
+ };
+ Integer[] arr2 = {
+   1,
+   2,
+   4,
+   4
+ };
+ Integer[] arr3 = {
+   1,
+   2,
+   3,
+   4
+ };
+ String[] arr4 = {
+   "Java",
+   "World"
+ };
+ String[] arr5 = {
+   "JavaScript",
+   "World"
+ };
+ String[] arr6 = {
+   "Java",
+   "World"
+ };
+ System.out.println("Original arrays:");
+ System.out.println("arr1: " + Arrays.toString(arr1));
+ System.out.println("arr2: " + Arrays.toString(arr2));
+ System.out.println("arr3: " + Arrays.toString(arr3));
+ System.out.println("arr4: " + Arrays.toString(arr4));
+ System.out.println("arr5: " + Arrays.toString(arr5));
+ System.out.println("arr6: " + Arrays.toString(arr6));
+ System.out.println("\nCompare arr1 and arr2: " + compare_Arrays(arr1, arr2)); //false
+ System.out.println("Compare arr1 and arr3: " + compare_Arrays(arr1, arr3)); //true
+ System.out.println("Compare arr4 and arr5: " + compare_Arrays(arr4, arr5)); //false
+ System.out.println("Compare arr4 and arr6: " + compare_Arrays(arr4, arr6)); //true     		
+}
+}
+
+
+package JavaSearch;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class BinarySearchExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array in sorted order:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        System.out.print("Enter the element to search: ");
+        int target = scanner.nextInt();
+
+        // Perform binary search
+        int result = binarySearch(array, target);
+
+        // Display the result
+        if (result == -1) {
+            System.out.println("Element not found in the array.");
+        } else {
+            System.out.println("Element found at index " + result);
+        }
+
+        scanner.close();
+    }
+
+    // Binary search method
+    static int binarySearch(int[] arr, int target) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+
+            if (arr[mid] == target) {
+                return mid;
+            } else if (arr[mid] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+
+        return -1; // Element not found
+    }
+}
+package JavaSearch;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class BinarySearchTest {
+
+    @Test
+    public void testBinarySearch() {
+        int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        // Test cases
+        Assert.assertEquals(BinarySearchExample.binarySearch(array, 5), 4);
+        Assert.assertEquals(BinarySearchExample.binarySearch(array, 1), 0);
+        Assert.assertEquals(BinarySearchExample.binarySearch(array, 10), 9);
+        Assert.assertEquals(BinarySearchExample.binarySearch(array, 15), -1);
+    }
+}
+package JavaSearch;
+
+import java.util.Scanner;
+/// Write a Java program to find a specified element in a given sorted array of elements using Jump Search.
+//From Wikipedia, in computer science, a jump search or block search refers to a search algorithm for ordered lists. It works by first checking all items Lkm, where ℜ ∈ ℵ and m is the block size, until an item is found that is larger than the search key. To find the exact position of the search key in the list a linear search is performed on the sublist L[(k-1)m, km].
+public class JumpSearchExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the sorted array: ");
+        int size = scanner.nextInt();
+
+        int[] sortedArray = new int[size];
+        System.out.println("Enter the elements of the sorted array:");
+        for (int i = 0; i < size; i++) {
+            sortedArray[i] = scanner.nextInt();
+        }
+
+        System.out.print("Enter the element to search: ");
+        int target = scanner.nextInt();
+
+        // Perform jump search
+        int result = jumpSearch(sortedArray, target);
+
+        // Display the result
+        if (result == -1) {
+            System.out.println("Element not found in the array.");
+        } else {
+            System.out.println("Element found at index " + result);
+        }
+
+        scanner.close();
+    }
+
+    // Jump search method
+    static int jumpSearch(int[] arr, int target) {
+        int n = arr.length;
+        int blockSize = (int) Math.sqrt(n);
+
+        int step = blockSize;
+        int prev = 0;
+
+        // Jump to the block where the target may exist
+        while (arr[Math.min(step, n) - 1] < target) {
+            prev = step;
+            step += blockSize;
+
+            if (prev >= n) {
+                return -1; // Element not present in the array
+            }
+        }
+
+        // Perform linear search in the block
+        for (int i = prev; i < Math.min(step, n); i++) {
+            if (arr[i] == target) {
+                return i; // Element found, return index
+            }
+        }
+
+        return -1; // Element not found
+    }
+}
+package JavaSearch;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class JumpSearchTest {
+
+    @Test
+    public void testJumpSearch() {
+        int[] sortedArray = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19};
+
+        // Test cases
+        Assert.assertEquals(JumpSearchExample.jumpSearch(sortedArray, 7), 3);
+        Assert.assertEquals(JumpSearchExample.jumpSearch(sortedArray, 1), 0);
+        Assert.assertEquals(JumpSearchExample.jumpSearch(sortedArray, 19), 9);
+        Assert.assertEquals(JumpSearchExample.jumpSearch(sortedArray, 8), -1);
+    }
+}
+package JavaSearch;
+
+import java.util.Scanner;
+
+public class LinearSearchExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        System.out.print("Enter the element to search: ");
+        int target = scanner.nextInt();
+
+        // Perform linear search
+        int result = linearSearch(array, target);
+
+        // Display the result
+        if (result == -1) {
+            System.out.println("Element not found in the array.");
+        } else {
+            System.out.println("Element found at index " + result);
+        }
+
+        scanner.close();
+    }
+
+    // Linear search method
+    static int linearSearch(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i; // Element found, return index
+            }
+        }
+        return -1; // Element not found
+    }
+}
+package JavaSearch;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class LinearSearchTest {
+
+    @Test
+    public void testLinearSearch() {
+        int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        // Test cases
+        Assert.assertEquals(LinearSearchExample.linearSearch(array, 5), 4);
+        Assert.assertEquals(LinearSearchExample.linearSearch(array, 1), 0);
+        Assert.assertEquals(LinearSearchExample.linearSearch(array, 10), 9);
+        Assert.assertEquals(LinearSearchExample.linearSearch(array, 15), -1);
+    }
+}
+package JavaSearch;
+
+//Write a Java program to find a specified element in a given array of elements using Interpolation Search.
+//From Wikipedia, Interpolation search is an algorithm for searching for a key in an array that has been ordered by numerical values assigned to the keys (key values). It was first described by W. W. Peterson in 1957. Interpolation search resembles the method by which people search a telephone directory for a name (the key value by which the book's entries are ordered): in each step the algorithm calculates where in the remaining search space the sought item might be, based on the key values at the bounds of the search space and the value of the sought key, usually via a linear interpolation. The key value actually found at this estimated position is then compared to the key value being sought. If it is not equal, then depending on the comparison, the remaining search space is reduced to the part before or after the estimated position. This method will only work if calculations on the size of differences between key values are sensible.
+
+
+
+import java.util.Scanner;
+
+public class InterpolationSearchExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array in ascending order:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        System.out.print("Enter the element to search: ");
+        int target = scanner.nextInt();
+
+        // Perform interpolation search
+        int result = interpolationSearch(array, target);
+
+        // Display the result
+        if (result == -1) {
+            System.out.println("Element not found in the array.");
+        } else {
+            System.out.println("Element found at index " + result);
+        }
+
+        scanner.close();
+    }
+
+    // Interpolation search method
+    private static int interpolationSearch(int[] arr, int target) {
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high && target >= arr[low] && target <= arr[high]) {
+            // Estimate the position of the target
+            int pos = low + ((target - arr[low]) * (high - low)) / (arr[high] - arr[low]);
+
+            if (arr[pos] == target) {
+                return pos; // Element found, return index
+            } else if (arr[pos] < target) {
+                low = pos + 1;
+            } else {
+                high = pos - 1;
+            }
+        }
+
+        return -1; // Element not found
+    }
+}
+package JavaSearch;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class InterpolationSearchTest {
+
+    @Test
+    public void testInterpolationSearch() {
+        int[] array = {1, 3, 5, 7, 9, 11, 13, 15, 17, 19};
+
+        // Test cases
+        Assert.assertEquals(InterpolationSearchExample.interpolationSearch(array, 7), 3);
+        Assert.assertEquals(InterpolationSearchExample.interpolationSearch(array, 1), 0);
+        Assert.assertEquals(InterpolationSearchExample.interpolationSearch(array, 19), 9);
+        Assert.assertEquals(InterpolationSearchExample.interpolationSearch(array, 8), -1);
+    }
+}
+
+
+
+package Sorting;
+
+import java.util.Scanner;
+
+public class QuickSortExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // Perform quick sort
+        quickSort(array, 0, size - 1);
+
+        // Display the sorted array
+        System.out.println("Sorted Array:");
+        for (int num : array) {
+            System.out.print(num + " ");
+        }
+
+        scanner.close();
+    }
+
+    // Quick sort method
+    static void quickSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int partitionIndex = partition(arr, low, high);
+
+            // Recursively sort the sub-arrays
+            quickSort(arr, low, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, high);
+        }
+    }
+
+    // Partitioning method
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+
+        for (int j = low; j < high; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                // Swap arr[i] and arr[j]
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        // Swap arr[i+1] and arr[high] (pivot)
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
+
+        return i + 1;
+    }
+}
+package Sorting;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class QuickSortTest {
+
+    @Test
+    public void testQuickSort() {
+        int[] unsortedArray = {5, 2, 9, 1, 5, 6};
+        int[] expectedSortedArray = {1, 2, 5, 5, 6, 9};
+
+        // Perform quick sort
+        QuickSortExample.quickSort(unsortedArray, 0, unsortedArray.length - 1);
+
+        // Test case
+        Assert.assertEquals(unsortedArray, expectedSortedArray);
+    }
+}
+package Sorting;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class BubbleSortTest {
+
+    @Test
+    public void testBubbleSort() {
+        int[] unsortedArray = {5, 2, 9, 1, 5, 6};
+        int[] expectedSortedArray = {1, 2, 5, 5, 6, 9};
+
+        // Perform bubble sort
+        BubbleSortExample.bubbleSort(unsortedArray);
+
+        // Test case
+        Assert.assertEquals(unsortedArray, expectedSortedArray);
+    }
+}
+package Sorting;
+
+import java.util.Scanner;
+
+public class BubbleSortExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // Perform bubble sort
+        bubbleSort(array);
+
+        // Display the sorted array
+        System.out.println("Sorted Array:");
+        for (int num : array) {
+            System.out.print(num + " ");
+        }
+
+        scanner.close();
+    }
+
+    // Bubble sort method
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                // Swap if the element found is greater than the next element
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
+            }
+        }
+    }
+}
+
+
+
+package Sorting;
+//Write a Java program to sort an array of given integers using the Radix sort algorithm.
+//According to Wikipedia "In computer science, radix sort is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits that share the same significant position and value".
+import java.util.Scanner;
+
+public class RadixSortExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // Perform radix sort
+        radixSort(array);
+
+        // Display the sorted array
+        System.out.println("Sorted Array:");
+        for (int num : array) {
+            System.out.print(num + " ");
+        }
+
+        scanner.close();
+    }
+
+    // Radix sort method
+    private static void radixSort(int[] arr) {
+        int max = getMax(arr);
+
+        for (int exp = 1; max / exp > 0; exp *= 10) {
+            countingSort(arr, exp);
+        }
+    }
+
+    // Counting sort method for a specific digit (exp)
+    private static void countingSort(int[] arr, int exp) {
+        int n = arr.length;
+        int[] output = new int[n];
+        int[] count = new int[10];
+
+        for (int i = 0; i < n; i++) {
+            count[(arr[i] / exp) % 10]++;
+        }
+
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+            count[(arr[i] / exp) % 10]--;
+        }
+
+        System.arraycopy(output, 0, arr, 0, n);
+    }
+
+    // Utility method to get the maximum value in the array
+    public static int getMax(int[] arr) {
+        int max = arr[0];
+        for (int i : arr) {
+            if (i > max) {
+                max = i;
+            }
+        }
+        return max;
+    }
+}
+
+
+package Sorting;
+//Write a Java program to sort an array of given integers using the Radix sort algorithm.
+//According to Wikipedia "In computer science, radix sort is a non-comparative integer sorting algorithm that sorts data with integer keys by grouping keys by the individual digits that share the same significant position and value".
+import java.util.Scanner;
+
+public class RadixSortExample {
+
+    public static void main(String[] args) {
+        // Take user input for array elements
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // Perform radix sort
+        radixSort(array);
+
+        // Display the sorted array
+        System.out.println("Sorted Array:");
+        for (int num : array) {
+            System.out.print(num + " ");
+        }
+
+        scanner.close();
+    }
+
+    // Radix sort method
+    static void radixSort(int[] arr) {
+        int max = getMax(arr);
+
+        for (int exp = 1; max / exp > 0; exp *= 10) {
+            countingSort(arr, exp);
+        }
+    }
+
+    // Counting sort method for a specific digit (exp)
+    private static void countingSort(int[] arr, int exp) {
+        int n = arr.length;
+        int[] output = new int[n];
+        int[] count = new int[10];
+
+        for (int i = 0; i < n; i++) {
+            count[(arr[i] / exp) % 10]++;
+        }
+
+        for (int i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            output[count[(arr[i] / exp) % 10] - 1] = arr[i];
+            count[(arr[i] / exp) % 10]--;
+        }
+
+        System.arraycopy(output, 0, arr, 0, n);
+    }
+
+    // Utility method to get the maximum value in the array
+    public static int getMax(int[] arr) {
+        int max = arr[0];
+        for (int i : arr) {
+            if (i > max) {
+                max = i;
+            }
+        }
+        return max;
+    }
+}
+package Sorting;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class RadixSortTest {
+
+    @Test
+    public void testRadixSort() {
+        int[] unsortedArray = {170, 45, 75, 90, 802, 24, 2, 66};
+        int[] expectedSortedArray = {2, 24, 45, 66, 75, 90, 170, 802};
+
+        // Perform radix sort
+        RadixSortExample.radixSort(unsortedArray);
+
+        // Test case
+        Assert.assertEquals(unsortedArray, expectedSortedArray);
+    }
+}
+
+/////////////////////////////////////////////////////////////////
+//string_problems
+package Strings;
+
+import java.util.*;
+
+public class AnagramGroups {
+
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        if (strs == null || strs.length == 0) {
+            return new ArrayList<>();
+        }
+
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String key = String.valueOf(chars);
+
+            if (!map.containsKey(key)) {
+                map.put(key, new ArrayList<>());
+            }
+            map.get(key).add(str);
+        }
+
+        return new ArrayList<>(map.values());
+    }
+
+    public static void main(String[] args) {
+        String[] input = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        List<List<String>> result = groupAnagrams(input);
+        
+        System.out.println("Anagram Groups: " + result);
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class CheckSubstring {
+
+    public static void main(String[] args) {
+        // Take user input for the main string
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the main string:");
+        String mainString = scanner.nextLine();
+
+        // Take user input for the substring to check
+        System.out.print("Enter the substring to check: ");
+        String substring = scanner.nextLine();
+
+        // Check if the main string contains the specified substring
+        boolean result = containsSubstring(mainString, substring);
+
+        // Display the result
+        System.out.println("Original string:\n" + mainString);
+        System.out.println("Is '" + substring + "' present in the said text?\n" + result);
+
+        scanner.close();
+    }
+
+    // Custom method to check if a string contains another string
+      static boolean containsSubstring(String mainString, String substring) {
+        return mainString.contains(substring);
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CheckSubstringTest {
+
+    @Test
+    public void testContainsSubstring() {
+        String mainString = "Java is the foundation for virtually every type of networked application and is the global standard for developing and  delivering embedded and mobile applications, games, Web-based content,  and enterprise software. With more than 9 million developers worldwide, Java enables you to efficiently develop, deploy and use exciting applications and services.";
+
+        Assert.assertTrue(CheckSubstring.containsSubstring(mainString, "million"));
+        Assert.assertFalse(CheckSubstring.containsSubstring(mainString, "millions"));
+        Assert.assertTrue(CheckSubstring.containsSubstring(mainString, "Java"));
+        Assert.assertFalse(CheckSubstring.containsSubstring(mainString, "Python"));
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class ConsecutiveIdenticalLetters {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Check for consecutive identical letters
+        boolean result = hasConsecutiveIdenticalLetters(inputString);
+
+        // Display the result
+        System.out.println(result ? "String has consecutive identical letters." : "String does not have consecutive identical letters.");
+
+        scanner.close();
+    }
+
+    // Custom method to check for consecutive identical letters in a string
+    static boolean hasConsecutiveIdenticalLetters(String input) {
+        for (int i = 0; i < input.length() - 1; i++) {
+            if (input.charAt(i) == input.charAt(i + 1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ConsecutiveIdenticalLettersTest {
+
+    @Test
+    public void testHasConsecutiveIdenticalLetters() {
+        Assert.assertTrue(ConsecutiveIdenticalLetters.hasConsecutiveIdenticalLetters("hello")); // true
+        Assert.assertFalse(ConsecutiveIdenticalLetters.hasConsecutiveIdenticalLetters("world")); // false
+        Assert.assertTrue(ConsecutiveIdenticalLetters.hasConsecutiveIdenticalLetters("programming")); // true
+        Assert.assertFalse(ConsecutiveIdenticalLetters.hasConsecutiveIdenticalLetters("java")); // false
+    }
+}
+package Strings;
+
+public class CountAndSay {
+
+    public static String countAndSay(int n) {
+        if (n <= 0) return "";
+
+        String result = "1";
+
+        for (int i = 1; i < n; i++) {
+            StringBuilder temp = new StringBuilder();
+            int count = 1;
+
+            for (int j = 1; j < result.length(); j++) {
+                if (result.charAt(j) == result.charAt(j - 1)) {
+                    count++;
+                } else {
+                    temp.append(count).append(result.charAt(j - 1));
+                    count = 1;
+                }
+            }
+
+            temp.append(count).append(result.charAt(result.length() - 1));
+            result = temp.toString();
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int n = 4;
+        System.out.println("Count and Say: " + countAndSay(n));
+    }
+}
+package Strings;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CountCharacters {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Count the number of characters occurring more than twice
+        Map<Character, Integer> result = countCharacters(inputString);
+
+        // Display the result
+        System.out.println("Characters occurring more than twice:");
+        for (Map.Entry<Character, Integer> entry : result.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue() + " times");
+        }
+
+        scanner.close();
+    }
+
+    // Custom method to count the number of characters occurring more than twice
+    static Map<Character, Integer> countCharacters(String input) {
+        Map<Character, Integer> charCountMap = new HashMap<>();
+
+        for (char ch : input.toCharArray()) {
+            // Check if the character is alphanumeric
+            if (Character.isLetterOrDigit(ch)) {
+                charCountMap.put(ch, charCountMap.getOrDefault(ch, 0) + 1);
+            }
+        }
+
+        // Remove characters occurring twice or less
+        charCountMap.entrySet().removeIf(entry -> entry.getValue() <= 2);
+
+        return charCountMap;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+
+public class CountCharactersTest {
+
+    @Test
+    public void testCountCharacters() {
+        Map<Character, Integer> result = CountCharacters.countCharacters("abca4567de#^*");
+
+        // Test cases
+        Assert.assertTrue(result.containsKey('a'));
+        Assert.assertTrue(result.containsKey('4'));
+        Assert.assertFalse(result.containsKey('b'));
+        Assert.assertFalse(result.containsKey('#'));
+        Assert.assertEquals(result.get('a'), Integer.valueOf(2));
+        Assert.assertEquals(result.get('4'), Integer.valueOf(3));
+        Assert.assertNull(result.get('b'));
+        Assert.assertNull(result.get('#'));
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class CountStringOccurrences {
+
+    public static void main(String[] args) {
+        // Take user input for the strings
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the main string: ");
+        String mainString = scanner.nextLine();
+
+        System.out.print("Enter the string to count occurrences: ");
+        String searchString = scanner.nextLine();
+
+        // Count occurrences of the given string
+        int occurrences = countStringOccurrences(mainString, searchString);
+
+        // Display the result
+        System.out.println("Occurrences of '" + searchString + "' in '" + mainString + "': " + occurrences);
+
+        scanner.close();
+    }
+
+    // Custom method to count occurrences of a given string in another string
+     static int countStringOccurrences(String mainString, String searchString) {
+        int count = 0;
+        int index = mainString.indexOf(searchString);
+
+        while (index != -1) {
+            count++;
+            index = mainString.indexOf(searchString, index + 1);
+        }
+
+        return count;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CountStringOccurrencesTest {
+
+    @Test
+    public void testCountStringOccurrences() {
+        Assert.assertEquals(CountStringOccurrences.countStringOccurrences("hello world hello", "hello"), 2);
+        Assert.assertEquals(CountStringOccurrences.countStringOccurrences("programming is fun", "java"), 0);
+        Assert.assertEquals(CountStringOccurrences.countStringOccurrences("Java programming is Java fun", "Java"), 2);
+        Assert.assertEquals(CountStringOccurrences.countStringOccurrences("abababab", "ab"), 4);
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class CountSubstring {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the string
+        System.out.print("Enter the string: ");
+        String inputString = scanner.nextLine();
+
+        // Count occurrences of the substring 'life' or 'li?e'
+        int count = countSubstringOccurrences(inputString);
+
+        // Display the result
+        System.out.println("The given string is: " + inputString);
+        System.out.println("The substring 'life' or 'li?e' appears number of times: " + count);
+
+        scanner.close();
+    }
+
+    // Custom method to count occurrences of the substring 'life' or 'li?e'
+    static int countSubstringOccurrences(String input) {
+        // Use regular expression to match 'life' or 'li?e'
+        return input.split("li[fe]").length - 1;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CountSubstringTest {
+
+    @Test
+    public void testCountSubstringOccurrences() {
+        Assert.assertEquals(CountSubstring.countSubstringOccurrences("liveonwildlife"), 2);
+        Assert.assertEquals(CountSubstring.countSubstringOccurrences("liveonwildli?e"), 2);
+        Assert.assertEquals(CountSubstring.countSubstringOccurrences("lifelife"), 2);
+        Assert.assertEquals(CountSubstring.countSubstringOccurrences("lifeisbeautiful"), 1);
+    }
+}
+package Strings;
+
+import java.util.Stack;
+
+public class DecodeString {
+
+    public static String decodeString(String s) {
+        Stack<Integer> countStack = new Stack<>();
+        Stack<StringBuilder> resultStack = new Stack<>();
+        StringBuilder currentString = new StringBuilder();
+        int count = 0;
+
+        for (char ch : s.toCharArray()) {
+            if (Character.isDigit(ch)) {
+                count = count * 10 + (ch - '0');
+            } else if (ch == '[') {
+                countStack.push(count);
+                resultStack.push(currentString);
+                count = 0;
+                currentString = new StringBuilder();
+            } else if (ch == ']') {
+                StringBuilder temp = currentString;
+                currentString = resultStack.pop();
+                count = countStack.pop();
+                while (count-- > 0) {
+                    currentString.append(temp);
+                }
+            } else {
+                currentString.append(ch);
+            }
+        }
+
+        return currentString.toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "3[a2[bc]]";
+        System.out.println("Decode String: " + decodeString(input));
+    }
+}
+package Strings;
+
+public class EditDistance {
+
+    public static int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+
+    public static void main(String[] args) {
+        String word1 = "horse";
+        String word2 = "ros";
+        System.out.println("Edit Distance: " + minDistance(word1, word2));
+    }
+}
+package Strings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExpressionAddOperators {
+
+    public static List<String> addOperators(String num, int target) {
+        List<String> result = new ArrayList<>();
+        backtrack(result, num, target, 0, 0, "");
+        return result;
+    }
+
+    private static void backtrack(List<String> result, String num, int target, int index, long currentVal, String expression) {
+        if (index == num.length()) {
+            if (currentVal == target) {
+                result.add(expression);
+            }
+            return;
+        }
+
+        for (int i = index; i < num.length(); i++) {
+            if (i > index && num.charAt(index) == '0') {
+                break; // Skip leading zeros
+            }
+
+            long currentNum = Long.parseLong(num.substring(index, i + 1));
+
+            if (index == 0) {
+                backtrack(result, num, target, i + 1, currentNum, expression + currentNum);
+            } else {
+                backtrack(result, num, target, i + 1, currentVal + currentNum, expression + "+" + currentNum);
+                backtrack(result, num, target, i + 1, currentVal - currentNum, expression + "-" + currentNum);
+                backtrack(result, num, target, i + 1, currentVal * currentNum, expression + "*" + currentNum);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        String num = "123";
+        int target = 6;
+        System.out.println("Expression Add Operators: " + addOperators(num, target));
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class LevenshteinDistance {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for two strings
+        System.out.print("Enter the first string: ");
+        String str1 = scanner.nextLine();
+
+        System.out.print("Enter the second string: ");
+        String str2 = scanner.nextLine();
+
+        // Calculate and display the Levenshtein distance
+        int distance = calculateLevenshteinDistance(str1, str2);
+        System.out.println("Levenshtein Distance: " + distance);
+
+        scanner.close();
+    }
+
+    private static int calculateLevenshteinDistance(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+
+        int[][] dp = new int[m + 1][n + 1];
+
+        for (int i = 0; i <= m; i++) {
+            for (int j = 0; j <= n; j++) {
+                if (i == 0) {
+                    dp[i][j] = j;
+                } else if (j == 0) {
+                    dp[i][j] = i;
+                } else if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]);
+                }
+            }
+        }
+
+        return dp[m][n];
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class LongestCommonPrefix {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the set of strings
+        System.out.print("Enter the set of strings separated by commas: ");
+        String input = scanner.nextLine();
+        String[] strings = input.split(", ");
+
+        // Find the longest common prefix
+        String commonPrefix = findLongestCommonPrefix(strings);
+
+        // Display the result
+        System.out.println("Longest Common Prefix: " + commonPrefix);
+
+        scanner.close();
+    }
+
+    static String findLongestCommonPrefix(String[] strings) {
+        if (strings.length == 0) {
+            return "";
+        }
+
+        String prefix = strings[0];
+
+        for (int i = 1; i < strings.length; i++) {
+            while (strings[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1);
+            }
+        }
+
+        return prefix;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class LongestCommonPrefixTest {
+
+    @Test
+    public void testLongestCommonPrefix() {
+        String[] strings1 = {"flower", "flow", "flight"};
+        Assert.assertEquals(LongestCommonPrefix.findLongestCommonPrefix(strings1), "fl");
+
+        String[] strings2 = {"dog", "racecar", "car"};
+        Assert.assertEquals(LongestCommonPrefix.findLongestCommonPrefix(strings2), "");
+    }
+}
+package Strings;
+
+public class LongestPalindromicSubsequence {
+
+    public static int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        int[][] dp = new int[n][n];
+
+        for (int i = n - 1; i >= 0; i--) {
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; j++) {
+                if (s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = dp[i + 1][j - 1] + 2;
+                } else {
+                    dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        return dp[0][n - 1];
+    }
+
+    public static void main(String[] args) {
+        String input = "bbbab";
+        System.out.println("Longest Palindromic Subsequence: " + longestPalindromeSubseq(input));
+    }
+}
+package Strings;
+
+public class LongestPalindromicSubstring {
+
+    public static String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) return "";
+        
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+
+    private static int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+
+    public static void main(String[] args) {
+        String input = "babad";
+        System.out.println("Longest Palindromic Substring: " + longestPalindrome(input));
+    }
+}
+package Strings;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestSubstringWithoutRepeating {
+
+    public static int lengthOfLongestSubstring(String s) {
+        int maxLength = 0;
+        Map<Character, Integer> charIndexMap = new HashMap<>();
+
+        for (int i = 0, j = 0; j < s.length(); j++) {
+            char currentChar = s.charAt(j);
+            if (charIndexMap.containsKey(currentChar)) {
+                i = Math.max(charIndexMap.get(currentChar) + 1, i);
+            }
+            maxLength = Math.max(maxLength, j - i + 1);
+            charIndexMap.put(currentChar, j);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        String input = "abcabcbb";
+        System.out.println("Longest Substring Without Repeating Characters: " + lengthOfLongestSubstring(input));
+    }
+}
+package Strings;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MinimumWindowSubstring {
+
+    public static String minWindow(String s, String t) {
+        Map<Character, Integer> targetCharCount = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            targetCharCount.put(c, targetCharCount.getOrDefault(c, 0) + 1);
+        }
+
+        int requiredChars = t.length();
+        int left = 0, right = 0, minLength = Integer.MAX_VALUE, minStart = 0;
+
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+            if (targetCharCount.containsKey(rightChar)) {
+                targetCharCount.put(rightChar, targetCharCount.get(rightChar) - 1);
+                if (targetCharCount.get(rightChar) >= 0) {
+                    requiredChars--;
+                }
+            }
+
+            while (requiredChars == 0) {
+                if (right - left + 1 < minLength) {
+                    minLength = right - left + 1;
+                    minStart = left;
+                }
+
+                char leftChar = s.charAt(left);
+                if (targetCharCount.containsKey(leftChar)) {
+                    targetCharCount.put(leftChar, targetCharCount.get(leftChar) + 1);
+                    if (targetCharCount.get(leftChar) > 0) {
+                        requiredChars++;
+                    }
+                }
+
+                left++;
+            }
+
+            right++;
+        }
+
+        return (minLength == Integer.MAX_VALUE) ? "" : s.substring(minStart, minStart + minLength);
+    }
+
+    public static void main(String[] args) {
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+        System.out.println("Minimum Window Substring: " + minWindow(s, t));
+    }
+}
+
+package Strings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PalindromePartitioning {
+
+    public static List<List<String>> partition(String s) {
+        List<List<String>> result = new ArrayList<>();
+        backtrack(result, new ArrayList<>(), s, 0);
+        return result;
+    }
+
+    private static void backtrack(List<List<String>> result, List<String> tempList, String s, int start) {
+        if (start == s.length()) {
+            result.add(new ArrayList<>(tempList));
+            return;
+        }
+
+        for (int end = start; end < s.length(); end++) {
+            if (isPalindrome(s, start, end)) {
+                tempList.add(s.substring(start, end + 1));
+                backtrack(result, tempList, s, end + 1);
+                tempList.remove(tempList.size() - 1);
+            }
+        }
+    }
+
+    private static boolean isPalindrome(String s, int start, int end) {
+        while (start < end) {
+            if (s.charAt(start) != s.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String input = "aab";
+        List<List<String>> result = partition(input);
+        System.out.println("Palindrome Partitioning: " + result);
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class PopStringCheck {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the main string
+        System.out.print("Enter the main string: ");
+        String mainString = scanner.nextLine();
+
+        // Check if the pattern 'p?p' appears in the string
+        boolean result = isPopStringPattern(mainString);
+
+        // Display the result
+        System.out.println("The given string is: " + mainString);
+        System.out.println("Is 'p?p' appear in the given string? " + result);
+
+        scanner.close();
+    }
+
+    // Custom method to check if the pattern 'p?p' appears in the string
+    static boolean isPopStringPattern(String mainString) {
+        return mainString.matches("p[^o]p");
+    }
+}
