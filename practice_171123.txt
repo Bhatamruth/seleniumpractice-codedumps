@@ -1,0 +1,1704 @@
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class PopStringCheckTest {
+
+    @Test
+    public void testIsPopStringPattern() {
+        Assert.assertTrue(PopStringCheck.isPopStringPattern("dikchapop"));
+        Assert.assertTrue(PopStringCheck.isPopStringPattern("dikp$pdik"));
+        Assert.assertFalse(PopStringCheck.isPopStringPattern("popcorn"));
+        Assert.assertFalse(PopStringCheck.isPopStringPattern("poppop"));
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class PrefixStringCheck {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the main string and prefix length
+        System.out.print("Enter the main string: ");
+        String mainString = scanner.nextLine();
+
+        System.out.print("Enter the prefix length: ");
+        int prefixLength = scanner.nextInt();
+
+        // Check if the prefix appears elsewhere in the string
+        boolean result = isPrefixStringElsewhere(mainString, prefixLength);
+
+        // Display the result
+        System.out.println("The given string is: " + mainString);
+        System.out.println("The prefix string length is: " + prefixLength);
+        System.out.println("Is the prefix string appear elsewhere in the string? " + result);
+
+        scanner.close();
+    }
+
+    // Custom method to check if a prefix string appears elsewhere in the string
+    static boolean isPrefixStringElsewhere(String mainString, int prefixLength) {
+        if (mainString.length() <= prefixLength) {
+            return false;
+        }
+
+        String prefix = mainString.substring(0, prefixLength);
+
+        // Check if the prefix appears elsewhere in the string
+        return mainString.substring(prefixLength).contains(prefix);
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class PrefixStringCheckTest {
+
+    @Test
+    public void testIsPrefixStringElsewhere() {
+        Assert.assertFalse(PrefixStringCheck.isPrefixStringElsewhere("MrsJemsmrsam", 3));
+        Assert.assertTrue(PrefixStringCheck.isPrefixStringElsewhere("MrsJemsMrsam", 3));
+        Assert.assertFalse(PrefixStringCheck.isPrefixStringElsewhere("abcde", 5));
+        Assert.assertTrue(PrefixStringCheck.isPrefixStringElsewhere("abcdabcde", 4));
+    }
+}
+package Strings;
+
+public class RabinKarpStringMatching {
+
+    private static final int PRIME = 101;
+
+    public static int search(String text, String pattern) {
+        int m = pattern.length();
+        int n = text.length();
+
+        int patternHash = createHash(pattern, m);
+        int textHash = createHash(text, m);
+
+        for (int i = 0; i <= n - m; i++) {
+            if (patternHash == textHash && checkEqual(text, i, i + m - 1, pattern, 0, m - 1)) {
+                return i;
+            }
+            if (i < n - m) {
+                textHash = recalculateHash(text, i, i + m, textHash, m);
+            }
+        }
+
+        return -1;
+    }
+
+    private static int createHash(String str, int end) {
+        int hash = 0;
+        for (int i = 0; i < end; i++) {
+            hash += str.charAt(i) * Math.pow(PRIME, i);
+        }
+        return hash;
+    }
+
+    private static int recalculateHash(String str, int oldIndex, int newIndex, int oldHash, int patternLen) {
+        int newHash = oldHash - str.charAt(oldIndex);
+        newHash /= PRIME;
+        newHash += str.charAt(newIndex) * Math.pow(PRIME, patternLen - 1);
+        return newHash;
+    }
+
+    private static boolean checkEqual(String str1, int start1, int end1, String str2, int start2, int end2) {
+        if (end1 - start1 != end2 - start2) {
+            return false;
+        }
+        while (start1 <= end1 && start2 <= end2) {
+            if (str1.charAt(start1) != str2.charAt(start2)) {
+                return false;
+            }
+            start1++;
+            start2++;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String text = "ABABCABABABC";
+        String pattern = "ABABC";
+        int result = search(text, pattern);
+        System.out.println("Rabin-Karp String Matching Algorithm: Pattern found at index " + result);
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class RabinKarpStringMatchings {
+
+    private static final int PRIME = 101;
+
+    public static int search(String text, String pattern) {
+        int m = pattern.length();
+        int n = text.length();
+
+        int patternHash = createHash(pattern, m);
+        int textHash = createHash(text, m);
+
+        for (int i = 0; i <= n - m; i++) {
+            if (patternHash == textHash && checkEqual(text, i, i + m - 1, pattern, 0, m - 1)) {
+                return i;
+            }
+            if (i < n - m) {
+                textHash = recalculateHash(text, i, i + m, textHash, m);
+            }
+        }
+
+        return -1;
+    }
+
+    private static int createHash(String str, int end) {
+        int hash = 0;
+        for (int i = 0; i < end; i++) {
+            hash += str.charAt(i) * Math.pow(PRIME, i);
+        }
+        return hash;
+    }
+
+    private static int recalculateHash(String str, int oldIndex, int newIndex, int oldHash, int patternLen) {
+        int newHash = oldHash - str.charAt(oldIndex);
+        newHash /= PRIME;
+        newHash += str.charAt(newIndex) * Math.pow(PRIME, patternLen - 1);
+        return newHash;
+    }
+
+    private static boolean checkEqual(String str1, int start1, int end1, String str2, int start2, int end2) {
+        if (end1 - start1 != end2 - start2) {
+            return false;
+        }
+        while (start1 <= end1 && start2 <= end2) {
+            if (str1.charAt(start1) != str2.charAt(start2)) {
+                return false;
+            }
+            start1++;
+            start2++;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the text and pattern
+        System.out.print("Enter the text: ");
+        String text = scanner.nextLine();
+
+        System.out.print("Enter the pattern: ");
+        String pattern = scanner.nextLine();
+
+        // Search for the pattern in the text
+        int result = search(text, pattern);
+
+        // Display the result
+        if (result != -1) {
+            System.out.println("Rabin-Karp String Matching Algorithm: Pattern found at index " + result);
+        } else {
+            System.out.println("Rabin-Karp String Matching Algorithm: Pattern not found in the text.");
+        }
+
+        scanner.close();
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class RabinKarpStringMatchingTest {
+
+    @Test
+    public void testRabinKarpStringMatching() {
+        String text = "ABABCABABABC";
+        String pattern = "ABABC";
+        int result = RabinKarpStringMatchings.search(text, pattern);
+        Assert.assertEquals(result, 0);
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class RegularExpressionMatching {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the string and regular expression
+        System.out.print("Enter the input string: ");
+        String inputString = scanner.nextLine();
+
+        System.out.print("Enter the regular expression: ");
+        String regex = scanner.nextLine();
+
+        // Check if the string matches the regular expression
+        boolean isMatch = isMatch(inputString, regex);
+
+        // Display the result
+        System.out.println("Does the string match the regular expression? " + isMatch);
+
+        scanner.close();
+    }
+
+    private static boolean isMatch(String s, String p) {
+        return s.matches(p);
+    }
+}
+package Strings;
+
+public class RegularExpressionMatchings {
+
+    public static boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+
+        boolean firstMatch = (!s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.'));
+
+        if (p.length() >= 2 && p.charAt(1) == '*') {
+            return (isMatch(s, p.substring(2)) || (firstMatch && isMatch(s.substring(1), p)));
+        } else {
+            return firstMatch && isMatch(s.substring(1), p.substring(1));
+        }
+    }
+
+    public static void main(String[] args) {
+        String s = "aa";
+        String p = "a*";
+        System.out.println("Regular Expression Matching: " + isMatch(s, p));
+    }
+}
+package Strings;
+
+public class RegularExpressionParser {
+
+    public static boolean isMatch(String s, String p) {
+        if (p.isEmpty()) return s.isEmpty();
+
+        boolean firstMatch = (!s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.'));
+
+        if (p.length() >= 2 && p.charAt(1) == '*') {
+            return (isMatch(s, p.substring(2)) || (firstMatch && isMatch(s.substring(1), p)));
+        } else {
+            return firstMatch && isMatch(s.substring(1), p.substring(1));
+        }
+    }
+
+    public static void main(String[] args) {
+        String input = "aa";
+        String pattern = "a*";
+        System.out.println("Regular Expression Parser: " + isMatch(input, pattern));
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class RemoveCharacterFromString {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Take user input for the character to remove
+        System.out.print("Enter the character to remove: ");
+        char charToRemove = scanner.next().charAt(0);
+
+        // Remove the specified character from the string
+        String updatedString = removeCharacter(inputString, charToRemove);
+
+        // Display the result
+        System.out.println("Original string: " + inputString);
+        System.out.println("String after removing '" + charToRemove + "': " + updatedString);
+
+        scanner.close();
+    }
+
+    // Custom method to remove a specified character from a string
+    static String removeCharacter(String input, char charToRemove) {
+        return input.replaceAll(String.valueOf(charToRemove), "");
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class RemoveCharacterFromStringTest {
+
+    @Test
+    public void testRemoveCharacter() {
+        Assert.assertEquals(RemoveCharacterFromString.removeCharacter("abcdefabcdeabcdaaa", 'a'), "bcdefbcdebcd");
+        Assert.assertEquals(RemoveCharacterFromString.removeCharacter("Hello World", 'o'), "Hell Wrld");
+        Assert.assertEquals(RemoveCharacterFromString.removeCharacter("Java Programming", 'z'), "Java Programming");
+        Assert.assertEquals(RemoveCharacterFromString.removeCharacter("abcabcabc", 'b'), "acaacaac");
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class RemoveWordFromString {
+
+    public static void main(String[] args) {
+        // Take user input for the text
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the text: ");
+        String text = scanner.nextLine();
+
+        // Take user input for the word to be removed
+        System.out.print("Enter the word to remove: ");
+        String wordToRemove = scanner.nextLine();
+
+        // Remove the specified word from the text
+        String updatedText = removeWord(text, wordToRemove);
+
+        // Display the updated string
+        System.out.println("Updated String: " + updatedText);
+
+        scanner.close();
+    }
+
+    // Custom method to remove a specified word from the given text
+    static String removeWord(String text, String wordToRemove) {
+        // Using regex to remove the specified word, considering word boundaries
+        return text.replaceAll("\\b" + wordToRemove + "\\b", "").trim();
+    }
+}
+
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class RemoveWordFromStringTest {
+
+    @Test
+    public void testRemoveWord() {
+        Assert.assertEquals(RemoveWordFromString.removeWord("Hello World", "World"), "Hello");
+        Assert.assertEquals(RemoveWordFromString.removeWord("Java is a programming language", "Java"), "is a programming language");
+        Assert.assertEquals(RemoveWordFromString.removeWord("This is a test", "test"), "This is a");
+        Assert.assertEquals(RemoveWordFromString.removeWord("Remove Remove Remove", "Remove"), "");
+    }
+}
+package Strings;
+import java.util.Scanner;
+
+public class ReverseOddLengthWords {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Reverse odd-length words in the string
+        String reversedString = reverseOddLengthWords(inputString);
+
+        // Display the result
+        System.out.println("Result after reversing odd-length words: " + reversedString);
+
+        scanner.close();
+    }
+
+    // Custom method to reverse odd-length words in a string
+      static String reverseOddLengthWords(String input) {
+        String[] words = input.split("\\s+");
+
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].length() % 2 != 0) {
+                words[i] = reverseWord(words[i]);
+            }
+        }
+
+        return String.join(" ", words);
+    }
+
+    // Helper method to reverse a word
+      static String reverseWord(String word) {
+        StringBuilder reversedWord = new StringBuilder(word);
+        return reversedWord.reverse().toString();
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ReverseOddLengthWordsTest {
+
+    @Test
+    public void testReverseOddLengthWords() {
+        Assert.assertEquals(ReverseOddLengthWords.reverseOddLengthWords("Java is a programming language"), "avaJ is a gnimmargorp language");
+        Assert.assertEquals(ReverseOddLengthWords.reverseOddLengthWords("Reverse odd-length words"), "esreveR ddo-length sdrow");
+        Assert.assertEquals(ReverseOddLengthWords.reverseOddLengthWords("This is a test"), "sihT is a tset");
+        Assert.assertEquals(ReverseOddLengthWords.reverseOddLengthWords("12345 67890"), "12345 09876");
+    }
+}
+package Strings;
+
+public class RunLengthEncoding {
+
+    public static String runLengthEncode(String input) {
+        StringBuilder result = new StringBuilder();
+        int count = 1;
+
+        for (int i = 1; i <= input.length(); i++) {
+            if (i == input.length() || input.charAt(i) != input.charAt(i - 1)) {
+                result.append(input.charAt(i - 1)).append(count);
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "aaaabbbccd";
+        System.out.println("Run-Length Encoding: " + runLengthEncode(input));
+    }
+}
+package Strings;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortStringsByLength {
+
+    public static void main(String[] args) {
+        // Take user input for the array of strings
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the strings separated by commas: ");
+        String input = scanner.nextLine();
+
+        // Split the input into an array of strings
+        String[] colors = input.split(", ");
+
+        // Sort the array in ascending and descending order by the length of strings
+        String[] ascendingSortedColors = sortStringsByLengthAscending(colors);
+        String[] descendingSortedColors = sortStringsByLengthDescending(colors);
+
+        // Display the results
+        System.out.println("Original unsorted colors: " + Arrays.toString(colors));
+        System.out.println("Sorted color (descending order): " + Arrays.toString(descendingSortedColors));
+        System.out.println("Sorted color (ascending order): " + Arrays.toString(ascendingSortedColors));
+
+        scanner.close();
+    }
+
+    // Custom method to sort strings in ascending order by length
+    static String[] sortStringsByLengthAscending(String[] arr) {
+        Arrays.sort(arr, (s1, s2) -> Integer.compare(s1.length(), s2.length()));
+        return arr;
+    }
+
+    // Custom method to sort strings in descending order by length
+     static String[] sortStringsByLengthDescending(String[] arr) {
+        Arrays.sort(arr, (s1, s2) -> Integer.compare(s2.length(), s1.length()));
+        return arr;
+    }
+}
+package Strings;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class SortStringsByLength {
+
+    public static void main(String[] args) {
+        // Take user input for the array of strings
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the strings separated by commas: ");
+        String input = scanner.nextLine();
+
+        // Split the input into an array of strings
+        String[] colors = input.split(", ");
+
+        // Sort the array in ascending and descending order by the length of strings
+        String[] ascendingSortedColors = sortStringsByLengthAscending(colors);
+        String[] descendingSortedColors = sortStringsByLengthDescending(colors);
+
+        // Display the results
+        System.out.println("Original unsorted colors: " + Arrays.toString(colors));
+        System.out.println("Sorted color (descending order): " + Arrays.toString(descendingSortedColors));
+        System.out.println("Sorted color (ascending order): " + Arrays.toString(ascendingSortedColors));
+
+        scanner.close();
+    }
+
+    // Custom method to sort strings in ascending order by length
+    static String[] sortStringsByLengthAscending(String[] arr) {
+        Arrays.sort(arr, (s1, s2) -> Integer.compare(s1.length(), s2.length()));
+        return arr;
+    }
+
+    // Custom method to sort strings in descending order by length
+     static String[] sortStringsByLengthDescending(String[] arr) {
+        Arrays.sort(arr, (s1, s2) -> Integer.compare(s2.length(), s1.length()));
+        return arr;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Arrays;
+
+public class SortStringsByLengthTest {
+
+    @Test
+    public void testSortStringsByLength() {
+        String[] input = {"Green", "White", "Black", "Pink", "Orange", "Blue", "Champagne", "Indigo", "Ivory"};
+
+        String[] ascendingSorted = SortStringsByLength.sortStringsByLengthAscending(input);
+        Assert.assertEquals(ascendingSorted, new String[]{"Pink", "Blue", "Green", "White", "Black", "Ivory", "Orange", "Indigo", "Champagne"});
+
+        String[] descendingSorted = SortStringsByLength.sortStringsByLengthDescending(input);
+        Assert.assertEquals(descendingSorted, new String[]{"Champagne", "Orange", "Indigo", "Green", "White", "Black", "Ivory", "Pink", "Blue"});
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class StringCompression {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the string
+        System.out.print("Enter the input string: ");
+        String inputString = scanner.nextLine();
+
+        // Compress the string
+        String compressedString = compressString(inputString);
+
+        // Display the result
+        System.out.println("Compressed String: " + compressedString);
+
+        scanner.close();
+    }
+
+    private static String compressString(String input) {
+        StringBuilder compressed = new StringBuilder();
+        int count = 1;
+
+        for (int i = 0; i < input.length(); i++) {
+            if (i + 1 < input.length() && input.charAt(i) == input.charAt(i + 1)) {
+                count++;
+            } else {
+                compressed.append(input.charAt(i));
+                if (count > 1) {
+                    compressed.append(count);
+                }
+                count = 1;
+            }
+        }
+
+        return compressed.toString();
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class StringContainsLetters {
+
+    public static void main(String[] args) {
+        // Take user input for the first string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the first string: ");
+        String firstString = scanner.nextLine();
+
+        // Take user input for the second string
+        System.out.print("Enter the second string: ");
+        String secondString = scanner.nextLine();
+
+        // Check if the letters of the second string are present in the first string
+        boolean result = containsLetters(firstString, secondString);
+
+        // Display the result
+        System.out.println(result ? "All letters are present." : "Not all letters are present.");
+
+        scanner.close();
+    }
+
+    // Custom method to check if all letters of the second string are present in the first string
+    static boolean containsLetters(String first, String second) {
+        for (char c : second.toCharArray()) {
+            if (first.indexOf(c) == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class StringContainsLettersTest {
+
+    @Test
+    public void testContainsLetters() {
+        Assert.assertTrue(StringContainsLetters.containsLetters("abcdef", "abc")); // true
+        Assert.assertFalse(StringContainsLetters.containsLetters("abcdef", "xyz")); // false
+        Assert.assertTrue(StringContainsLetters.containsLetters("Hello World", "low")); // true
+        Assert.assertFalse(StringContainsLetters.containsLetters("Java Programming", "xyz")); // false
+    }
+}
+package Strings;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class StringPermutations {
+
+    public static List<String> generatePermutations(String s) {
+        List<String> result = new ArrayList<>();
+        generatePermutationsHelper(s.toCharArray(), 0, result);
+        return result;
+    }
+
+    private static void generatePermutationsHelper(char[] chars, int index, List<String> result) {
+        if (index == chars.length - 1) {
+            result.add(new String(chars));
+            return;
+        }
+
+        for (int i = index; i < chars.length; i++) {
+            swap(chars, index, i);
+            generatePermutationsHelper(chars, index + 1, result);
+            swap(chars, index, i);
+        }
+    }
+
+    private static void swap(char[] chars, int i, int j) {
+        char temp = chars[i];
+        chars[i] = chars[j];
+        chars[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        String input = "abc";
+        System.out.println("String Permutations: " + generatePermutations(input));
+    }
+}
+package Strings;
+
+public class StringToInteger {
+
+    public static int atoi(String str) {
+        if (str == null || str.length() == 0) return 0;
+
+        str = str.trim();
+        char sign = '+';
+        int index = 0;
+        if (str.charAt(0) == '-') {
+            sign = '-';
+            index++;
+        } else if (str.charAt(0) == '+') {
+            index++;
+        }
+
+        long result = 0;
+        while (index < str.length() && Character.isDigit(str.charAt(index))) {
+            result = result * 10 + (str.charAt(index) - '0');
+            if (result > Integer.MAX_VALUE || result < Integer.MIN_VALUE) {
+                return sign == '-' ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+            }
+            index++;
+        }
+
+        return sign == '-' ? (int) -result : (int) result;
+    }
+
+    public static void main(String[] args) {
+        String input = "  -42";
+        System.out.println("String to Integer: " + atoi(input));
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class StringToPrimitiveTypes {
+
+    public static void main(String[] args) {
+        // Take user input for the string
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Convert the string to int, long, float, and double
+        int intValue = convertToInt(inputString);
+        long longValue = convertToLong(inputString);
+        float floatValue = convertToFloat(inputString);
+        double doubleValue = convertToDouble(inputString);
+
+        // Display the results
+        System.out.println("Convert String to int/Integer:");
+        System.out.println("\"" + inputString + "\" as int is " + intValue + " and as Integer is " + Integer.valueOf(inputString));
+
+        System.out.println("\nConvert String to long/Long:");
+        System.out.println("\"" + inputString + "\" as long is " + longValue + " and as Long is " + Long.valueOf(inputString));
+
+        System.out.println("\nConvert String to float/Float:");
+        System.out.println("\"" + inputString + "\" as float is " + floatValue + " and as Float is " + Float.valueOf(inputString));
+
+        System.out.println("\nConvert String to double/Double:");
+        System.out.println("\"" + inputString + "\" as double is " + doubleValue + " and as Double is " + Double.valueOf(inputString));
+
+        scanner.close();
+    }
+
+    // Custom method to convert a string to int
+     static int convertToInt(String str) {
+        return Integer.parseInt(str);
+    }
+
+    // Custom method to convert a string to long
+    static long convertToLong(String str) {
+        return Long.parseLong(str);
+    }
+
+    // Custom method to convert a string to float
+    static float convertToFloat(String str) {
+        return Float.parseFloat(str);
+    }
+
+    // Custom method to convert a string to double
+    static double convertToDouble(String str) {
+        return Double.parseDouble(str);
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class StringToPrimitiveTypesTest {
+
+    @Test
+    public void testConvertToInt() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToInt("1323"), 1323);
+    }
+
+    @Test
+    public void testConvertToLong() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToLong("13625478965325"), 13625478965325L);
+    }
+
+    @Test
+    public void testConvertToFloat() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToFloat("25.135F"), 25.135F);
+    }
+
+    @Test
+    public void testConvertToDouble() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToDouble("21.25478254D"), 21.25478254);
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class StringToPrimitiveTypesTest {
+
+    @Test
+    public void testConvertToInt() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToInt("1323"), 1323);
+    }
+
+    @Test
+    public void testConvertToLong() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToLong("13625478965325"), 13625478965325L);
+    }
+
+    @Test
+    public void testConvertToFloat() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToFloat("25.135F"), 25.135F);
+    }
+
+    @Test
+    public void testConvertToDouble() {
+        Assert.assertEquals(StringToPrimitiveTypes.convertToDouble("21.25478254D"), 21.25478254);
+    }
+}
+package Strings;
+
+import java.util.Scanner;
+
+public class SubstringInMiddle {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Take user input for the main string and substring
+        System.out.print("Enter the main string: ");
+        String mainString = scanner.nextLine();
+
+        System.out.print("Enter the substring to check: ");
+        String substring = scanner.nextLine();
+
+        // Check if the substring appears in the middle
+        boolean result = isSubstringInMiddle(mainString, substring);
+
+        // Display the result
+        System.out.println("The given string is: " + mainString);
+        System.out.println("Is '" + substring + "' appearing in the middle? " + result);
+
+        scanner.close();
+    }
+
+    // Custom method to check if a substring appears in the middle of a string
+    static boolean isSubstringInMiddle(String mainString, String substring) {
+        int mainLength = mainString.length();
+        int subLength = substring.length();
+
+        if (mainLength < 3 || subLength > mainLength) {
+            return false;
+        }
+
+        int middleIndex = mainLength / 2;
+
+        // Check if the substring appears in the middle
+        return mainString.regionMatches(middleIndex - subLength / 2, substring, 0, subLength)
+                || mainString.regionMatches(middleIndex - subLength / 2 - 1, substring, 0, subLength);
+    }
+}
+package Strings;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class SubstringInMiddleTest {
+
+    @Test
+    public void testIsSubstringInMiddle() {
+        Assert.assertFalse(SubstringInMiddle.isSubstringInMiddle("xxxabcxxxxx", "abc"));
+        Assert.assertTrue(SubstringInMiddle.isSubstringInMiddle("xxabcxxx", "abc"));
+        Assert.assertTrue(SubstringInMiddle.isSubstringInMiddle("abcdefghijk", "def"));
+        Assert.assertFalse(SubstringInMiddle.isSubstringInMiddle("xyz", "abc"));
+    }
+}
+package Strings;
+//TrieNode class representing a node in the Trie
+class TrieNode {
+ TrieNode[] children;
+ boolean isEnd;
+
+ TrieNode() {
+     this.children = new TrieNode[26];
+     this.isEnd = false;
+ }
+}
+
+public class TrieDataStructure {
+
+ private TrieNode root;
+
+ public TrieDataStructure() {
+     this.root = new TrieNode();
+ }
+
+ // Insert a word into the Trie
+ public void insert(String word) {
+     TrieNode node = root;
+     for (char ch : word.toCharArray()) {
+         int index = ch - 'a';
+         if (node.children[index] == null) {
+             node.children[index] = new TrieNode();
+         }
+         node = node.children[index];
+     }
+     node.isEnd = true;
+ }
+
+ // Search for a word in the Trie
+ public boolean search(String word) {
+     TrieNode node = root;
+     for (char ch : word.toCharArray()) {
+         int index = ch - 'a';
+         if (node.children[index] == null) {
+             return false;
+         }
+         node = node.children[index];
+     }
+     return node.isEnd;
+ }
+
+ public static void main(String[] args) {
+     TrieDataStructure trie = new TrieDataStructure();
+
+     // Insert words into the Trie
+     trie.insert("java");
+     trie.insert("javascript");
+     trie.insert("python");
+     trie.insert("programming");
+
+     // Search for words in the Trie
+     System.out.println("Search for 'java': " + trie.search("java"));
+     System.out.println("Search for 'python': " + trie.search("python"));
+     System.out.println("Search for 'cpp': " + trie.search("cpp"));
+ }
+}
+package Strings;
+
+public class ValidParenthesisString {
+
+    public static boolean checkValidString(String s) {
+        int low = 0, high = 0;
+
+        for (char c : s.toCharArray()) {
+            low += (c == '(') ? 1 : -1;
+            high += (c == ')' || c == '*') ? -1 : 1;
+
+            if (high < 0) break;
+
+            low = Math.max(low, 0);
+        }
+
+        return low == 0;
+    }
+
+    public static void main(String[] args) {
+        String input = "()";
+        System.out.println("Valid Parenthesis String: " + checkValidString(input));
+    }
+}
+package Strings;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public class WordBreak {
+
+    public static boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> wordSet = new HashSet<>(wordDict);
+        boolean[] dp = new boolean[s.length() + 1];
+        dp[0] = true;
+
+        for (int i = 1; i <= s.length(); i++) {
+            for (int j = 0; j < i; j++) {
+                if (dp[j] && wordSet.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+
+        return dp[s.length()];
+    }
+
+    public static void main(String[] args) {
+        String s = "leetcode";
+        List<String> wordDict = List.of("leet", "code");
+        System.out.println("Word Break: " + wordBreak(s, wordDict));
+    }
+}
+package Strings;
+
+public class ZigZagConversion {
+
+    public static String convert(String s, int numRows) {
+        if (numRows == 1 || s.length() <= numRows) {
+            return s;
+        }
+
+        StringBuilder[] rows = new StringBuilder[numRows];
+        for (int i = 0; i < numRows; i++) {
+            rows[i] = new StringBuilder();
+        }
+
+        int direction = -1;
+        int row = 0;
+        for (char c : s.toCharArray()) {
+            rows[row].append(c);
+            if (row == 0 || row == numRows - 1) {
+                direction *= -1;
+            }
+            row += direction;
+        }
+
+        StringBuilder result = new StringBuilder();
+        for (StringBuilder rowStr : rows) {
+            result.append(rowStr);
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String input = "PAYPALISHIRING";
+        int numRows = 3;
+        System.out.println("ZigZag Conversion: " + convert(input, numRows));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+ 
+
+class BiDirectionalStream<T> {
+    private LinkedList<T> forwardList;
+    private LinkedList<T> backwardList;
+
+    public BiDirectionalStream(List<T> elements) {
+        forwardList = new LinkedList<>(elements);
+        backwardList = new LinkedList<>(elements);
+        Collections.reverse(backwardList);
+    }
+
+    public Stream<T> biDirectionalStream() {
+        Iterator<T> forwardIterator = forwardList.iterator();
+        Iterator<T> backwardIterator = backwardList.iterator();
+
+        return Stream.generate(() -> {
+            if (forwardIterator.hasNext() && backwardIterator.hasNext()) {
+                return Stream.of(forwardIterator.next(), backwardIterator.next());
+            } else {
+                return null;
+            }
+        }).takeWhile(Objects::nonNull).flatMap(Function.identity());
+    }
+}
+
+public class BiDirectionalStreamExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Integer> elements = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            elements.add(scanner.nextInt());
+        }
+
+        BiDirectionalStream<Integer> biDirectionalStream = new BiDirectionalStream<>(elements);
+
+        System.out.println("Bi-directional Stream:");
+
+        biDirectionalStream.biDirectionalStream()
+                .forEach(element -> System.out.print(element + " "));
+
+        scanner.close();
+    }
+}
+package JavaAdvanced;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import testNG_examples.Calculator;
+
+public class CalculatorTest {
+
+    @Test
+    public void testAddition() {
+        Calculator calculator = new Calculator();
+        int result = calculator.add(5, 3);
+        Assert.assertEquals(result, 8, "Addition failed");
+    }
+
+    @Test
+    public void testSubtraction() {
+        Calculator calculator = new Calculator();
+        int result = calculator.subtract(10, 4);
+        Assert.assertEquals(result, 6, "Subtraction failed");
+    }
+
+    @Test
+    public void testMultiplication() {
+        Calculator calculator = new Calculator();
+        int result = calculator.multiply(3, 7);
+        Assert.assertEquals(result, 21, "Multiplication failed");
+    }
+
+    @Test
+    public void testDivision() {
+        Calculator calculator = new Calculator();
+        double result = calculator.divide(10, 2);
+        Assert.assertEquals(result, 5.0, 0.001, "Division failed");
+    }
+}
+package JavaAdvanced;
+
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+public class CombiningStreams {
+
+    public static void main(String[] args) {
+        int[] stream1 = {1, 2, 3, 4, 5};
+        int[] stream2 = {4, 5, 6, 7, 8};
+
+        int[] commonElements = IntStream.concat(Arrays.stream(stream1), Arrays.stream(stream2))
+                .distinct()
+                .filter(i -> Arrays.stream(stream1).anyMatch(j -> j == i) && Arrays.stream(stream2).anyMatch(j -> j == i))
+                .toArray();
+
+        System.out.println("Common elements in both streams: " + Arrays.toString(commonElements));
+    }
+}
+package JavaAdvanced;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class DistinctByPropertyExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Create a list of Person objects
+        List<Person> people = List.of(
+                new Person("John", 25),
+                new Person("Alice", 30),
+                new Person("Bob", 25),
+                new Person("Alice", 30),
+                new Person("John", 25)
+        );
+
+        // Get the property name from the user
+        System.out.print("Enter the property name to filter by (e.g., name, age): ");
+        String propertyName = scanner.next();
+
+        // Use the custom method to filter the list by the specified property
+        List<Object> distinctValues = filterDistinctByProperty(people, propertyName);
+
+        System.out.println("Distinct values of property '" + propertyName + "': " + distinctValues);
+
+        scanner.close();
+    }
+
+      static List<Object> filterDistinctByProperty(List<Person> people, String propertyName) {
+        return people.stream()
+                .map(person -> getProperty(person, propertyName))
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+      static Object getProperty(Person person, String propertyName) {
+        switch (propertyName) {
+            case "name":
+                return person.getName();
+            case "age":
+                return person.getAge();
+            default:
+                throw new IllegalArgumentException("Unknown property: " + propertyName);
+        }
+    }
+}
+package JavaAdvanced;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.List;
+
+public class DistinctByPropertyTest {
+
+    @Test
+    public void testDistinctByNameProperty() {
+        List<Person> people = List.of(
+                new Person("John", 25),
+                new Person("Alice", 30),
+                new Person("Bob", 25),
+                new Person("Alice", 30),
+                new Person("John", 25)
+        );
+
+        List<Object> distinctNames = DistinctByPropertyExample.filterDistinctByProperty(people, "name");
+
+        Assert.assertEquals(distinctNames.size(), 3, "Incorrect number of distinct names");
+
+        for (Object name : distinctNames) {
+            Assert.assertTrue(name instanceof String, "Element is not a String");
+        }
+    }
+
+    @Test
+    public void testDistinctByAgeProperty() {
+        List<Person> people = List.of(
+                new Person("John", 25),
+                new Person("Alice", 30),
+                new Person("Bob", 25),
+                new Person("Alice", 30),
+                new Person("John", 25)
+        );
+
+        List<Object> distinctAges = DistinctByPropertyExample.filterDistinctByProperty(people, "age");
+
+        Assert.assertEquals(distinctAges.size(), 2, "Incorrect number of distinct ages");
+
+        for (Object age : distinctAges) {
+            Assert.assertTrue(age instanceof Integer, "Element is not an Integer");
+        }
+    }
+}
+package JavaAdvanced;
+
+import java.util.Scanner;
+
+public class FactorialCalculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a non-negative integer: ");
+        int userInput = scanner.nextInt();
+
+        if (userInput < 0) {
+            System.out.println("Please enter a non-negative integer.");
+        } else {
+            long factorialResult = calculateFactorial(userInput);
+            System.out.println("Factorial of " + userInput + " is: " + factorialResult);
+        }
+
+        scanner.close();
+    }
+
+    private static long calculateFactorial(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        } else {
+            return n * calculateFactorial(n - 1);
+        }
+    }
+}
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class FlatMapOptionalExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Optional<String>> optionalStrings = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + " (optional): ");
+            optionalStrings.add(Optional.ofNullable(scanner.next()));
+        }
+
+        Optional<String> firstNonEmptyString = findFirstNonEmptyString(optionalStrings);
+
+        System.out.println("First non-empty string: " + firstNonEmptyString.orElse("No non-empty strings found"));
+
+        scanner.close();
+    }
+
+    private static Optional<String> findFirstNonEmptyString(List<Optional<String>> optionalStrings) {
+        return optionalStrings.stream()
+                .flatMap(Optional::stream)
+                .filter(str -> !str.isEmpty())
+                .findFirst();
+    }
+}
+package JavaAdvanced;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class InfiniteStreamOfPrimes {
+
+    public static void main(String[] args) {
+        int count = 10;
+
+        List<Integer> primes = IntStream.iterate(2, n -> n + 1)
+                .filter(InfiniteStreamOfPrimes::isPrime)
+                .limit(count)
+                .boxed()
+                .collect(Collectors.toList());
+
+        System.out.println("First " + count + " prime numbers: " + primes);
+    }
+
+    private static boolean isPrime(int number) {
+        return IntStream.rangeClosed(2, (int) Math.sqrt(number))
+                .noneMatch(i -> number % i == 0);
+    }
+}
+package JavaAdvanced;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+public class PalindromeStreamGenerator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the length of palindromic strings to generate: ");
+        int length = scanner.nextInt();
+
+        Stream<String> palindromeStream = generatePalindromes(length);
+
+        System.out.println("Palindromic strings of length " + length + ":");
+        palindromeStream.limit(10).forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    static Stream<String> generatePalindromes(int length) {
+        return IntStream.iterate('a', c -> c + 1)
+                .mapToObj(c -> generatePalindrome((char) c, length))
+                .flatMap(s -> Stream.of(s, new StringBuilder(s).reverse().toString()));
+    }
+
+    private static String generatePalindrome(char base, int length) {
+        int halfLength = (length - 1) / 2;
+        return base + IntStream.rangeClosed(1, halfLength)
+                .mapToObj(i -> String.valueOf((char) (base + i)))
+                .collect(Collectors.joining()) + (length % 2 == 0 ? "" : base);
+    }
+}
+package JavaAdvanced;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class PalindromeStreamTest {
+
+    @Test
+    public void testPalindromeStreamGeneration() {
+        int length = 3;
+        Stream<String> palindromeStream = PalindromeStreamGenerator.generatePalindromes(length);
+
+        List<String> palindromes = palindromeStream.limit(5).collect(Collectors.toList());
+
+        Assert.assertEquals(palindromes.size(), 5, "Incorrect number of palindromes generated");
+
+        for (String palindrome : palindromes) {
+            Assert.assertEquals(palindrome.length(), length, "Generated palindrome length mismatch");
+            Assert.assertTrue(isPalindrome(palindrome), "Generated string is not a palindrome");
+        }
+    }
+
+    private boolean isPalindrome(String str) {
+        return str.equals(new StringBuilder(str).reverse().toString());
+    }
+}
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class ParallelSortingExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Integer> numbers = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            numbers.add(scanner.nextInt());
+        }
+
+        List<Integer> sortedNumbers = numbers.parallelStream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+
+        System.out.println("Sorted Numbers (Descending Order): " + sortedNumbers);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced;
+
+import java.util.stream.LongStream;
+
+public class ParallelStreamExample {
+
+    public static void main(String[] args) {
+        long sumOfSquares = LongStream.rangeClosed(1, 100)
+                .parallel()
+                .map(x -> x * x)
+                .sum();
+
+        System.out.println("Sum of squares using parallel streams: " + sumOfSquares);
+    }
+}
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class PeekAndDebugExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Integer> numbers = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            numbers.add(scanner.nextInt());
+        }
+
+        List<Integer> result = numbers.stream()
+                .filter(num -> num % 2 == 0)
+                .map(num -> num * 2)
+                .peek(intermediateResult -> System.out.println("Intermediate Result: " + intermediateResult))
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
+        System.out.println("Final Result: " + result);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class PermutationsExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Integer> elements = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            elements.add(scanner.nextInt());
+        }
+
+        List<List<Integer>> permutations = generatePermutations(elements);
+
+        System.out.println("Permutations:");
+        permutations.forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    private static <T> List<List<T>> generatePermutations(List<T> elements) {
+        if (elements.isEmpty()) {
+            return Collections.singletonList(Collections.emptyList());
+        }
+
+        return elements.stream()
+                .flatMap(element ->
+                        generatePermutations(elements.stream()
+                                .filter(e -> !e.equals(element))
+                                .collect(Collectors.toList()))
+                                .stream()
+                                .map((List<T> permutation) -> {
+                                    List<T> result = new ArrayList<>();
+                                    result.add(element);
+                                    result.addAll(permutation);
+                                    return result;
+                                })
+                )
+                .collect(Collectors.toList());
+    }
+}
+package JavaAdvanced;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+class RunningSumState {
+    private int sum = 0;
+    private int count = 0;
+
+    public void accumulate(int element) {
+        sum += element;
+        count++;
+    }
+
+    public void combine(RunningSumState other) {
+        sum += other.sum;
+        count += other.count;
+    }
+
+    public int getRunningSum() {
+        return count == 0 ? 0 : sum / count;
+    }
+}
+
+public class StatefulTransformationExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements in the stream: ");
+        int numberOfElements = scanner.nextInt();
+
+        // Generate a stream of integers
+        int[] numbers = new int[numberOfElements];
+        for (int i = 0; i < numberOfElements; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            numbers[i] = scanner.nextInt();
+        }
+
+        // Use the custom method for stateful transformation
+        int runningSum = calculateRunningSum(numbers);
+
+        System.out.println("Running sum of the stream: " + runningSum);
+
+        scanner.close();
+    }
+
+    static int calculateRunningSum(int[] numbers) {
+        RunningSumState result = Arrays.stream(numbers)
+                .collect(RunningSumState::new, RunningSumState::accumulate, RunningSumState::combine);
+
+        return result.getRunningSum();
+    }
+}
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class StatisticsExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Double> numbers = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            numbers.add(scanner.nextDouble());
+        }
+
+        DoubleSummaryStatistics stats = numbers.stream()
+                .collect(Collectors.summarizingDouble(Double::doubleValue));
+
+        System.out.println("Statistics:");
+        System.out.println("Count: " + stats.getCount());
+        System.out.println("Sum: " + stats.getSum());
+        System.out.println("Mean: " + stats.getAverage());
+        System.out.println("Min: " + stats.getMin());
+        System.out.println("Max: " + stats.getMax());
+        System.out.println("Variance: " + calculateVariance(numbers, stats.getAverage()));
+
+        scanner.close();
+    }
+
+    private static double calculateVariance(List<Double> numbers, double mean) {
+        return numbers.stream()
+                .mapToDouble(num -> Math.pow(num - mean, 2))
+                .average()
+                .orElse(0.0);
+    }
+}
+package JavaAdvanced;
+
+import java.util.Arrays;
+
+public class WindowedSum {
+
+    public static void main(String[] args) {
+        int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int windowSize = 3;
+
+        int[] result = Arrays.stream(numbers)
+                .map(i -> Arrays.stream(numbers)
+                        .skip(i)
+                        .limit(windowSize)
+                        .sum())
+                .toArray();
+
+        System.out.println("Windowed sums: " + Arrays.toString(result));
+    }
+}
+
