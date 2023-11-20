@@ -1,0 +1,1484 @@
+package JavaAdvanced;
+
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+public class FibonacciStream {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of Fibonacci numbers to generate: ");
+        int count = scanner.nextInt();
+
+        Stream<Long> fibonacciStream = generateFibonacciStream(count);
+
+        System.out.println("Generated Fibonacci numbers:");
+        fibonacciStream.limit(count)
+                .forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    private static Stream<Long> generateFibonacciStream(int count) {
+        return Stream.iterate(new long[]{0, 1}, fib -> new long[]{fib[1], fib[0] + fib[1]})
+                .mapToLong(fib -> fib[0])
+                .boxed();
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+public class FibonacciStream {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of Fibonacci numbers to generate: ");
+        int count = scanner.nextInt();
+
+        Stream<Long> fibonacciStream = generateFibonacciStream(count);
+
+        System.out.println("Generated Fibonacci numbers:");
+        fibonacciStream.limit(count)
+                .forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    static Stream<Long> generateFibonacciStream(int count) {
+        return Stream.iterate(new long[]{0, 1}, fib -> new long[]{fib[1], fib[0] + fib[1]})
+                .mapToLong(fib -> fib[0])
+                .boxed();
+    }
+}package JavaAdvanced;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StatefulFiltering {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter element " + (i + 1) + ": ");
+            numbers.add(scanner.nextInt());
+        }
+
+        List<Integer> filteredList = statefulFilter(numbers, 5);
+
+        System.out.println("Filtered List: " + filteredList);
+
+        scanner.close();
+    }
+
+    public static List<Integer> statefulFilter(List<Integer> inputList, int threshold) {
+        List<Integer> filteredList = new ArrayList<>();
+        int state = 0;
+
+        for (int num : inputList) {
+            if (num > threshold + state) {
+                filteredList.add(num);
+                state += 5; // Update the state
+            }
+        }
+
+        return filteredList;
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class GroupByFrequency {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter words separated by spaces: ");
+        String input = scanner.nextLine();
+
+        List<String> words = Arrays.asList(input.split("\\s+"));
+
+        Map<String, Long> wordFrequencyMap = groupByFrequency(words);
+
+        System.out.println("Words with frequency more than once:");
+        wordFrequencyMap.forEach((word, frequency) -> {
+            if (frequency > 1) {
+                System.out.println(word + " - " + frequency + " times");
+            }
+        });
+
+        scanner.close();
+    }
+
+    public static Map<String, Long> groupByFrequency(List<String> words) {
+        return words.stream()
+                .collect(Collectors.groupingBy(String::toLowerCase, Collectors.counting()));
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+public class GroupByFrequencyTest {
+
+    @Test
+    public void testGroupByFrequency() {
+        List<String> words = Arrays.asList("apple", "orange", "apple", "banana", "grape", "banana", "orange");
+
+        Map<String, Long> wordFrequencyMap = GroupByFrequency.groupByFrequency(words);
+
+        Assert.assertTrue(wordFrequencyMap.containsKey("apple"));
+        Assert.assertTrue(wordFrequencyMap.containsKey("orange"));
+        Assert.assertTrue(wordFrequencyMap.containsKey("banana"));
+        Assert.assertFalse(wordFrequencyMap.containsKey("grape"));
+
+        Assert.assertEquals(wordFrequencyMap.get("apple"), Long.valueOf(2));
+        Assert.assertEquals(wordFrequencyMap.get("orange"), Long.valueOf(2));
+        Assert.assertEquals(wordFrequencyMap.get("banana"), Long.valueOf(2));
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.Scanner;
+import java.util.Random;
+import java.util.stream.Stream;
+
+public class RandomNumberStream {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the lower bound for random numbers: ");
+        int lowerBound = scanner.nextInt();
+
+        System.out.print("Enter the upper bound for random numbers: ");
+        int upperBound = scanner.nextInt();
+
+        Stream<Integer> randomNumbersStream = generateRandomNumbersStream(lowerBound, upperBound);
+
+        System.out.print("Enter the number of random numbers to print: ");
+        int numNumbers = scanner.nextInt();
+
+        System.out.println("Generated Random Numbers:");
+        randomNumbersStream.limit(numNumbers)
+                .forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    public static Stream<Integer> generateRandomNumbersStream(int lowerBound, int upperBound) {
+        Random random = new Random();
+        return Stream.generate(() -> random.nextInt(upperBound - lowerBound + 1) + lowerBound);
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class RandomNumberStreamTest {
+
+    @Test
+    public void testGenerateRandomNumbersStream() {
+        int lowerBound = 1;
+        int upperBound = 100;
+
+        Stream<Integer> randomNumbersStream = RandomNumberStream.generateRandomNumbersStream(lowerBound, upperBound);
+
+        long count = randomNumbersStream.limit(1000)
+                .collect(Collectors.toSet())
+                .stream()
+                .filter(num -> num >= lowerBound && num <= upperBound)
+                .count();
+
+        Assert.assertEquals(count, 100, "Generated random numbers are not within the expected range");
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+class PersonList {
+    String name;
+    int age;
+
+    public PersonList(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonList{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class CustomComparatorExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        List<PersonList> people = new ArrayList<>();
+
+        System.out.print("Enter the number of people: ");
+        int numPeople = scanner.nextInt();
+
+        for (int i = 0; i < numPeople; i++) {
+            System.out.print("Enter name for person " + (i + 1) + ": ");
+            String name = scanner.next();
+
+            System.out.print("Enter age for person " + (i + 1) + ": ");
+            int age = scanner.nextInt();
+
+            people.add(new PersonList(name, age));
+        }
+
+        // Sort the list using the custom comparator
+        people.sort(getPersonListComparator());
+
+        System.out.println("Sorted People List:");
+        people.forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    public static Comparator<PersonList> getPersonListComparator() {
+        return Comparator.comparing(PersonList::getName)
+                .thenComparingInt(PersonList::getAge);
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CustomComparatorExampleTest {
+
+    @Test
+    public void testGetPersonListComparator() {
+        List<PersonList> people = new ArrayList<>();
+        people.add(new PersonList("Alice", 30));
+        people.add(new PersonList("Bob", 25));
+        people.add(new PersonList("Alice", 25));
+        people.add(new PersonList("Charlie", 30));
+
+        // Sort the list using the custom comparator
+        people.sort(CustomComparatorExample.getPersonListComparator());
+
+        List<PersonList> expectedOrder = List.of(
+                new PersonList("Alice", 25),
+                new PersonList("Alice", 30),
+                new PersonList("Bob", 25),
+                new PersonList("Charlie", 30)
+        );
+
+        Assert.assertEquals(people, expectedOrder, "People list is not sorted as expected");
+    }
+}
+
+
+
+
+
+package JavaAdvanced;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+public class SimpleQueueExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Queue<Integer> queue = new LinkedList<>();
+
+        while (true) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Print Queue");
+            System.out.println("4. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element to enqueue: ");
+                    int enqueueElement = scanner.nextInt();
+                    enqueue(queue, enqueueElement);
+                    break;
+                case 2:
+                    dequeue(queue);
+                    break;
+                case 3:
+                    printQueue(queue);
+                    break;
+                case 4:
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    public static void enqueue(Queue<Integer> queue, int element) {
+        queue.add(element);
+        System.out.println(element + " enqueued to the queue.");
+    }
+
+    public static void dequeue(Queue<Integer> queue) {
+        if (queue.isEmpty()) {
+            System.out.println("Queue is empty. Cannot dequeue.");
+        } else {
+            int dequeuedElement = queue.poll();
+            System.out.println(dequeuedElement + " dequeued from the queue.");
+        }
+    }
+
+    public static void printQueue(Queue<Integer> queue) {
+        System.out.println("Queue: " + queue);
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class SimpleQueueExampleTest {
+
+    @Test
+    public void testQueueOperations() {
+        Queue<Integer> queue = new LinkedList<>();
+
+        // Enqueue elements
+        SimpleQueueExample.enqueue(queue, 10);
+        SimpleQueueExample.enqueue(queue, 20);
+        SimpleQueueExample.enqueue(queue, 30);
+
+        // Check if elements are enqueued successfully
+        Assert.assertEquals(queue.peek(), Integer.valueOf(10), "Enqueue operation failed");
+
+        // Dequeue elements
+        SimpleQueueExample.dequeue(queue);
+
+        // Check if the dequeued element is correct
+        Assert.assertEquals(queue.peek(), Integer.valueOf(20), "Dequeue operation failed");
+
+        // Print the queue
+        SimpleQueueExample.printQueue(queue);
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class FrequencyCounterExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements in the list: ");
+        int numElements = scanner.nextInt();
+
+        List<Integer> inputList = new ArrayList<>();
+
+        System.out.println("Enter the elements of the list:");
+        for (int i = 0; i < numElements; i++) {
+            System.out.print("Element " + (i + 1) + ": ");
+            inputList.add(scanner.nextInt());
+        }
+
+        Map<Integer, Integer> frequencyMap = countElementFrequency(inputList);
+
+        System.out.println("Element frequencies:");
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+        scanner.close();
+    }
+
+    public static Map<Integer, Integer> countElementFrequency(List<Integer> list) {
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+        for (int element : list) {
+            frequencyMap.put(element, frequencyMap.getOrDefault(element, 0) + 1);
+        }
+
+        return frequencyMap;
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.List;
+import java.util.Map;
+
+public class FrequencyCounterExampleTest {
+
+    @Test
+    public void testCountElementFrequency() {
+        List<Integer> inputList = List.of(1, 2, 3, 1, 2, 3, 4, 5, 1, 2);
+
+        Map<Integer, Integer> frequencyMap = FrequencyCounterExample.countElementFrequency(inputList);
+
+        // Check frequencies
+        Assert.assertEquals(frequencyMap.get(1), Integer.valueOf(3), "Frequency of 1 is incorrect");
+        Assert.assertEquals(frequencyMap.get(2), Integer.valueOf(3), "Frequency of 2 is incorrect");
+        Assert.assertEquals(frequencyMap.get(3), Integer.valueOf(2), "Frequency of 3 is incorrect");
+        Assert.assertEquals(frequencyMap.get(4), Integer.valueOf(1), "Frequency of 4 is incorrect");
+        Assert.assertEquals(frequencyMap.get(5), Integer.valueOf(1), "Frequency of 5 is incorrect");
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class LinkedHashMapExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<String, Integer> orderedMap = new LinkedHashMap<>();
+
+        System.out.print("Enter the number of entries in the map: ");
+        int numEntries = scanner.nextInt();
+
+        System.out.println("Enter the key-value pairs for the map:");
+        for (int i = 0; i < numEntries; i++) {
+            System.out.print("Key " + (i + 1) + ": ");
+            String key = scanner.next();
+
+            System.out.print("Value " + (i + 1) + ": ");
+            int value = scanner.nextInt();
+
+            orderedMap.put(key, value);
+        }
+
+        System.out.println("Map entries in the order of insertion:");
+        printOrderedMap(orderedMap);
+
+        scanner.close();
+    }
+
+    public static void printOrderedMap(Map<String, Integer> map) {
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class LinkedHashMapExampleTest {
+
+    @Test
+    public void testOrderedMap() {
+        Map<String, Integer> orderedMap = new LinkedHashMap<>();
+
+        // Add entries to the map
+        orderedMap.put("One", 1);
+        orderedMap.put("Two", 2);
+        orderedMap.put("Three", 3);
+
+        // Check the order of insertion
+        String[] expectedOrder = {"One", "Two", "Three"};
+
+        int index = 0;
+        for (Map.Entry<String, Integer> entry : orderedMap.entrySet()) {
+            Assert.assertEquals(entry.getKey(), expectedOrder[index], "Key order is incorrect");
+            index++;
+        }
+
+ 
+    }
+}
+
+import java.util.*;
+
+public class StackImplementationExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Integer> stack = new ArrayList<>();
+
+        while (true) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Peek");
+            System.out.println("4. Print Stack");
+            System.out.println("5. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element to push: ");
+                    int pushElement = scanner.nextInt();
+                    push(stack, pushElement);
+                    break;
+                case 2:
+                    pop(stack);
+                    break;
+                case 3:
+                    peek(stack);
+                    break;
+                case 4:
+                    printStack(stack);
+                    break;
+                case 5:
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    public static void push(List<Integer> stack, int element) {
+        stack.add(element);
+        System.out.println(element + " pushed onto the stack.");
+    }
+
+    public static void pop(List<Integer> stack) {
+        if (stack.isEmpty()) {
+            System.out.println("Stack is empty. Cannot pop.");
+        } else {
+            int poppedElement = stack.remove(stack.size() - 1);
+            System.out.println(poppedElement + " popped from the stack.");
+        }
+    }
+
+    public static void peek(List<Integer> stack) {
+        if (stack.isEmpty()) {
+            System.out.println("Stack is empty. Cannot peek.");
+        } else {
+            int topElement = stack.get(stack.size() - 1);
+            System.out.println("Top element of the stack: " + topElement);
+        }
+    }
+
+    public static void printStack(List<Integer> stack) {
+        System.out.println("Stack: " + stack);
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.ArrayList;
+import java.util.List;
+
+public class StackImplementationExampleTest {
+
+    @Test
+    public void testStackOperations() {
+        List<Integer> stack = new ArrayList<>();
+
+        // Push elements
+        StackImplementationExample.push(stack, 10);
+        StackImplementationExample.push(stack, 20);
+        StackImplementationExample.push(stack, 30);
+
+        // Check if elements are pushed successfully
+        Assert.assertEquals(stack, List.of(10, 20, 30), "Push operation failed");
+
+        // Pop elements
+        StackImplementationExample.pop(stack);
+
+        // Check if the popped element is correct
+        Assert.assertEquals(stack, List.of(10, 20), "Pop operation failed");
+
+        // Peek at the top element
+        StackImplementationExample.peek(stack);
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class PriorityQueueExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements in the list: ");
+        int numElements = scanner.nextInt();
+
+        List<Integer> inputList = new ArrayList<>();
+
+        System.out.println("Enter the elements of the list:");
+        for (int i = 0; i < numElements; i++) {
+            System.out.print("Element " + (i + 1) + ": ");
+            inputList.add(scanner.nextInt());
+        }
+
+        List<Integer> sortedList = sortWithPriorityQueue(inputList);
+
+        System.out.println("Sorted List in Ascending Order:");
+        printList(sortedList);
+
+        scanner.close();
+    }
+
+    public static List<Integer> sortWithPriorityQueue(List<Integer> list) {
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(list);
+        List<Integer> sortedList = new ArrayList<>();
+
+        while (!priorityQueue.isEmpty()) {
+            sortedList.add(priorityQueue.poll());
+        }
+
+        return sortedList;
+    }
+
+    public static void printList(List<Integer> list) {
+        for (int element : list) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.List;
+
+public class PriorityQueueExampleTest {
+
+    @Test
+    public void testSortWithPriorityQueue() {
+        List<Integer> inputList = List.of(5, 2, 8, 1, 7);
+
+        List<Integer> sortedList = PriorityQueueExample.sortWithPriorityQueue(inputList);
+
+        // Check if the list is sorted in ascending order
+        List<Integer> expectedOrder = List.of(1, 2, 5, 7, 8);
+        Assert.assertEquals(sortedList, expectedOrder, "List is not sorted as expected");
+
+        // Additional assertions can be added as needed
+    }
+}
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.List;
+
+public class PriorityQueueExampleTest {
+
+    @Test
+    public void testSortWithPriorityQueue() {
+        List<Integer> inputList = List.of(5, 2, 8, 1, 7);
+
+        List<Integer> sortedList = PriorityQueueExample.sortWithPriorityQueue(inputList);
+
+        // Check if the list is sorted in ascending order
+        List<Integer> expectedOrder = List.of(1, 2, 5, 7, 8);
+        Assert.assertEquals(sortedList, expectedOrder, "List is not sorted as expected");
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+class ComparableClass implements Comparable<ComparableClass> {
+    private String name;
+
+    public ComparableClass(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public int compareTo(ComparableClass other) {
+        return this.name.compareTo(other.name);
+    }
+
+    @Override
+    public String toString() {
+        return "ComparableClass{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+public class TreeSetComparableExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Set<ComparableClass> treeSet = new TreeSet<>();
+
+        System.out.print("Enter the number of instances: ");
+        int numInstances = scanner.nextInt();
+        scanner.nextLine(); // consume the newline
+
+        System.out.println("Enter names for instances:");
+
+        for (int i = 0; i < numInstances; i++) {
+            System.out.print("Instance " + (i + 1) + ": ");
+            String name = scanner.nextLine();
+            treeSet.add(new ComparableClass(name));
+        }
+
+        System.out.println("Sorted Set of Instances:");
+        printSet(treeSet);
+
+        scanner.close();
+    }
+
+    public static void printSet(Set<ComparableClass> set) {
+        for (ComparableClass instance : set) {
+            System.out.println(instance);
+        }
+    }
+}
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class TreeSetComparableExampleTest {
+
+    @Test
+    public void testSortedSetOfInstances() {
+        Set<ComparableClass> treeSet = new TreeSet<>();
+        treeSet.add(new ComparableClass("Charlie"));
+        treeSet.add(new ComparableClass("Alice"));
+        treeSet.add(new ComparableClass("Bob"));
+
+        // Check if the set is sorted in natural order (alphabetical in this case)
+        ComparableClass[] expectedOrder = {
+                new ComparableClass("Alice"),
+                new ComparableClass("Bob"),
+                new ComparableClass("Charlie")
+        };
+
+        Assert.assertEquals(treeSet.toArray(), expectedOrder, "Set is not sorted as expected");
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class SynchronizedListExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<>());
+
+        while (true) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Add Element");
+            System.out.println("2. Remove Element");
+            System.out.println("3. Print List");
+            System.out.println("4. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element to add: ");
+                    int addElement = scanner.nextInt();
+                    addElement(synchronizedList, addElement);
+                    break;
+                case 2:
+                    System.out.print("Enter element to remove: ");
+                    int removeElement = scanner.nextInt();
+                    removeElement(synchronizedList, removeElement);
+                    break;
+                case 3:
+                    printList(synchronizedList);
+                    break;
+                case 4:
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    public static void addElement(List<Integer> synchronizedList, int element) {
+        synchronized (synchronizedList) {
+            synchronizedList.add(element);
+            System.out.println(element + " added to the list.");
+        }
+    }
+
+    public static void removeElement(List<Integer> synchronizedList, int element) {
+        synchronized (synchronizedList) {
+            if (synchronizedList.contains(element)) {
+                synchronizedList.remove(Integer.valueOf(element));
+                System.out.println(element + " removed from the list.");
+            } else {
+                System.out.println(element + " not found in the list.");
+            }
+        }
+    }
+
+    public static void printList(List<Integer> synchronizedList) {
+        synchronized (synchronizedList) {
+            System.out.println("List: " + synchronizedList);
+        }
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class SynchronizedListExampleTest {
+
+    @Test
+    public void testSynchronizedListOperations() {
+        List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<>());
+
+        // Add elements
+        SynchronizedListExample.addElement(synchronizedList, 10);
+        SynchronizedListExample.addElement(synchronizedList, 20);
+        SynchronizedListExample.addElement(synchronizedList, 30);
+
+        // Check if elements are added successfully
+        Assert.assertEquals(synchronizedList, List.of(10, 20, 30), "Add element operation failed");
+
+        // Remove elements
+        SynchronizedListExample.removeElement(synchronizedList, 20);
+
+        // Check if the removed element is correct
+        Assert.assertEquals(synchronizedList, List.of(10, 30), "Remove element operation failed");
+
+        // Print the list
+        SynchronizedListExample.printList(synchronizedList);
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class WeakHashMapExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        WeakHashMap<Integer, String> weakHashMap = new WeakHashMap<>();
+
+        System.out.println("Enter key-value pairs for WeakHashMap (enter 'exit' to stop):");
+        while (true) {
+            System.out.print("Key: ");
+            String keyInput = scanner.nextLine();
+
+            if (keyInput.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            int key = Integer.parseInt(keyInput);
+
+            System.out.print("Value: ");
+            String value = scanner.nextLine();
+
+            weakHashMap.put(key, value);
+        }
+
+        System.out.println("WeakHashMap: " + weakHashMap);
+
+        System.out.println("Demonstrating garbage collection impact:");
+        System.gc(); // Request garbage collection
+        System.out.println("WeakHashMap after garbage collection: " + weakHashMap);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.WeakHashMap;
+
+public class WeakHashMapExampleTest {
+
+    @Test
+    public void testWeakHashMapBehavior() {
+        WeakHashMap<Integer, String> weakHashMap = new WeakHashMap<>();
+
+        // Put entries
+        weakHashMap.put(1, "One");
+        weakHashMap.put(2, "Two");
+
+        // Check if entries are added successfully
+        Assert.assertEquals(weakHashMap.size(), 2, "Put entries operation failed");
+
+        // Demonstrate garbage collection impact
+        System.gc(); // Request garbage collection
+
+        // Check if entries are retained after garbage collection
+        Assert.assertEquals(weakHashMap.size(), 0, "Garbage collection impact failed");
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class CustomLinkedListExample {
+
+    private static Node head = null;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Choose an option:");
+            System.out.println("1. Insert Node");
+            System.out.println("2. Delete Node");
+            System.out.println("3. Search Node");
+            System.out.println("4. Print Linked List");
+            System.out.println("5. Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter data to insert: ");
+                    int insertData = scanner.nextInt();
+                    insertNode(insertData);
+                    break;
+                case 2:
+                    System.out.print("Enter data to delete: ");
+                    int deleteData = scanner.nextInt();
+                    deleteNode(deleteData);
+                    break;
+                case 3:
+                    System.out.print("Enter data to search: ");
+                    int searchData = scanner.nextInt();
+                    searchNode(searchData);
+                    break;
+                case 4:
+                    printLinkedList();
+                    break;
+                case 5:
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    public static void insertNode(int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        head = newNode;
+        System.out.println(data + " inserted into the linked list.");
+    }
+
+    public static void deleteNode(int data) {
+        Node current = head;
+        Node prev = null;
+
+        while (current != null && current.data != data) {
+            prev = current;
+            current = current.next;
+        }
+
+        if (current != null) {
+            if (prev == null) {
+                head = current.next;
+            } else {
+                prev.next = current.next;
+            }
+            System.out.println(data + " deleted from the linked list.");
+        } else {
+            System.out.println(data + " not found in the linked list.");
+        }
+    }
+
+    public static void searchNode(int data) {
+        Node current = head;
+        int position = 1;
+
+        while (current != null && current.data != data) {
+            current = current.next;
+            position++;
+        }
+
+        if (current != null) {
+            System.out.println(data + " found at position " + position + " in the linked list.");
+        } else {
+            System.out.println(data + " not found in the linked list.");
+        }
+    }
+
+    public static void printLinkedList() {
+        Node current = head;
+        System.out.print("Linked List: ");
+
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+
+        System.out.println();
+    }
+}
+
+
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+public class CustomLinkedListExampleTest {
+
+    @Test
+    public void testLinkedListOperations() {
+        // Test insertNode
+        CustomLinkedListExample.insertNode(10);
+        CustomLinkedListExample.insertNode(20);
+        CustomLinkedListExample.insertNode(30);
+
+        // Check if nodes are inserted successfully
+        Assert.assertEquals(getLinkedListAsString(), "30 20 10 ", "Insert node operation failed");
+
+        // Test deleteNode
+        CustomLinkedListExample.deleteNode(20);
+
+        // Check if node is deleted successfully
+        Assert.assertEquals(getLinkedListAsString(), "30 10 ", "Delete node operation failed");
+
+        // Test searchNode
+        CustomLinkedListExample.searchNode(30);
+
+        // Additional assertions can be added as needed
+    }
+
+    private String getLinkedListAsString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        CustomLinkedListExample.printLinkedList();
+        String[] elements = getConsoleOutput().split(" ");
+        for (int i = elements.length - 1; i >= 0; i--) {
+            stringBuilder.append(elements[i]).append(" ");
+        }
+        return stringBuilder.toString();
+    }
+
+    private String getConsoleOutput() {
+        return "Linked List: " + System.getProperty("line.separator");
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class IdentityHashMapExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<Integer, String> hashMap = new HashMap<>();
+        Map<Integer, String> identityHashMap = new IdentityHashMap<>();
+
+        System.out.println("Enter key-value pairs for HashMap (enter 'exit' to stop):");
+        inputKeyValuePairs(hashMap, scanner);
+
+        System.out.println("Enter key-value pairs for IdentityHashMap (enter 'exit' to stop):");
+        inputKeyValuePairs(identityHashMap, scanner);
+
+        System.out.println("HashMap: " + hashMap);
+        System.out.println("IdentityHashMap: " + identityHashMap);
+
+        System.out.println("Demonstrating difference between HashMap and IdentityHashMap:");
+        demonstrateDifference(hashMap, identityHashMap);
+
+        scanner.close();
+    }
+
+    private static void inputKeyValuePairs(Map<Integer, String> map, Scanner scanner) {
+        while (true) {
+            System.out.print("Key: ");
+            String keyInput = scanner.nextLine();
+
+            if (keyInput.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            int key = Integer.parseInt(keyInput);
+
+            System.out.print("Value: ");
+            String value = scanner.nextLine();
+
+            map.put(key, value);
+        }
+    }
+
+    private static void demonstrateDifference(Map<Integer, String> hashMap, Map<Integer, String> identityHashMap) {
+        System.out.println("HashMap contains key 1: " + hashMap.containsKey(1));
+        System.out.println("IdentityHashMap contains key 1: " + identityHashMap.containsKey(1));
+        System.out.println("HashMap.get(1) == HashMap.get(1): " + (hashMap.get(1) == hashMap.get(1)));
+        System.out.println("IdentityHashMap.get(1) == IdentityHashMap.get(1): " +
+                (identityHashMap.get(1) == identityHashMap.get(1)));
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.Map;
+
+public class IdentityHashMapExampleTest {
+
+    @Test
+    public void testIdentityHashMapBehavior() {
+        Map<Integer, String> hashMap = new HashMap<>();
+        Map<Integer, String> identityHashMap = new IdentityHashMap<>();
+
+        // Put entries
+        hashMap.put(1, "One");
+        hashMap.put(2, "Two");
+
+        identityHashMap.put(1, "One");
+        identityHashMap.put(2, "Two");
+
+        // Check if entries are added successfully
+        Assert.assertEquals(hashMap.size(), 2, "HashMap put entries operation failed");
+        Assert.assertEquals(identityHashMap.size(), 2, "IdentityHashMap put entries operation failed");
+
+        // Demonstrate difference between HashMap and IdentityHashMap
+        Assert.assertTrue(hashMap.containsKey(1), "HashMap contains key 1");
+        Assert.assertFalse(identityHashMap.containsKey(1), "IdentityHashMap does not contain key 1");
+
+        Assert.assertTrue(hashMap.get(1) == hashMap.get(1), "HashMap.get(1) == HashMap.get(1)");
+        Assert.assertFalse(identityHashMap.get(1) == identityHashMap.get(1),
+                "IdentityHashMap.get(1) == IdentityHashMap.get(1)");
+
+        // Additional assertions can be added as needed
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+public class ConcurrentModificationExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> list = new ArrayList<>();
+
+        System.out.println("Enter elements for the list (enter 'exit' to stop):");
+        inputElements(list, scanner);
+
+        System.out.println("List: " + list);
+
+        try {
+            // Attempting to modify the list during iteration (causing ConcurrentModificationException)
+            for (String element : list) {
+                if (element.equals("modify")) {
+                    list.remove(element); // ConcurrentModificationException occurs here
+                }
+            }
+        } catch (ConcurrentModificationException e) {
+            System.out.println("ConcurrentModificationException caught. Fixing the issue...");
+            fixConcurrentModificationIssue(list);
+        }
+
+        scanner.close();
+    }
+
+    private static void inputElements(List<String> list, Scanner scanner) {
+        while (true) {
+            System.out.print("Element: ");
+            String element = scanner.nextLine();
+
+            if (element.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            list.add(element);
+        }
+    }
+
+    private static void fixConcurrentModificationIssue(List<String> list) {
+        // Create a copy of the list to avoid concurrent modification
+        List<String> copyList = new ArrayList<>(list);
+
+        // Modify the list using the copy
+        for (String element : copyList) {
+            if (element.equals("modify")) {
+                list.remove(element);
+            }
+        }
+
+        System.out.println("List after fixing the issue: " + list);
+    }
+}
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.List;
+
+public class ConcurrentModificationExampleTest {
+
+    @Test
+    public void testConcurrentModificationException() {
+        List<String> list = new ArrayList<>();
+
+        // Add elements to the list
+        list.add("apple");
+        list.add("banana");
+        list.add("modify"); // Element causing modification during iteration
+
+        try {
+            // Attempting to modify the list during iteration (causing ConcurrentModificationException)
+            for (String element : list) {
+                if (element.equals("modify")) {
+                    list.remove(element); // ConcurrentModificationException occurs here
+                }
+            }
+        } catch (ConcurrentModificationException e) {
+            System.out.println("ConcurrentModificationException caught. Fixing the issue...");
+            fixConcurrentModificationIssue(list);
+
+            // Check if the issue is fixed
+            Assert.assertFalse(list.contains("modify"), "ConcurrentModificationException not fixed");
+        }
+    }
+
+    private void fixConcurrentModificationIssue(List<String> list) {
+        // Create a copy of the list to avoid concurrent modification
+        List<String> copyList = new ArrayList<>(list);
+
+        // Modify the list using the copy
+        for (String element : copyList) {
+            if (element.equals("modify")) {
+                list.remove(element);
+            }
+        }
+
+        
+    }
+}
+
+
+  
+
+
+package JavaAdvanced;
+
+import java.util.*;
+
+enum Day {
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+}
+
+public class EnumMapExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        EnumMap<Day, String> schedule = new EnumMap<>(Day.class);
+
+        System.out.println("Enter activities for each day (enter 'exit' to stop):");
+        inputActivities(schedule, scanner);
+
+        System.out.println("Schedule:");
+        printSchedule(schedule);
+
+        scanner.close();
+    }
+
+    private static void inputActivities(EnumMap<Day, String> schedule, Scanner scanner) {
+        for (Day day : Day.values()) {
+            System.out.print(day + ": ");
+            String activity = scanner.nextLine();
+
+            if (activity.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            schedule.put(day, activity);
+        }
+    }
+
+    private static void printSchedule(EnumMap<Day, String> schedule) {
+        for (Map.Entry<Day, String> entry : schedule.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+import java.util.EnumMap;
+
+public class EnumMapExampleTest {
+
+    @Test
+    public void testEnumMapUsage() {
+        EnumMap<Day, String> schedule = new EnumMap<>(Day.class);
+
+        // Add activities to the EnumMap
+        schedule.put(Day.MONDAY, "Work");
+        schedule.put(Day.TUESDAY, "Gym");
+        schedule.put(Day.WEDNESDAY, "Meeting");
+        schedule.put(Day.THURSDAY, "Study");
+        schedule.put(Day.FRIDAY, "Movie Night");
+
+        // Check if activities are added successfully
+        Assert.assertEquals(schedule.size(), 5, "Activities not added successfully");
+
+        // Print schedule
+        printSchedule(schedule);
+
+        // Additional assertions can be added as needed
+    }
+
+    private void printSchedule(EnumMap<Day, String> schedule) {
+        System.out.println("Schedule:");
+        for (Day day : Day.values()) {
+            System.out.println(day + ": " + schedule.get(day));
+        }
+    }
+}
+
+
+
