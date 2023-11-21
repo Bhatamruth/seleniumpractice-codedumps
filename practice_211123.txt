@@ -1,0 +1,1342 @@
+package JavaAdvanced;
+
+import java.util.*;
+
+public class LinkedHashMapUsage {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        LinkedHashMap<String, String> orderedMap = new LinkedHashMap<>();
+
+        System.out.println("Enter key-value pairs for the LinkedHashMap (type 'exit' to stop):");
+        inputKeyValuePairs(orderedMap, scanner);
+
+        System.out.println("LinkedHashMap contents:");
+        printLinkedHashMap(orderedMap);
+
+        scanner.close();
+    }
+
+   static void inputKeyValuePairs(LinkedHashMap<String, String> orderedMap, Scanner scanner) {
+        while (true) {
+            System.out.print("Enter key: ");
+            String key = scanner.nextLine();
+
+            if (key.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            System.out.print("Enter value: ");
+            String value = scanner.nextLine();
+
+            orderedMap.put(key, value);
+        }
+    }
+
+     static void printLinkedHashMap(LinkedHashMap<String, String> orderedMap) {
+        for (Map.Entry<String, String> entry : orderedMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.LinkedHashMap;
+import java.util.Scanner;
+
+public class TestLinkedHashMapUsage {
+
+    @Test
+    public void testLinkedHashMapUsage() {
+        String input = "Key1\nValue1\nKey2\nValue2\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        LinkedHashMap<String, String> testMap = new LinkedHashMap<>();
+        LinkedHashMapUsage.inputKeyValuePairs(testMap, new Scanner(System.in));
+
+        // Assertions
+        Assert.assertEquals(testMap.size(), 2, "Size of LinkedHashMap is incorrect");
+        Assert.assertTrue(testMap.containsKey("Key1"), "Key1 is not present in the LinkedHashMap");
+        Assert.assertTrue(testMap.containsValue("Value2"), "Value2 is not present in the LinkedHashMap");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+package JavaAdvanced;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class StackImplementation<T> {
+
+    private ArrayList<T> stack;
+
+    public StackImplementation() {
+        this.stack = new ArrayList<>();
+    }
+
+    public void push(T item) {
+        stack.add(item);
+    }
+
+    public T pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return stack.remove(stack.size() - 1);
+    }
+
+    public T peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return stack.get(stack.size() - 1);
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public int size() {
+        return stack.size();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StackImplementation<Integer> stack = new StackImplementation<>();
+
+        System.out.println("Stack Implementation using ArrayList");
+        System.out.println("Enter stack operations (push, pop, peek) and values (type 'exit' to stop):");
+
+        while (true) {
+            String operation = scanner.next().toLowerCase();
+
+            if (operation.equals("exit")) {
+                break;
+            }
+
+            switch (operation) {
+                case "push":
+                    int value = scanner.nextInt();
+                    stack.push(value);
+                    break;
+                case "pop":
+                    System.out.println("Popped value: " + stack.pop());
+                    break;
+                case "peek":
+                    System.out.println("Peeked value: " + stack.peek());
+                    break;
+                default:
+                    System.out.println("Invalid operation. Try again.");
+            }
+        }
+
+        System.out.println("Final Stack Contents:");
+        while (!stack.isEmpty()) {
+            System.out.println(stack.pop());
+        }
+
+        scanner.close();
+    }
+}
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+public class TestStackImplementation {
+
+    @Test
+    public void testStackImplementation() {
+        StackImplementation<String> testStack = new StackImplementation<>();
+
+        // Assertions for an empty stack
+        Assert.assertTrue(testStack.isEmpty(), "Stack should be empty initially");
+        Assert.assertEquals(testStack.size(), 0, "Stack size should be 0 initially");
+
+        // Push operation
+        testStack.push("Item1");
+        testStack.push("Item2");
+        testStack.push("Item3");
+
+        // Assertions after push operations
+        Assert.assertFalse(testStack.isEmpty(), "Stack should not be empty after push operations");
+        Assert.assertEquals(testStack.size(), 3, "Stack size should be 3 after push operations");
+        Assert.assertEquals(testStack.peek(), "Item3", "Peeked value should be 'Item3'");
+
+        // Pop operation
+        String poppedItem = testStack.pop();
+
+        // Assertions after pop operation
+        Assert.assertEquals(poppedItem, "Item3", "Popped value should be 'Item3'");
+        Assert.assertEquals(testStack.size(), 2, "Stack size should be 2 after pop operation");
+
+        // Pop all remaining items
+        String item2 = testStack.pop();
+        String item1 = testStack.pop();
+
+        // Assertions after popping all items
+        Assert.assertTrue(testStack.isEmpty(), "Stack should be empty after popping all items");
+        Assert.assertEquals(testStack.size(), 0, "Stack size should be 0 after popping all items");
+
+        // Attempting to pop from an empty stack should throw an exception
+        try {
+            testStack.pop();
+            Assert.fail("Expected IllegalStateException was not thrown");
+        } catch (IllegalStateException e) {
+            // Expected exception
+        }
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class ConcurrentHashMapUsage {
+
+    private static final int THREAD_COUNT = 5;
+    private static final int ITERATIONS_PER_THREAD = 10000;
+
+    public static void main(String[] args) throws InterruptedException {
+        ConcurrentHashMap<String, AtomicInteger> concurrentMap = new ConcurrentHashMap<>();
+        ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+
+        System.out.println("ConcurrentHashMap Usage");
+
+        // Start multiple threads to update the ConcurrentHashMap
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            executorService.submit(() -> {
+                for (int j = 0; j < ITERATIONS_PER_THREAD; j++) {
+                    updateConcurrentMap(concurrentMap, "Key");
+                }
+            });
+        }
+
+        // Shutdown the executor service and wait for termination
+        executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
+
+        // Print the final contents of the ConcurrentHashMap
+        System.out.println("Final ConcurrentHashMap Contents:");
+        concurrentMap.forEach((key, value) ->
+                System.out.println(key + ": " + value.get()));
+    }
+
+    private static void updateConcurrentMap(ConcurrentHashMap<String, AtomicInteger> concurrentMap, String key) {
+        concurrentMap.compute(key, (k, v) ->
+                v == null ? new AtomicInteger(1) : new AtomicInteger(v.incrementAndGet()));
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class AtomicIntegerExample {
+
+    public static void main(String[] args) {
+        AtomicInteger atomicInt = new AtomicInteger(0);
+
+        // Atomic increment operation
+        int newValue = atomicInt.incrementAndGet();
+        System.out.println("New Value after increment: " + newValue);
+
+        // Atomic decrement operation
+        newValue = atomicInt.decrementAndGet();
+        System.out.println("New Value after decrement: " + newValue);
+
+        // Atomic add operation
+        int delta = 5;
+        newValue = atomicInt.addAndGet(delta);
+        System.out.println("New Value after add: " + newValue);
+
+        // Atomic compare-and-set operation
+        int expectedValue = 6;
+        int updateValue = 10;
+        boolean successfulUpdate = atomicInt.compareAndSet(expectedValue, updateValue);
+        System.out.println("Update successful: " + successfulUpdate);
+        System.out.println("Current Value: " + atomicInt.get());
+    }
+}
+
+
+
+
+
+
+
+package JavaAdvanced;
+
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class PriorityQueueImplementation {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+
+        System.out.println("PriorityQueue Implementation to Sort Integers");
+        System.out.println("Enter integers to be sorted (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.next();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int value = Integer.parseInt(input);
+                priorityQueue.offer(value);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter integers only.");
+            }
+        }
+
+        System.out.println("Sorted Integers in Ascending Order:");
+        while (!priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.poll());
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.PriorityQueue;
+
+public class TestPriorityQueueImplementation {
+
+    @Test
+    public void testPriorityQueueImplementation() {
+        String input = "5\n3\n8\n1\n10\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        PriorityQueue<Integer> testQueue = new PriorityQueue<>();
+        PriorityQueueImplementation.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(testQueue.size(), 5, "PriorityQueue size should be 5");
+        Assert.assertEquals(testQueue.poll(), 1, "First element should be 1");
+        Assert.assertEquals(testQueue.poll(), 3, "Second element should be 3");
+        Assert.assertEquals(testQueue.poll(), 5, "Third element should be 5");
+        Assert.assertEquals(testQueue.poll(), 8, "Fourth element should be 8");
+        Assert.assertEquals(testQueue.poll(), 10, "Fifth element should be 10");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.Scanner;
+import java.util.TreeSet;
+
+class Person implements Comparable<Person> {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Person other) {
+        return Integer.compare(this.age, other.age);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class TreeSetAndComparable {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TreeSet<Person> personSet = new TreeSet<>();
+
+        System.out.println("TreeSet and Comparable Example");
+        System.out.println("Enter person details (name age) to add to the set (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ");
+                String name = parts[0];
+                int age = Integer.parseInt(parts[1]);
+                Person person = new Person(name, age);
+                personSet.add(person);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter name and age separated by a space.");
+            }
+        }
+
+        System.out.println("Sorted Set of Persons:");
+        for (Person person : personSet) {
+            System.out.println(person);
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.util.TreeSet;
+
+public class TestTreeSetAndComparable {
+
+    @Test
+    public void testTreeSetAndComparable() {
+        String input = "John 30\nAlice 25\nBob 35\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        TreeSet<Person> testSet = new TreeSet<>();
+        TreeSetAndComparable.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(testSet.size(), 3, "TreeSet size should be 3");
+
+        Person[] persons = testSet.toArray(new Person[0]);
+        Assert.assertEquals(persons[0].toString(), "Person{name='Alice', age=25}",
+                "First person should be Alice (age 25)");
+        Assert.assertEquals(persons[1].toString(), "Person{name='John', age=30}",
+                "Second person should be John (age 30)");
+        Assert.assertEquals(persons[2].toString(), "Person{name='Bob', age=35}",
+                "Third person should be Bob (age 35)");
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.Scanner;
+import java.util.TreeSet;
+
+class Group implements Comparable<Group> {
+    private String name;
+    private int age;
+
+    public Group(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public int compareTo(Group other) {
+        return Integer.compare(this.age, other.age);
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class a12 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TreeSet<Group> groupSet = new TreeSet<>();
+
+        System.out.println("TreeSet and Comparable Example");
+        System.out.println("Enter group details (name age) to add to the set (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ");
+                String name = parts[0];
+                int age = Integer.parseInt(parts[1]);
+                Group group = new Group(name, age);
+                groupSet.add(group);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter name and age separated by a space.");
+            }
+        }
+
+        System.out.println("Sorted Set of Groups:");
+        for (Group group : groupSet) {
+            System.out.println(group);
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Synchronized_Example {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> synchronizedList = Collections.synchronizedList(new ArrayList<>());
+
+        System.out.println("Synchronized List Example");
+        System.out.println("Enter strings to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            synchronized (synchronizedList) {
+                synchronizedList.add(input);
+            }
+        }
+
+        System.out.println("Elements in the Synchronized List:");
+        for (String element : synchronizedList) {
+            System.out.println(element);
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Collections;
+import java.util.List;
+import java.util.*;
+public class TestSynchronized_Example {
+
+    @Test
+    public void testSynchronizedListExample() {
+        String input = "Item1\nItem2\nItem3\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        List<String> testList = Collections.synchronizedList(new ArrayList<>());
+        SynchronizedListExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(testList.size(), 3, "Synchronized List size should be 3");
+        Assert.assertTrue(testList.contains("Item1"), "List should contain Item1");
+        Assert.assertTrue(testList.contains("Item2"), "List should contain Item2");
+        Assert.assertTrue(testList.contains("Item3"), "List should contain Item3");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class MapOperationsExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<Integer, String> map = new HashMap<>();
+
+        System.out.println("Map Operations Example");
+        System.out.println("Enter key-value pairs to add to the map (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ");
+                int key = Integer.parseInt(parts[0]);
+                String value = parts[1];
+                map.put(key, value);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter key-value pairs separated by a space.");
+            }
+        }
+
+        // Perform map operations
+        map.merge(1, "MergedValue", (existingValue, newValue) -> existingValue.concat(newValue));
+        map.compute(2, (key, existingValue) -> (existingValue == null) ? "ComputedValue" : existingValue.concat("Computed"));
+        map.remove(3);
+
+        System.out.println("Map after Operations:");
+        for (Map.Entry<Integer, String> entry : map.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
+
+public class TestMapOperationsExample {
+
+    @Test
+    public void testMapOperationsExample() {
+        String input = "1 Value1\n2 Value2\n3 Value3\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        Map<Integer, String> testMap = new HashMap<>();
+        MapOperationsExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(testMap.size(), 2, "Map size should be 2 after operations");
+        Assert.assertTrue(testMap.containsKey(1), "Map should contain key 1");
+        Assert.assertTrue(testMap.containsKey(2), "Map should contain key 2");
+        Assert.assertFalse(testMap.containsKey(3), "Map should not contain key 3");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class IdentityHashExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Map<Object, String> hashMap = new HashMap<>();
+        Map<Object, String> identityHashMap = new IdentityHashMap<>();
+
+        System.out.println("IdentityHashMap Example");
+        System.out.println("Enter key-value pairs to add to the maps (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ");
+                Object key = parts[0];
+                String value = parts[1];
+                hashMap.put(key, value);
+                identityHashMap.put(key, value);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter key-value pairs separated by a space.");
+            }
+        }
+
+        System.out.println("HashMap Entries:");
+        for (Map.Entry<Object, String> entry : hashMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
+        System.out.println("IdentityHashMap Entries:");
+        for (Map.Entry<Object, String> entry : identityHashMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+        }
+
+        // Demonstrate the difference
+        System.out.println("HashMap Key Comparison (Equality): " + (hashMap.keySet().iterator().next() == hashMap.keySet().iterator().next()));
+        System.out.println("IdentityHashMap Key Comparison (Identity): " + (identityHashMap.keySet().iterator().next() == identityHashMap.keySet().iterator().next()));
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class SubListManipulationExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> list = new ArrayList<>();
+
+        System.out.println("SubList Manipulation Example");
+        System.out.println("Enter strings to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            list.add(input);
+        }
+
+        System.out.println("Original List: " + list);
+
+        // Manipulate sublist
+        List<String> subList = list.subList(1, 3);
+        subList.add("AddedElement");
+        subList.set(1, "UpdatedElement");
+        list.remove("UpdatedElement");
+
+        System.out.println("List after SubList Manipulation: " + list);
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestSubListManipulationExample {
+
+    @Test
+    public void testSubListManipulationExample() {
+        String input = "Item1\nItem2\nItem3\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        List<String> testList = new ArrayList<>();
+        SubListManipulationExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(testList.size(), 2, "List size should be 2 after manipulation");
+        Assert.assertTrue(testList.contains("Item1"), "List should contain Item1");
+        Assert.assertTrue(testList.contains("Item2"), "List should contain Item2");
+        Assert.assertFalse(testList.contains("Item3"), "List should not contain Item3");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class CollectionsReverseExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> list = new ArrayList<>();
+
+        System.out.println("Collections Reverse Example");
+        System.out.println("Enter strings to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            list.add(input);
+        }
+
+        System.out.println("Original List: " + list);
+
+        // Reverse the order of elements using Collections.reverse
+        Collections.reverse(list);
+
+        System.out.println("List after Reversal: " + list);
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestCollectionsReverseExample {
+
+    @Test
+    public void testCollectionsReverseExample() {
+        String input = "Item1\nItem2\nItem3\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        List<String> testList = new ArrayList<>();
+        CollectionsReverseExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(testList.size(), 3, "List size should be 3");
+        Assert.assertEquals(testList.get(0), "Item3", "First element should be Item3 after reversal");
+        Assert.assertEquals(testList.get(1), "Item2", "Second element should be Item2 after reversal");
+        Assert.assertEquals(testList.get(2), "Item1", "Third element should be Item1 after reversal");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+package JavaAdvanced;
+
+import java.util.BitSet;
+import java.util.Scanner;
+
+public class BitSetOperationsExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BitSet bitSet = new BitSet();
+
+        System.out.println("BitSet Operations Example");
+        System.out.println("Enter indices to set, clear, or flip (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int index = Integer.parseInt(input);
+                bitSet.set(index);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input format. Please enter a valid integer index.");
+            }
+        }
+
+        System.out.println("BitSet after Operations: " + bitSet);
+
+        scanner.close();
+    }
+}
+\
+
+
+package JavaAdvanced;
+
+import java.util.BitSet;
+import java.util.Scanner;
+
+public class BitSetOperationsExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        BitSet bitSet = new BitSet();
+
+        System.out.println("BitSet Operations Example");
+        System.out.println("Enter indices to set, clear, or flip (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int index = Integer.parseInt(input);
+                bitSet.set(index);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input format. Please enter a valid integer index.");
+            }
+        }
+
+        System.out.println("BitSet after Operations: " + bitSet);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.BitSet;
+
+public class TestBitSetOperationsExample {
+
+    @Test
+    public void testBitSetOperationsExample() {
+        String input = "1\n3\n5\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        BitSet testBitSet = new BitSet();
+        BitSetOperationsExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertTrue(testBitSet.get(1), "Bit at index 1 should be set");
+        Assert.assertFalse(testBitSet.get(2), "Bit at index 2 should not be set");
+        Assert.assertTrue(testBitSet.get(3), "Bit at index 3 should be set");
+        Assert.assertFalse(testBitSet.get(4), "Bit at index 4 should not be set");
+        Assert.assertTrue(testBitSet.get(5), "Bit at index 5 should be set");
+
+        // Redirect standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+
+public class DequeImplementationExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Deque<String> deque = new ArrayDeque<>();
+
+        System.out.println("Deque Implementation Example");
+        System.out.println("Enter elements to add to the deque (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            // Add element to the front of the deque
+            deque.addFirst(input);
+            
+            // Add element to the end of the deque
+            deque.addLast("Last: " + input);
+        }
+
+        System.out.println("Deque Contents:");
+        
+        // Print elements from the front of the deque
+        System.out.println("Elements from the front:");
+        while (!deque.isEmpty()) {
+            System.out.println(deque.removeFirst());
+        }
+
+        // Print elements from the end of the deque
+        System.out.println("Elements from the end:");
+        while (!deque.isEmpty()) {
+            System.out.println(deque.removeLast());
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayDeque;
+import java.util.Deque;
+
+public class TestDequeImplementationExample {
+
+    @Test
+    public void testDequeImplementationExample() {
+        String input = "Item1\nItem2\nItem3\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        Deque<String> testDeque = new ArrayDeque<>();
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        DequeImplementationExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertEquals(outContent.toString().trim(), "Deque Contents:\n" +
+                "Elements from the front:\n" +
+                "Item3\n" +
+                "Item2\n" +
+                "Item1\n" +
+                "Elements from the end:\n" +
+                "Last: Item1\n" +
+                "Last: Item2\n" +
+                "Last: Item3", "Deque contents should match expected output");
+
+        // Reset standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+package JavaAdvanced;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class LRUCacheExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("LRU Cache Implementation Example");
+        System.out.println("Enter cache capacity:");
+
+        int capacity = scanner.nextInt();
+        LRUCache<String, Integer> lruCache = new LRUCache<>(capacity);
+
+        System.out.println("Enter key-value pairs to add to the cache (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.next();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int value = scanner.nextInt();
+                lruCache.put(input, value);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter key and value.");
+            }
+        }
+
+        System.out.println("LRU Cache Contents:");
+        lruCache.entrySet().forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
+
+        scanner.close();
+    }
+
+    static class LRUCache<K, V> extends LinkedHashMap<K, V> {
+
+        private final int capacity;
+
+        public LRUCache(int capacity) {
+            super(capacity, 0.75f, true);
+            this.capacity = capacity;
+        }
+
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+            return size() > capacity;
+        }
+    }
+}
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+public class TestLRUCacheExample {
+
+    @Test
+    public void testLRUCacheExample() {
+        String input = "3\nKey1 10\nKey2 20\nKey3 30\nKey4 40\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        LRUCacheExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertTrue(outContent.toString().contains("Key2: 20"), "Key2 should be present in the output");
+        Assert.assertFalse(outContent.toString().contains("Key1: 10"), "Key1 should not be present in the output");
+
+        // Reset standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
+
+
+
+package JavaAdvanced;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class EnumMapCode  {
+
+    enum Day {
+        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        EnumMap<Day, String> dayActivities = new EnumMap<>(Day.class);
+
+        System.out.println("EnumMap Example - Store and Retrieve Information for Different Days");
+        System.out.println("Enter activities for each day (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ", 2);
+                Day day = Day.valueOf(parts[0].toUpperCase());
+                String activity = parts[1];
+                dayActivities.put(day, activity);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter a day and an activity separated by a space.");
+            }
+        }
+
+        System.out.println("Activities for Each Day:");
+
+        for (Map.Entry<Day, String> entry : dayActivities.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class UserInputCollectionExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Integer> integerList = new ArrayList<>();
+
+        System.out.println("User Input Collection Example - Add Integers to a List");
+        System.out.println("Enter integers to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int number = Integer.parseInt(input);
+                integerList.add(number);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+            }
+        }
+
+        System.out.println("List of Integers:");
+        System.out.println(integerList);
+
+        scanner.close();
+    }
+}
+
+
+
+
+package JavaAdvanced;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+public class TestUserInputCollectionExample {
+
+    @Test
+    public void testUserInputCollectionExample() {
+        String input = "5\n10\n15\nexit\n";
+        ByteArrayInputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        UserInputCollectionExample.main(new String[]{});
+
+        // Assertions
+        Assert.assertTrue(outContent.toString().contains("[5, 10, 15]"), "List should contain the entered integers");
+        Assert.assertFalse(outContent.toString().contains("exit"), "'exit' should not be present in the output");
+
+        // Reset standard output back to the console
+        System.setOut(System.out);
+
+        // Reset standard input stream
+        System.setIn(System.in);
+    }
+}
