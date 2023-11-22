@@ -1,0 +1,1569 @@
+package JavaAdvanced2;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamManipulationExample {
+
+    public static double averageOfSquareRootsOfEvenNumbers(List<Integer> numbers) {
+        return numbers.stream()
+                .filter(n -> n % 2 == 0)
+                .mapToDouble(Math::sqrt)
+                .average()
+                .orElse(0.0);
+    }
+
+    public static void main(String[] args) {
+        // Taking user input (you can modify this part as needed)
+        List<Integer> inputNumbers = Arrays.asList(2, 4, 6, 8, 10);
+
+        double result = averageOfSquareRootsOfEvenNumbers(inputNumbers);
+        System.out.println("Average of square roots of even numbers: " + result);
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamManipulationExampleTest {
+
+    @Test
+    public void testAverageOfSquareRootsOfEvenNumbers() {
+        // Test data
+        List<Integer> testNumbers = Arrays.asList(2, 4, 6, 8, 10);
+
+        // Expected result (calculated manually)
+        double expected = Math.sqrt(2) + Math.sqrt(4) + Math.sqrt(6) + Math.sqrt(8) + Math.sqrt(10);
+        expected /= 5;
+
+        // Actual result
+        double actual = StreamManipulationExample.averageOfSquareRootsOfEvenNumbers(testNumbers);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect average of square roots for even numbers");
+    }
+}
+
+
+
+
+package JavaAdvanced2;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+public class CustomCollectorExample {
+
+    public static String concatenateStrings(List<String> stringList) {
+        return stringList.stream()
+                .collect(joiningWithComma());
+    }
+
+    // Custom collector implementation
+    public static Collector<CharSequence, ?, String> joiningWithComma() {
+        return Collectors.joining(", ");
+    }
+
+    public static void main(String[] args) {
+        // Taking user input (you can modify this part as needed)
+        List<String> inputStrings = Arrays.asList("Java", "Stream", "Collector", "Example");
+
+        String result = concatenateStrings(inputStrings);
+        System.out.println("Concatenated String: " + result);
+    }
+}
+
+
+
+
+package JavaAdvanced2;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+class MyObject {
+    private String name;
+    private boolean isPropertyTrue;
+
+    public MyObject(String name, boolean isPropertyTrue) {
+        this.name = name;
+        this.isPropertyTrue = isPropertyTrue;
+    }
+
+    public boolean isPropertyTrue() {
+        return isPropertyTrue;
+    }
+
+    @Override
+    public String toString() {
+        return "MyObject{" +
+                "name='" + name + '\'' +
+                ", isPropertyTrue=" + isPropertyTrue +
+                '}';
+    }
+}
+
+public class FilteringWithStreams {
+
+    public static List<MyObject> filterObjects(List<MyObject> objects) {
+        return objects.stream()
+                .filter(MyObject::isPropertyTrue)
+                .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        // Taking user input (you can modify this part as needed)
+        List<MyObject> myObjects = Arrays.asList(
+                new MyObject("Object1", true),
+                new MyObject("Object2", false),
+                new MyObject("Object3", true),
+                new MyObject("Object4", true)
+        );
+
+        List<MyObject> filteredObjects = filterObjects(myObjects);
+        System.out.println("Filtered Objects: " + filteredObjects);
+    }
+}
+
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class FilteringWithStreamsTest {
+
+    @Test
+    public void testFilterObjects() {
+        // Test data
+        List<MyObject> testObjects = Arrays.asList(
+                new MyObject("Object1", true),
+                new MyObject("Object2", false),
+                new MyObject("Object3", true),
+                new MyObject("Object4", true)
+        );
+
+        // Expected result (calculated manually)
+        List<MyObject> expected = Arrays.asList(
+                new MyObject("Object1", true),
+                new MyObject("Object3", true),
+                new MyObject("Object4", true)
+        );
+
+        // Actual result
+        List<MyObject> actual = FilteringWithStreams.filterObjects(testObjects);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect filtered objects");
+    }
+}
+
+
+
+
+
+package JavaAdvanced2;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class MergingCollections {
+
+    public static List<Integer> mergeAndSort(List<Integer> list1, List<Integer> list2) {
+        List<Integer> mergedList = new ArrayList<>(list1);
+        mergedList.addAll(list2);
+
+        return mergedList.stream()
+                .distinct()
+                .sorted((a, b) -> b.compareTo(a))
+                .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        // Taking user input (you can modify this part as needed)
+        List<Integer> list1 = Arrays.asList(1, 3, 5, 7, 9);
+        List<Integer> list2 = Arrays.asList(3, 6, 9, 12);
+
+        List<Integer> result = mergeAndSort(list1, list2);
+        System.out.println("Merged and Sorted List: " + result);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class MergingCollectionsTest {
+
+    @Test
+    public void testMergeAndSort() {
+        // Test data
+        List<Integer> testList1 = Arrays.asList(1, 3, 5, 7, 9);
+        List<Integer> testList2 = Arrays.asList(3, 6, 9, 12);
+
+        // Expected result (calculated manually)
+        List<Integer> expected = Arrays.asList(12, 9, 7, 6, 5, 3, 1);
+
+        // Actual result
+        List<Integer> actual = MergingCollections.mergeAndSort(testList1, testList2);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect merged and sorted list");
+    }
+}
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class MergingCollectionsTest {
+
+    @Test
+    public void testMergeAndSort() {
+        // Test data
+        List<Integer> testList1 = Arrays.asList(1, 3, 5, 7, 9);
+        List<Integer> testList2 = Arrays.asList(3, 6, 9, 12);
+
+        // Expected result (calculated manually)
+        List<Integer> expected = Arrays.asList(12, 9, 7, 6, 5, 3, 1);
+
+        // Actual result
+        List<Integer> actual = MergingCollections.mergeAndSort(testList1, testList2);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect merged and sorted list");
+    }
+}
+package JavaAdvanced2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class ParallelStreamProcessing {
+
+    public static long performTimeConsumingOperation(String element) {
+        // Simulating a time-consuming operation
+        try {
+            TimeUnit.MILLISECONDS.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // For simplicity, returning the length of the element
+        return element.length();
+    }
+
+    public static long processListParallel(List<String> elements) {
+        return elements.parallelStream()
+                .mapToLong(ParallelStreamProcessing::performTimeConsumingOperation)
+                .sum();
+    }
+
+    public static void main(String[] args) {
+        // Taking user input (you can modify this part as needed)
+        List<String> elementList = new ArrayList<>();
+        elementList.add("Java");
+        elementList.add("Stream");
+        elementList.add("Parallel");
+        // ... add more elements as needed
+
+        long result = processListParallel(elementList);
+        System.out.println("Result of Parallel Stream Processing: " + result);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class ParallelStreamProcessingTest {
+
+    @Test
+    public void testProcessListParallel() {
+        // Test data
+        List<String> testElements = Arrays.asList("Java", "Stream", "Parallel");
+
+        // Expected result (calculated manually)
+        long expected = 18; // Lengths: 4 + 6 + 8 = 18
+
+        // Actual result
+        long actual = ParallelStreamProcessing.processListParallel(testElements);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect result of parallel stream processing");
+    }
+}
+
+
+
+
+
+
+
+
+
+package JavaAdvanced2;
+
+import java.util.Scanner;
+
+public class StringManipulation {
+
+    public static String reverseStringWithPreservation(String input) {
+        char[] charArray = input.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+
+        while (left < right) {
+            // Skip non-alphabetic characters on the left
+            while (left < right && !Character.isAlphabetic(charArray[left])) {
+                left++;
+            }
+
+            // Skip non-alphabetic characters on the right
+            while (left < right && !Character.isAlphabetic(charArray[right])) {
+                right--;
+            }
+
+            // Swap alphabetic characters
+            if (Character.isAlphabetic(charArray[left]) && Character.isAlphabetic(charArray[right])) {
+                char temp = charArray[left];
+                charArray[left] = charArray[right];
+                charArray[right] = temp;
+            }
+
+            left++;
+            right--;
+        }
+
+        return new String(charArray);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a string for manipulation:");
+        String inputString = scanner.nextLine();
+
+        String result = reverseStringWithPreservation(inputString);
+        System.out.println("Result after string manipulation: " + result);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class StringManipulationTest {
+
+    @Test
+    public void testReverseStringWithPreservation() {
+        // Test data
+        String testInput = "abc123def456";
+        
+        // Expected result (calculated manually)
+        String expected = "fed123cba456";
+
+        // Actual result
+        String actual = StringManipulation.reverseStringWithPreservation(testInput);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect result of string manipulation");
+    }
+}
+
+package JavaAdvanced2;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class LambdaExpressionExample {
+
+    public static List<String> filterStrings(List<String> inputList, String substring) {
+        // Use lambda expression to filter strings
+        return inputList.stream()
+                .filter(str -> str.contains(substring))
+                .collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a list of strings (comma-separated):");
+        String inputString = scanner.nextLine();
+
+        System.out.println("Enter the substring to filter:");
+        String substringToFilter = scanner.nextLine();
+
+        // Convert input string to list of strings
+        List<String> inputList = Arrays.asList(inputString.split(",\\s*"));
+
+        // Use lambda expression to filter strings
+        List<String> filteredList = filterStrings(inputList, substringToFilter);
+
+        System.out.println("Filtered list: " + filteredList);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class LambdaExpressionExampleTest {
+
+    @Test
+    public void testFilterStrings() {
+        // Test data
+        List<String> testInputList = Arrays.asList("apple", "banana", "orange", "grape");
+        String testSubstring = "an";
+        
+        // Expected result (calculated manually)
+        List<String> expected = Arrays.asList("banana", "orange");
+
+        // Actual result
+        List<String> actual = LambdaExpressionExample.filterStrings(testInputList, testSubstring);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect result of string filtering");
+    }
+}
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class LambdaExpressionExampleTest {
+
+    @Test
+    public void testFilterStrings() {
+        // Test data
+        List<String> testInputList = Arrays.asList("apple", "banana", "orange", "grape");
+        String testSubstring = "an";
+        
+        // Expected result (calculated manually)
+        List<String> expected = Arrays.asList("banana", "orange");
+
+        // Actual result
+        List<String> actual = LambdaExpressionExample.filterStrings(testInputList, testSubstring);
+
+        // Assertions
+        Assert.assertEquals(actual, expected, "Incorrect result of string filtering");
+    }
+}
+package JavaAdvanced2;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class AnagramChecker {
+
+    public static boolean areAnagrams(String str1, String str2) {
+        // Remove spaces and convert to lowercase for case-insensitive comparison
+        str1 = str1.replaceAll("\\s", "").toLowerCase();
+        str2 = str2.replaceAll("\\s", "").toLowerCase();
+
+        // Check if the lengths are equal
+        if (str1.length() != str2.length()) {
+            return false;
+        }
+
+        // Convert strings to char arrays and sort them
+        char[] charArray1 = str1.toCharArray();
+        char[] charArray2 = str2.toCharArray();
+
+        Arrays.sort(charArray1);
+        Arrays.sort(charArray2);
+
+        // Compare sorted char arrays
+        return Arrays.equals(charArray1, charArray2);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the first string:");
+        String str1 = scanner.nextLine();
+
+        System.out.println("Enter the second string:");
+        String str2 = scanner.nextLine();
+
+        // Check if the strings are anagrams
+        if (areAnagrams(str1, str2)) {
+            System.out.println("The strings are anagrams.");
+        } else {
+            System.out.println("The strings are not anagrams.");
+        }
+
+        scanner.close();
+    }
+}
+package JavaAdvanced2;
+
+import java.util.Scanner;
+
+public class StringCompression {
+
+    public static String compressString(String input) {
+        StringBuilder compressed = new StringBuilder();
+        int countConsecutive = 0;
+
+        for (int i = 0; i < input.length(); i++) {
+            countConsecutive++;
+
+            // If the next character is different than the current one, append the current character and count
+            if (i + 1 >= input.length() || input.charAt(i) != input.charAt(i + 1)) {
+                compressed.append(input.charAt(i));
+                compressed.append(countConsecutive);
+                countConsecutive = 0;
+            }
+        }
+
+        // If the compressed string is shorter than the original, return it; otherwise, return the original
+        return compressed.length() < input.length() ? compressed.toString() : input;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a string for compression:");
+        String input = scanner.nextLine();
+
+        // Perform string compression
+        String compressedString = compressString(input);
+
+        System.out.println("Compressed string: " + compressedString);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced2;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+public class LambdaComparatorExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input: List of strings
+        List<String> stringList = new ArrayList<>();
+        System.out.println("Enter strings (type 'done' to finish input):");
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equalsIgnoreCase("done")) {
+                break;
+            }
+            stringList.add(input);
+        }
+
+        // Sorting the list based on string lengths using lambda expressions and comparators
+        Collections.sort(stringList, Comparator.comparingInt(String::length));
+
+        // Displaying the sorted list
+        System.out.println("Sorted List based on String Lengths:");
+        for (String str : stringList) {
+            System.out.println(str);
+        }
+
+        scanner.close();
+    }
+}
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class LambdaComparatorExampleTest {
+
+    @Test
+    public void testLambdaComparatorSorting() {
+        // Input: List of strings
+        List<String> stringList = new ArrayList<>();
+        stringList.add("apple");
+        stringList.add("banana");
+        stringList.add("orange");
+        stringList.add("kiwi");
+
+        // Sorting the list based on string lengths using lambda expressions and comparators
+        Collections.sort(stringList, Comparator.comparingInt(String::length));
+
+        // Assertions
+        Assert.assertEquals(stringList.get(0), "kiwi");
+        Assert.assertEquals(stringList.get(1), "apple");
+        Assert.assertEquals(stringList.get(2), "banana");
+        Assert.assertEquals(stringList.get(3), "orange");
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import java.util.*;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class CustomComparatorExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Person> personList = new ArrayList<>();
+
+        System.out.println("Enter person details (name age) to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ");
+                String name = parts[0];
+                int age = Integer.parseInt(parts[1]);
+                Person person = new Person(name, age);
+                personList.add(person);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter name and age separated by a space.");
+            }
+        }
+
+        // Custom Comparator for sorting by name and then by age
+        Comparator<Person> customComparator = Comparator
+                .comparing(Person::getName)
+                .thenComparing(Person::getAge);
+
+        // Sorting the list using the custom comparator
+        Collections.sort(personList, customComparator);
+
+        // Displaying the sorted list
+        System.out.println("Sorted List of Persons:");
+        personList.forEach(System.out::println);
+
+        scanner.close();
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class CustomComparatorExampleTest {
+
+    @Test
+    public void testCustomComparator() {
+        List<Person> personList = new ArrayList<>();
+        personList.add(new Person("John", 30));
+        personList.add(new Person("Alice", 25));
+        personList.add(new Person("Bob", 35));
+
+        // Custom Comparator for sorting by name and then by age
+        Comparator<Person> customComparator = Comparator
+                .comparing(Person::getName)
+                .thenComparing(Person::getAge);
+
+        // Sorting the list using the custom comparator
+        Collections.sort(personList, customComparator);
+
+        // Expected order after sorting
+        List<Person> expectedOrder = new ArrayList<>();
+        expectedOrder.add(new Person("Alice", 25));
+        expectedOrder.add(new Person("Bob", 35));
+        expectedOrder.add(new Person("John", 30));
+
+        // Asserting that the list is sorted correctly
+        Assert.assertEquals(personList, expectedOrder);
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+class PeopleGroup {
+    private String name;
+    private int age;
+
+    public PeopleGroup(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "PeopleGroup{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class DistinctByPropertyExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<PeopleGroup> peopleGroupList = new ArrayList<>();
+
+        System.out.println("Enter people group details (name age) to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                String[] parts = input.split(" ");
+                String name = parts[0];
+                int age = Integer.parseInt(parts[1]);
+                PeopleGroup peopleGroup = new PeopleGroup(name, age);
+                peopleGroupList.add(peopleGroup);
+            } catch (Exception e) {
+                System.out.println("Invalid input format. Please enter name and age separated by a space.");
+            }
+        }
+
+        // Specify the property for filtering (e.g., name)
+        String propertyToFilter = "name";
+
+        // Filtering and keeping only distinct values of the specified property
+        List<String> distinctValues = peopleGroupList.stream()
+                .map(peopleGroup -> getProperty(peopleGroup, propertyToFilter))
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Displaying the distinct values
+        System.out.println("Distinct Values of Property '" + propertyToFilter + "':");
+        distinctValues.forEach(System.out::println);
+
+        scanner.close();
+    }
+
+    private static String getProperty(PeopleGroup peopleGroup, String property) {
+        switch (property) {
+            case "name":
+                return peopleGroup.getName();
+            case "age":
+                return String.valueOf(peopleGroup.getAge());
+            default:
+                throw new IllegalArgumentException("Invalid property: " + property);
+        }
+    }
+}
+
+
+
+
+package JavaAdvanced2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class StatefulTransformationExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Integer> numbers = new ArrayList<>();
+
+        System.out.println("Enter a list of integers (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int number = Integer.parseInt(input);
+                numbers.add(number);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer or type 'exit' to stop.");
+            }
+        }
+
+        // Stateful transformation: Calculate the cumulative sum using reduce
+        int sum = numbers.stream()
+                .reduce((partialSum, nextNumber) -> {
+                    int newSum = partialSum + nextNumber;
+                    System.out.println("Partial Sum: " + partialSum + ", Next Number: " + nextNumber +
+                            ", New Sum: " + newSum);
+                    return newSum;
+                })
+                .orElse(0);
+
+        System.out.println("Final Cumulative Sum: " + sum);
+
+        scanner.close();
+    }
+}
+
+
+package JavaAdvanced2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class StatefulTransformationsExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Integer> numbers = new ArrayList<>();
+
+        System.out.println("Enter a list of integers (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int number = Integer.parseInt(input);
+                numbers.add(number);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer or type 'exit' to stop.");
+            }
+        }
+
+        // Stateful transformation: Calculate the cumulative sum using reduce
+        int sum = numbers.stream()
+                .reduce((partialSum, nextNumber) -> {
+                    int newSum = partialSum + nextNumber;
+                    System.out.println("Partial Sum: " + partialSum + ", Next Number: " + nextNumber +
+                            ", New Sum: " + newSum);
+                    return newSum;
+                })
+                .orElse(0);
+
+        System.out.println("Final Cumulative Sum: " + sum);
+
+        scanner.close();
+    }
+}
+
+
+package JavaAdvanced2;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Scanner;
+
+public class BiDirectionalStreamExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Deque<Integer> frontStream = new ArrayDeque<>();
+        Deque<Integer> backStream = new ArrayDeque<>();
+
+        System.out.println("Enter a list of integers (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                int number = Integer.parseInt(input);
+                frontStream.add(number);
+                backStream.addFirst(number);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer or type 'exit' to stop.");
+            }
+        }
+
+        System.out.println("Processing elements from both ends simultaneously:");
+
+        while (!frontStream.isEmpty() || !backStream.isEmpty()) {
+            if (!frontStream.isEmpty()) {
+                System.out.println("Front Stream Element: " + frontStream.poll());
+            }
+
+            if (!backStream.isEmpty()) {
+                System.out.println("Back Stream Element: " + backStream.poll());
+            }
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+
+package JavaAdvanced2;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+public class CompletableFutureExample {
+
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        // Asynchronous task to fetch data
+        CompletableFuture<String> fetchDataFuture = CompletableFuture.supplyAsync(() -> fetchData());
+
+        // Asynchronous task to process data
+        CompletableFuture<String> processDataTask = fetchDataFuture.thenApplyAsync(data -> process(data));
+
+        // Asynchronous task to handle the result
+        CompletableFuture<Void> resultHandler = processDataTask.thenAcceptAsync(result -> handleResult(result));
+
+        // Waiting for the tasks to complete
+        resultHandler.get();
+
+        System.out.println("All tasks completed.");
+    }
+
+    private static String fetchData() {
+        // Simulating fetching data asynchronously
+        System.out.println("Fetching data...");
+        sleep(2);
+        return "Fetched Data";
+    }
+
+    private static String process(String data) {
+        // Simulating processing data asynchronously
+        System.out.println("Processing data...");
+        sleep(3);
+        return "Processed " + data;
+    }
+
+    private static void handleResult(String result) {
+        // Simulating handling the result asynchronously
+        System.out.println("Handling result: " + result);
+        sleep(1);
+    }
+
+    private static void sleep(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+// Component Interface
+interface MyCollection {
+    void add(String element);
+
+    boolean contains(String element);
+}
+
+// Concrete Component
+class BasicCollection implements MyCollection {
+    private Set<String> set = new HashSet<>();
+
+    @Override
+    public void add(String element) {
+        set.add(element);
+    }
+
+    @Override
+    public boolean contains(String element) {
+        return set.contains(element);
+    }
+}
+
+// Decorator
+class CollectionDecorator implements MyCollection {
+    private MyCollection decoratedCollection;
+
+    public CollectionDecorator(MyCollection decoratedCollection) {
+        this.decoratedCollection = decoratedCollection;
+    }
+
+    @Override
+    public void add(String element) {
+        // Additional functionality before adding
+        System.out.println("Adding element: " + element);
+        decoratedCollection.add(element);
+    }
+
+    @Override
+    public boolean contains(String element) {
+        // Additional functionality before checking containment
+        System.out.println("Checking containment of element: " + element);
+        return decoratedCollection.contains(element);
+    }
+}
+
+public class DecoratorPatternExample {
+
+    public static void main(String[] args) {
+        // Using the decorated collection
+        MyCollection myCollection = new CollectionDecorator(new BasicCollection());
+
+        // Adding elements
+        myCollection.add("A");
+        myCollection.add("B");
+
+        // Checking containment
+        System.out.println("Contains A: " + myCollection.contains("A"));
+        System.out.println("Contains C: " + myCollection.contains("C"));
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class DecoratorPatternTest {
+
+    @Test
+    public void testDecoratorPattern() {
+        MyCollection myCollection = new CollectionDecorator(new BasicCollection());
+
+        // Adding elements
+        myCollection.add("X");
+        myCollection.add("Y");
+
+        // Checking containment
+        Assert.assertTrue(myCollection.contains("X"));
+        Assert.assertFalse(myCollection.contains("Z"));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+package JavaAdvanced2;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Scanner;
+
+// Interface to be proxied
+interface MyInterface {
+    void performAction(String action);
+}
+
+// Concrete implementation of the interface
+class MyImplementation implements MyInterface {
+    @Override
+    public void performAction(String action) {
+        System.out.println("Performing action: " + action);
+    }
+}
+
+// InvocationHandler for the dynamic proxy
+class MyInvocationHandler implements InvocationHandler {
+    private MyInterface target;
+
+    public MyInvocationHandler(MyInterface target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // Custom action before method invocation
+        System.out.println("Before method invocation");
+
+        // Invoking the method on the target object
+        Object result = method.invoke(target, args);
+
+        // Custom action after method invocation
+        System.out.println("After method invocation");
+
+        return result;
+    }
+}
+
+public class DynamicProxyExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Creating an instance of the concrete implementation
+        MyInterface myImplementation = new MyImplementation();
+
+        // Creating a dynamic proxy for the interface
+        MyInterface proxyInstance = (MyInterface) Proxy.newProxyInstance(
+                MyInterface.class.getClassLoader(),
+                new Class[]{MyInterface.class},
+                new MyInvocationHandler(myImplementation)
+        );
+
+        System.out.println("Enter an action to perform:");
+        String action = scanner.nextLine();
+
+        // Invoking the method on the dynamic proxy
+        proxyInstance.performAction(action);
+
+        scanner.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class DynamicProxyTest {
+
+    @Test
+    public void testDynamicProxy() {
+        // Creating an instance of the concrete implementation
+        MyInterface myImplementation = new MyImplementation();
+
+        // Creating a dynamic proxy for the interface
+        MyInterface proxyInstance = (MyInterface) Proxy.newProxyInstance(
+                MyInterface.class.getClassLoader(),
+                new Class[]{MyInterface.class},
+                new MyInvocationHandler(myImplementation)
+        );
+
+        // Invoking the method on the dynamic proxy
+        proxyInstance.performAction("TestAction");
+
+        // Assertions can be added based on the expected behavior of the dynamic proxy
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+}
+package JavaAdvanced2;
+
+import java.lang.reflect.Proxy;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class DynamicProxyTest {
+
+    @Test
+    public void testDynamicProxy() {
+        // Creating an instance of the concrete implementation
+        MyInterface myImplementation = new MyImplementation();
+
+        // Creating a dynamic proxy for the interface
+        MyInterface proxyInstance = (MyInterface) Proxy.newProxyInstance(
+                MyInterface.class.getClassLoader(),
+                new Class[]{MyInterface.class},
+                new MyInvocationHandler(myImplementation)
+        );
+
+        // Invoking the method on the dynamic proxy
+        proxyInstance.performAction("TestAction");
+
+        // Assertions can be added based on the expected behavior of the dynamic proxy
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class AdvancedStreamOperationsTest {
+
+    @Test
+    public void testAdvancedStreamOperations() {
+        // Mocking student data for testing
+        List<Student> students = Arrays.asList(
+                new Student("John", Arrays.asList("Math", "Physics", "Chemistry")),
+                new Student("Alice", Arrays.asList("History", "Literature", "Geography")),
+                new Student("Bob", Arrays.asList("Math", "Computer Science", "Physics"))
+        );
+
+        // Testing the unique subjects operation
+        List<String> uniqueSubjects = students.stream()
+                .map(Student::getSubjects)
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(uniqueSubjects.size(), 8); // Expected unique subjects count
+
+        // Testing the total number of characters operation
+        int totalCharacters = students.stream()
+                .map(Student::getSubjects)
+                .flatMap(List::stream)
+                .mapToInt(String::length)
+                .reduce(0, Integer::sum);
+
+        Assert.assertEquals(totalCharacters, 89); // Expected total number of characters
+
+        // Add more assertions based on the expected behavior
+    }
+}
+
+
+
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Student {
+    private String name;
+    private List<String> subjects;
+
+    public Student(String name, List<String> subjects) {
+        this.name = name;
+        this.subjects = subjects;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getSubjects() {
+        return subjects;
+    }
+}
+
+public class AdvancedStreamOperationsExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter student details (name subjects) to add to the list (type 'exit' to stop):");
+
+        List<Student> students = readStudentDetails(scanner);
+
+        // Transform and analyze using stream operations
+        List<String> uniqueSubjects = students.stream()
+                .map(Student::getSubjects)
+                .flatMap(List::stream)
+                .distinct()
+                .collect(Collectors.toList());
+
+        System.out.println("Unique Subjects Across Students:");
+        uniqueSubjects.forEach(System.out::println);
+
+        // Calculate the total number of characters in all subjects
+        int totalCharacters = students.stream()
+                .map(Student::getSubjects)
+                .flatMap(List::stream)
+                .mapToInt(String::length)
+                .reduce(0, Integer::sum);
+
+        System.out.println("Total Number of Characters in All Subjects: " + totalCharacters);
+
+        scanner.close();
+    }
+
+    private static List<Student> readStudentDetails(Scanner scanner) {
+        List<Student> students = new ArrayList<>();
+
+        while (true) {
+            System.out.print("Enter student name (type 'exit' to stop): ");
+            String name = scanner.nextLine();
+
+            if (name.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            System.out.print("Enter subjects (comma-separated): ");
+            String subjectsInput = scanner.nextLine();
+            List<String> subjects = Arrays.asList(subjectsInput.split("\\s*,\\s*"));
+
+            Student student = new Student(name, subjects);
+            students.add(student);
+        }
+
+        return students;
+    }
+}
+
+
+package JavaAdvanced2;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class TwoSum {
+
+    public static boolean hasTwoSum(int[] nums, int target) {
+        Map<Integer, Integer> complementMap = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+
+            if (complementMap.containsKey(complement)) {
+                return true;
+            }
+
+            complementMap.put(nums[i], i);
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input: Array of integers
+        System.out.println("Enter the array of integers (space-separated):");
+        String[] inputArray = scanner.nextLine().split(" ");
+        int[] nums = new int[inputArray.length];
+        for (int i = 0; i < inputArray.length; i++) {
+            nums[i] = Integer.parseInt(inputArray[i]);
+        }
+
+        // Input: Target sum
+        System.out.println("Enter the target sum:");
+        int target = scanner.nextInt();
+
+        // Check if there are two numbers in the array that add up to the target sum
+        boolean result = hasTwoSum(nums, target);
+
+        // Output the result
+        System.out.println("Result: " + result);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced2;
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+public class TwoSumTest {
+
+    @Test
+    public void testHasTwoSum() {
+        // Test Case 1
+        int[] nums1 = {2, 7, 11, 15};
+        int target1 = 9;
+        Assert.assertTrue(TwoSum.hasTwoSum(nums1, target1));
+
+        // Test Case 2
+        int[] nums2 = {3, 2, 4};
+        int target2 = 6;
+        Assert.assertTrue(TwoSum.hasTwoSum(nums2, target2));
+
+        // Test Case 3
+        int[] nums3 = {3, 3};
+        int target3 = 6;
+        Assert.assertTrue(TwoSum.hasTwoSum(nums3, target3));
+
+        // Test Case 4
+        int[] nums4 = {1, 2, 3, 4, 5};
+        int target4 = 10;
+        Assert.assertTrue(TwoSum.hasTwoSum(nums4, target4));
+
+        // Test Case 5
+        int[] nums5 = {1, 2, 3, 4, 5};
+        int target5 = 20;
+        Assert.assertFalse(TwoSum.hasTwoSum(nums5, target5));
+    }
+}
+
+
+
+package JavaAdvanced2;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+public class LinkedListCycleDetection {
+
+    public static boolean hasCycle(ListNode head) {
+        if (head == null || head.next == null) {
+            return false;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while (slow != fast) {
+            if (fast == null || fast.next == null) {
+                return false;
+            }
+
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        // Input: Create a linked list with a cycle
+        ListNode head = new ListNode(3);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(0);
+        head.next.next.next = new ListNode(-4);
+        head.next.next.next.next = head.next; // Creating a cycle
+
+        // Check if the linked list has a cycle
+        boolean result = hasCycle(head);
+
+        // Output the result
+        System.out.println("Result: " + result);
+    }
+}
+
+
+
+import org.testng.annotations.Test;
+import org.testng.Assert;
+
+public class LinkedListCycleDetectionTest {
+
+    @Test
+    public void testHasCycle() {
+        // Test Case 1: Linked list with a cycle
+        ListNode head1 = new ListNode(3);
+        head1.next = new ListNode(2);
+        head1.next.next = new ListNode(0);
+        head1.next.next.next = new ListNode(-4);
+        head1.next.next.next.next = head1.next; // Creating a cycle
+        Assert.assertTrue(LinkedListCycleDetection.hasCycle(head1));
+
+        // Test Case 2: Linked list without a cycle
+        ListNode head2 = new ListNode(1);
+        head2.next = new ListNode(2);
+        head2.next.next = new ListNode(3);
+        head2.next.next.next = new ListNode(4);
+        Assert.assertFalse(LinkedListCycleDetection.hasCycle(head2));
+    }
+}
