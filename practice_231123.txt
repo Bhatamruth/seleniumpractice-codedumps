@@ -1,0 +1,1300 @@
+package JavaAdvanced3;
+
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    public TreeNode(int value) {
+        this.val = value;
+        this.left = this.right = null;
+    }
+}
+
+public class MaxPathSum {
+    private int maxSum = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        findMaxPathSum(root);
+        return maxSum;
+    }
+
+    private int findMaxPathSum(TreeNode node) {
+        if (node == null) return 0;
+
+        // Calculate the maximum path sum for the left and right subtrees
+        int leftSum = Math.max(findMaxPathSum(node.left), 0);
+        int rightSum = Math.max(findMaxPathSum(node.right), 0);
+
+        // Update the maximum path sum considering the current node as the root
+        int currentPathSum = node.val + leftSum + rightSum;
+        maxSum = Math.max(maxSum, currentPathSum);
+
+        // Return the maximum path sum that can be extended further
+        return node.val + Math.max(leftSum, rightSum);
+    }
+
+    public static void main(String[] args) {
+        // Example Usage:
+        MaxPathSum maxPathSum = new MaxPathSum();
+
+        // Construct a sample binary tree
+        TreeNode root = new TreeNode(10);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(10);
+        root.left.left = new TreeNode(20);
+        root.left.right = new TreeNode(1);
+        root.right.right = new TreeNode(-25);
+        root.right.right.left = new TreeNode(3);
+        root.right.right.right = new TreeNode(4);
+
+        System.out.println("Maximum Path Sum: " + maxPathSum.maxPathSum(root));
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+public class MaxPathSumTest {
+
+    @Test
+    public void testMaxPathSum() {
+        MaxPathSum maxPathSum = new MaxPathSum();
+
+        // Construct a sample binary tree for testing
+        TreeNode root = new TreeNode(10);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(10);
+        root.left.left = new TreeNode(20);
+        root.left.right = new TreeNode(1);
+        root.right.right = new TreeNode(-25);
+        root.right.right.left = new TreeNode(3);
+        root.right.right.right = new TreeNode(4);
+
+        // Expected maximum path sum for the given tree
+        int expectedMaxPathSum = 42;
+
+        // Assert the calculated maximum path sum with the expected value
+        assertEquals(maxPathSum.maxPathSum(root), expectedMaxPathSum);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+class NodeTreeNode {
+    int val;
+    NodeTreeNode left;
+    NodeTreeNode right;
+
+    NodeTreeNode(int val) {
+        this.val = val;
+    }
+}
+
+public class BinaryTreeSerializerDeserializer {
+
+    // Serialize the binary tree to a string
+    public String serialize(NodeTreeNode root) {
+        if (root == null) {
+            return "null";
+        }
+
+        StringBuilder serializedTree = new StringBuilder();
+        Queue<NodeTreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            NodeTreeNode current = queue.poll();
+
+            if (current != null) {
+                serializedTree.append(current.val).append(",");
+                queue.add(current.left);
+                queue.add(current.right);
+            } else {
+                serializedTree.append("null,");
+            }
+        }
+
+        return serializedTree.toString();
+    }
+
+    // Deserialize the string to a binary tree
+    public NodeTreeNode deserialize(String data) {
+        if (data.equals("null")) {
+            return null;
+        }
+
+        String[] values = data.split(",");
+        Queue<NodeTreeNode> queue = new LinkedList<>();
+        NodeTreeNode root = new NodeTreeNode(Integer.parseInt(values[0]));
+        queue.add(root);
+
+        for (int i = 1; i < values.length; i++) {
+            NodeTreeNode parent = queue.poll();
+
+            if (!values[i].equals("null")) {
+                NodeTreeNode leftChild = new NodeTreeNode(Integer.parseInt(values[i]));
+                parent.left = leftChild;
+                queue.add(leftChild);
+            }
+
+            i++;
+
+            if (i < values.length && !values[i].equals("null")) {
+                NodeTreeNode rightChild = new NodeTreeNode(Integer.parseInt(values[i]));
+                parent.right = rightChild;
+                queue.add(rightChild);
+            }
+        }
+
+        return root;
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        BinaryTreeSerializerDeserializer serializerDeserializer = new BinaryTreeSerializerDeserializer();
+        NodeTreeNode root = new NodeTreeNode(1);
+        root.left = new NodeTreeNode(2);
+        root.right = new NodeTreeNode(3);
+        root.right.left = new NodeTreeNode(4);
+        root.right.right = new NodeTreeNode(5);
+
+        // Serialize the binary tree
+        String serializedData = serializerDeserializer.serialize(root);
+        System.out.println("Serialized Tree: " + serializedData);
+
+        // Deserialize the string to a binary tree
+        NodeTreeNode deserializedRoot = serializerDeserializer.deserialize(serializedData);
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+public class BinaryTreeSerializerDeserializerTest {
+
+    @Test
+    public void testSerializeDeserialize() {
+        BinaryTreeSerializerDeserializer serializerDeserializer = new BinaryTreeSerializerDeserializer();
+
+        // Create a sample binary tree
+        NodeTreeNode root = new NodeTreeNode(1);
+        root.left = new NodeTreeNode(2);
+        root.right = new NodeTreeNode(3);
+        root.right.left = new NodeTreeNode(4);
+        root.right.right = new NodeTreeNode(5);
+
+        // Serialize the binary tree
+        String serializedData = serializerDeserializer.serialize(root);
+
+        // Deserialize the string to a binary tree
+        NodeTreeNode deserializedRoot = serializerDeserializer.deserialize(serializedData);
+
+        // Verify that the deserialized tree is the same as the original tree
+        assertTreesEqual(root, deserializedRoot);
+    }
+
+    private void assertTreesEqual(NodeTreeNode expected, NodeTreeNode actual) {
+        if (expected == null && actual == null) {
+            return;
+        }
+
+        assertEquals(expected.val, actual.val);
+        assertTreesEqual(expected.left, actual.left);
+        assertTreesEqual(expected.right, actual.right);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.HashMap;
+import java.util.Map;
+
+class SimpleCache<K, V> {
+    private final int capacity;
+    private final Map<K, V> cache;
+
+    public SimpleCache(int capacity) {
+        this.capacity = capacity;
+        this.cache = new HashMap<>(capacity);
+    }
+
+    public void put(K key, V value) {
+        if (cache.size() >= capacity) {
+            // Implement cache eviction policy (e.g., remove the least recently used item)
+            // For simplicity, we remove the first item in this example
+            K firstKey = cache.keySet().iterator().next();
+            cache.remove(firstKey);
+        }
+        cache.put(key, value);
+    }
+
+    public V get(K key) {
+        return cache.get(key);
+    }
+
+    public void remove(K key) {
+        cache.remove(key);
+    }
+
+    public int size() {
+        return cache.size();
+    }
+}
+
+public class CacheExample {
+    public static void main(String[] args) {
+        // Example usage of the cache
+        SimpleCache<String, Integer> cache = new SimpleCache<>(3);
+
+        // Adding items to the cache
+        cache.put("one", 1);
+        cache.put("two", 2);
+        cache.put("three", 3);
+
+        // Retrieving items from the cache
+        System.out.println("Value for key 'two': " + cache.get("two"));
+
+        // Removing an item from the cache
+        cache.remove("one");
+
+        // Displaying the current size of the cache
+        System.out.println("Current size of the cache: " + cache.size());
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CacheExampleTest {
+
+    @Test
+    public void testCacheOperations() {
+        SimpleCache<String, Integer> cache = new SimpleCache<>(3);
+
+        // Adding items to the cache
+        cache.put("one", 1);
+        cache.put("two", 2);
+        cache.put("three", 3);
+
+        // Assertion: Retrieving items from the cache
+        Assert.assertEquals(cache.get("two"), Integer.valueOf(2));
+
+        // Assertion: Removing an item from the cache
+        cache.remove("one");
+        Assert.assertNull(cache.get("one"));
+
+        // Assertion: Displaying the current size of the cache
+        Assert.assertEquals(cache.size(), 2);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.*;
+
+class Node {
+    public int val;
+    public List<Node> neighbors;
+
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<>();
+    }
+
+    public Node(int val) {
+        this.val = val;
+        neighbors = new ArrayList<>();
+    }
+
+    public Node(int val, List<Node> neighbors) {
+        this.val = val;
+        this.neighbors = neighbors;
+    }
+}
+
+public class CloneGraph {
+    public Node cloneGraph(Node node) {
+        if (node == null) {
+            return null;
+        }
+
+        Map<Node, Node> visited = new HashMap<>();
+        Queue<Node> queue = new LinkedList<>();
+
+        Node clonedNode = new Node(node.val);
+        visited.put(node, clonedNode);
+        queue.offer(node);
+
+        while (!queue.isEmpty()) {
+            Node current = queue.poll();
+
+            for (Node neighbor : current.neighbors) {
+                if (!visited.containsKey(neighbor)) {
+                    Node clonedNeighbor = new Node(neighbor.val);
+                    visited.put(neighbor, clonedNeighbor);
+                    queue.offer(neighbor);
+                }
+
+                visited.get(current).neighbors.add(visited.get(neighbor));
+            }
+        }
+
+        return clonedNode;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of nodes in the graph: ");
+        int n = scanner.nextInt();
+
+        System.out.println("Enter the adjacency list of the graph:");
+        Map<Integer, List<Integer>> adjacencyList = new HashMap<>();
+        for (int i = 1; i <= n; i++) {
+            System.out.print("Node " + i + ": ");
+            List<Integer> neighbors = new ArrayList<>();
+            while (true) {
+                int neighbor = scanner.nextInt();
+                if (neighbor == -1) {
+                    break;
+                }
+                neighbors.add(neighbor);
+            }
+            adjacencyList.put(i, neighbors);
+        }
+
+        CloneGraph graphCloner = new CloneGraph();
+        Node originalGraph = buildGraph(adjacencyList);
+        Node clonedGraph = graphCloner.cloneGraph(originalGraph);
+
+        System.out.println("Original Graph: ");
+        printGraph(originalGraph, new HashSet<>());
+
+        System.out.println("\nCloned Graph: ");
+        printGraph(clonedGraph, new HashSet<>());
+
+        scanner.close();
+    }
+
+    private static Node buildGraph(Map<Integer, List<Integer>> adjacencyList) {
+        Map<Integer, Node> nodeMap = new HashMap<>();
+
+        for (Map.Entry<Integer, List<Integer>> entry : adjacencyList.entrySet()) {
+            int nodeId = entry.getKey();
+            List<Integer> neighbors = entry.getValue();
+            Node node = nodeMap.computeIfAbsent(nodeId, k -> new Node(nodeId));
+
+            for (int neighborId : neighbors) {
+                Node neighbor = nodeMap.computeIfAbsent(neighborId, k -> new Node(neighborId));
+                node.neighbors.add(neighbor);
+            }
+        }
+
+        return nodeMap.get(1);
+    }
+
+    private static void printGraph(Node node, Set<Node> visited) {
+        if (node == null || visited.contains(node)) {
+            return;
+        }
+
+        visited.add(node);
+        System.out.print("Node " + node.val + " -> Neighbors: ");
+        for (Node neighbor : node.neighbors) {
+            System.out.print(neighbor.val + " ");
+        }
+        System.out.println();
+
+        for (Node neighbor : node.neighbors) {
+            printGraph(neighbor, visited);
+        }
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class CloneGraphTest {
+
+    @Test
+    public void testCloneGraph() {
+        CloneGraph graphCloner = new CloneGraph();
+
+        // Create a sample graph
+        Node originalNode1 = new Node(1);
+        Node originalNode2 = new Node(2);
+        Node originalNode3 = new Node(3);
+        Node originalNode4 = new Node(4);
+
+        originalNode1.neighbors.add(originalNode2);
+        originalNode1.neighbors.add(originalNode4);
+
+        originalNode2.neighbors.add(originalNode1);
+        originalNode2.neighbors.add(originalNode3);
+
+        originalNode3.neighbors.add(originalNode2);
+        originalNode3.neighbors.add(originalNode4);
+
+        originalNode4.neighbors.add(originalNode1);
+        originalNode4.neighbors.add(originalNode3);
+
+        // Clone the graph
+        Node clonedNode = graphCloner.cloneGraph(originalNode1);
+
+        // Verify that the cloned graph is the same as the original graph
+        Set<Node> visitedOriginal = new HashSet<>();
+        Set<Node> visitedCloned = new HashSet<>();
+
+        Assert.assertTrue(areGraphsEqual(originalNode1, clonedNode, visitedOriginal, visitedCloned));
+    }
+
+    private boolean areGraphsEqual(Node original, Node cloned, Set<Node> visitedOriginal, Set<Node> visitedCloned) {
+        if (original == null && cloned == null) {
+            return true;
+        }
+
+        if (original == null || cloned == null || visitedOriginal.contains(original) || visitedCloned.contains(cloned)) {
+            return false;
+        }
+
+        visitedOriginal.add(original);
+        visitedCloned.add(cloned);
+
+        if (original.val != cloned.val || original.neighbors.size() != cloned.neighbors.size()) {
+            return false;
+        }
+
+        for (int i = 0; i < original.neighbors.size(); i++) {
+            if (!areGraphsEqual(original.neighbors.get(i), cloned.neighbors.get(i), visitedOriginal, visitedCloned)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
+package JavaAdvanced3;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class FindMissingNumber {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Taking user input for array elements
+        System.out.print("Enter the number of elements in the array: ");
+        int n = scanner.nextInt();
+
+        int[] nums = new int[n];
+        System.out.println("Enter the array elements (distinct numbers from 0 to n):");
+        for (int i = 0; i < n; i++) {
+            nums[i] = scanner.nextInt();
+        }
+
+        // Finding the missing number
+        int missingNumber = findMissingNumber(nums);
+
+        // Displaying the missing number
+        System.out.println("The missing number is: " + missingNumber);
+
+        scanner.close();
+    }
+
+    public static int findMissingNumber(int[] nums) {
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] != i) {
+                return i;
+            }
+        }
+
+        // If no missing number found, return the next number after the last index
+        return nums.length;
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class FindMissingNumberTest {
+
+    @Test
+    public void testFindMissingNumber() {
+        int[] nums = {3, 0, 1};
+
+        // Assertion: Find the missing number
+        Assert.assertEquals(FindMissingNumber.findMissingNumber(nums), 2);
+    }
+
+    @Test
+    public void testNoMissingNumber() {
+        int[] nums = {0, 1, 2, 3};
+
+        // Assertion: No missing number
+        Assert.assertEquals(FindMissingNumber.findMissingNumber(nums), 4);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.Scanner;
+
+public class IslandCounter {
+    public int countIslands(char[][] grid) {
+        if (grid == null || grid.length == 0 || grid[0].length == 0) {
+            return 0;
+        }
+
+        int count = 0;
+        int rows = grid.length;
+        int cols = grid[0].length;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == '1') {
+                    count++;
+                    dfs(grid, i, j, rows, cols);
+                }
+            }
+        }
+
+        return count;
+    }
+
+    private void dfs(char[][] grid, int row, int col, int rows, int cols) {
+        if (row < 0 || col < 0 || row >= rows || col >= cols || grid[row][col] == '0') {
+            return;
+        }
+
+        grid[row][col] = '0'; // Mark the current cell as visited
+
+        // Recursively visit adjacent cells
+        dfs(grid, row - 1, col, rows, cols);
+        dfs(grid, row + 1, col, rows, cols);
+        dfs(grid, row, col - 1, rows, cols);
+        dfs(grid, row, col + 1, rows, cols);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of rows: ");
+        int rows = scanner.nextInt();
+        System.out.print("Enter the number of columns: ");
+        int cols = scanner.nextInt();
+
+        char[][] grid = new char[rows][cols];
+
+        System.out.println("Enter the elements of the grid (0 for water, 1 for land):");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                grid[i][j] = scanner.next().charAt(0);
+            }
+        }
+
+        IslandCounter islandCounter = new IslandCounter();
+        int islandCount = islandCounter.countIslands(grid);
+
+        System.out.println("Number of islands: " + islandCount);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class IslandCounterTest {
+
+    @Test
+    public void testCountIslands() {
+        IslandCounter islandCounter = new IslandCounter();
+
+        char[][] grid1 = {
+            {'1', '1', '0', '0', '0'},
+            {'1', '1', '0', '0', '0'},
+            {'0', '0', '1', '0', '0'},
+            {'0', '0', '0', '1', '1'}
+        };
+        Assert.assertEquals(islandCounter.countIslands(grid1), 3);
+
+        char[][] grid2 = {
+            {'1', '1', '1', '1', '0'},
+            {'1', '1', '0', '1', '0'},
+            {'1', '1', '0', '0', '0'},
+            {'0', '0', '0', '0', '0'}
+        };
+        Assert.assertEquals(islandCounter.countIslands(grid2), 1);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class LongestSubstringWithoutRepeating {
+
+    public static int lengthOfLongestSubstring(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        int maxLength = 0;
+        int start = 0;
+        Map<Character, Integer> charIndexMap = new HashMap<>();
+
+        for (int end = 0; end < s.length(); end++) {
+            char currentChar = s.charAt(end);
+
+            if (charIndexMap.containsKey(currentChar)) {
+                // If the character is already in the substring, update the start index
+                start = Math.max(charIndexMap.get(currentChar) + 1, start);
+            }
+
+            // Update the character index in the map
+            charIndexMap.put(currentChar, end);
+
+            // Update the maximum length if needed
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        // Example Usage:
+        String inputString = "abcabcbb";
+
+        int longestLength = lengthOfLongestSubstring(inputString);
+
+        System.out.println("Length of Longest Substring Without Repeating Characters: " + longestLength);
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+public class LongestSubstringWithoutRepeatingTest {
+
+    @Test
+    public void testLengthOfLongestSubstring() {
+        LongestSubstringWithoutRepeating longestSubstring = new LongestSubstringWithoutRepeating();
+
+        // Test with a sample input string
+        String inputString = "abcabcbb";
+
+        // Expected length of the longest substring without repeating characters
+        int expectedLength = 3;
+
+        // Assert the calculated length with the expected value
+        assertEquals(longestSubstring.lengthOfLongestSubstring(inputString), expectedLength);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
+class Interval {
+    int start;
+    int end;
+
+    public Interval(int start, int end) {
+        this.start = start;
+        this.end = end;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + start + ", " + end + "]";
+    }
+}
+
+public class MergeIntervals {
+
+    public static List<Interval> mergeIntervals(List<Interval> intervals) {
+        if (intervals == null || intervals.size() <= 1) {
+            return intervals;
+        }
+
+        // Sort intervals based on the start value
+        intervals.sort(Comparator.comparingInt(interval -> interval.start));
+
+        List<Interval> mergedIntervals = new ArrayList<>();
+        Interval currentInterval = intervals.get(0);
+
+        for (int i = 1; i < intervals.size(); i++) {
+            Interval nextInterval = intervals.get(i);
+
+            if (currentInterval.end >= nextInterval.start) {
+                // Overlapping intervals, merge them
+                currentInterval.end = Math.max(currentInterval.end, nextInterval.end);
+            } else {
+                // Non-overlapping interval, add the merged interval to the result
+                mergedIntervals.add(currentInterval);
+                currentInterval = nextInterval;
+            }
+        }
+
+        // Add the last interval
+        mergedIntervals.add(currentInterval);
+
+        return mergedIntervals;
+    }
+
+    public static void main(String[] args) {
+        // Example Usage:
+        List<Interval> intervals = Arrays.asList(
+                new Interval(1, 3),
+                new Interval(2, 6),
+                new Interval(8, 10),
+                new Interval(15, 18)
+        );
+
+        List<Interval> mergedIntervals = mergeIntervals(intervals);
+
+        System.out.println("Merged Intervals: " + mergedIntervals);
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class MergeIntervalsTest {
+
+    @Test
+    public void testMergeIntervals() {
+        MergeIntervals mergeIntervals = new MergeIntervals();
+
+        // Construct a sample list of intervals for testing
+        List<Interval> intervals = Arrays.asList(
+                new Interval(1, 3),
+                new Interval(2, 6),
+                new Interval(8, 10),
+                new Interval(15, 18)
+        );
+
+        // Expected merged intervals for the given input
+        List<Interval> expectedMergedIntervals = Arrays.asList(
+                new Interval(1, 6),
+                new Interval(8, 10),
+                new Interval(15, 18)
+        );
+
+        // Assert the calculated merged intervals with the expected value
+        assertEquals(mergeIntervals.mergeIntervals(intervals), expectedMergedIntervals);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.Scanner;
+
+public class RegularExpressionMatcher {
+    public boolean isMatch(String s, String p) {
+        if (p.isEmpty()) {
+            return s.isEmpty();
+        }
+
+        boolean firstMatch = !s.isEmpty() && (s.charAt(0) == p.charAt(0) || p.charAt(0) == '.');
+
+        if (p.length() >= 2 && p.charAt(1) == '*') {
+            return (isMatch(s, p.substring(2)) || (firstMatch && isMatch(s.substring(1), p)));
+        } else {
+            return firstMatch && isMatch(s.substring(1), p.substring(1));
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the string: ");
+        String s = scanner.nextLine();
+
+        System.out.print("Enter the regular expression: ");
+        String p = scanner.nextLine();
+
+        RegularExpressionMatcher regexMatcher = new RegularExpressionMatcher();
+        boolean isMatch = regexMatcher.isMatch(s, p);
+
+        System.out.println("Is the string matching the regular expression? " + isMatch);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class RegularExpressionMatcherTest {
+
+    @Test
+    public void testIsMatch() {
+        RegularExpressionMatcher regexMatcher = new RegularExpressionMatcher();
+
+        // Test Case 1
+        Assert.assertTrue(regexMatcher.isMatch("aa", "a*"));
+
+        // Test Case 2
+        Assert.assertFalse(regexMatcher.isMatch("mississippi", "mis*is*p*."));
+
+        // Test Case 3
+        Assert.assertTrue(regexMatcher.isMatch("aab", "c*a*b"));
+
+        // Test Case 4
+        Assert.assertFalse(regexMatcher.isMatch("ab", ".*c"));
+
+        // Test Case 5
+        Assert.assertTrue(regexMatcher.isMatch("aaa", "a*a"));
+    }
+}
+package JavaAdvanced3;
+
+import java.util.Stack;
+import java.util.Scanner;
+
+public class ReversePolishEvaluator {
+    public int evaluateRPN(String[] tokens) {
+        Stack<Integer> stack = new Stack<>();
+
+        for (String token : tokens) {
+            if (isOperator(token)) {
+                int operand2 = stack.pop();
+                int operand1 = stack.pop();
+                int result = performOperation(operand1, operand2, token);
+                stack.push(result);
+            } else {
+                stack.push(Integer.parseInt(token));
+            }
+        }
+
+        return stack.pop();
+    }
+
+    private boolean isOperator(String token) {
+        return token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/");
+    }
+
+    private int performOperation(int operand1, int operand2, String operator) {
+        switch (operator) {
+            case "+":
+                return operand1 + operand2;
+            case "-":
+                return operand1 - operand2;
+            case "*":
+                return operand1 * operand2;
+            case "/":
+                return operand1 / operand2;
+            default:
+                throw new IllegalArgumentException("Invalid operator: " + operator);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the Reverse Polish Notation expression (space-separated): ");
+        String input = scanner.nextLine();
+        String[] tokens = input.split("\\s+");
+
+        ReversePolishEvaluator evaluator = new ReversePolishEvaluator();
+        int result = evaluator.evaluateRPN(tokens);
+
+        System.out.println("Result of the expression: " + result);
+
+        scanner.close();
+    }
+}
+
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ReversePolishEvaluatorTest {
+
+    @Test
+    public void testEvaluateRPN() {
+        ReversePolishEvaluator evaluator = new ReversePolishEvaluator();
+
+        String[] tokens1 = {"2", "1", "+", "3", "*"};
+        Assert.assertEquals(evaluator.evaluateRPN(tokens1), 9);
+
+        String[] tokens2 = {"4", "13", "5", "/", "+"};
+        Assert.assertEquals(evaluator.evaluateRPN(tokens2), 6);
+
+        String[] tokens3 = {"10", "6", "9", "3", "/", "-", "*"};
+        Assert.assertEquals(evaluator.evaluateRPN(tokens3), 24);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.Scanner;
+
+public class ReverseWordsInString {
+
+    public static String reverseWords(String s) {
+        if (s == null || s.isEmpty()) {
+            return s;
+        }
+
+        String[] words = s.split("\\s+");
+        StringBuilder reversedString = new StringBuilder();
+
+        for (int i = words.length - 1; i >= 0; i--) {
+            reversedString.append(words[i]).append(" ");
+        }
+
+        return reversedString.toString().trim();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter a string:");
+        String inputString = scanner.nextLine();
+
+        String reversedWords = reverseWords(inputString);
+
+        System.out.println("Reversed Words in String: " + reversedWords);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+public class ReverseWordsInStringTest {
+
+    @Test
+    public void testReverseWords() {
+        ReverseWordsInString reverseWordsInString = new ReverseWordsInString();
+
+        // Test with a sample input string
+        String inputString = "Hello World Java";
+
+        // Expected result after reversing words
+        String expectedResult = "Java World Hello";
+
+        // Assert the calculated result with the expected value
+        assertEquals(reverseWordsInString.reverseWords(inputString), expectedResult);
+    }
+}
+package JavaAdvanced3;
+
+import java.util.*;
+
+public class SkylineCalculator {
+    public List<List<Integer>> getSkyline(int[][] buildings) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        List<int[]> buildingPoints = new ArrayList<>();
+
+        for (int[] building : buildings) {
+            // For the start point of the building, negate the height
+            buildingPoints.add(new int[]{building[0], -building[2]});
+            // For the end point of the building, use the actual height
+            buildingPoints.add(new int[]{building[1], building[2]});
+        }
+
+        // Sort the building points based on x-coordinate and height
+        buildingPoints.sort((a, b) -> {
+            if (a[0] != b[0]) {
+                return a[0] - b[0];
+            } else {
+                return a[1] - b[1];
+            }
+        });
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
+        maxHeap.offer(0);
+        int prevMaxHeight = 0;
+
+        for (int[] point : buildingPoints) {
+            if (point[1] < 0) {
+                maxHeap.offer(-point[1]);
+            } else {
+                maxHeap.remove(point[1]);
+            }
+
+            int currentMaxHeight = maxHeap.peek();
+
+            if (currentMaxHeight != prevMaxHeight) {
+                List<Integer> skylinePoint = Arrays.asList(point[0], currentMaxHeight);
+                result.add(skylinePoint);
+                prevMaxHeight = currentMaxHeight;
+            }
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of buildings: ");
+        int n = scanner.nextInt();
+
+        int[][] buildings = new int[n][3];
+
+        System.out.println("Enter the details of each building (start end height):");
+        for (int i = 0; i < n; i++) {
+            buildings[i][0] = scanner.nextInt();
+            buildings[i][1] = scanner.nextInt();
+            buildings[i][2] = scanner.nextInt();
+        }
+
+        SkylineCalculator skylineCalculator = new SkylineCalculator();
+        List<List<Integer>> skyline = skylineCalculator.getSkyline(buildings);
+
+        System.out.println("Skyline Points:");
+        for (List<Integer> point : skyline) {
+            System.out.println(point.get(0) + ", " + point.get(1));
+        }
+
+        scanner.close();
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.List;
+
+public class SkylineCalculatorTest {
+
+    @Test
+    public void testGetSkyline() {
+        SkylineCalculator skylineCalculator = new SkylineCalculator();
+
+        int[][] buildings1 = {{2, 9, 10}, {3, 7, 15}, {5, 12, 12}, {15, 20, 10}, {19, 24, 8}};
+        List<List<Integer>> skyline1 = skylineCalculator.getSkyline(buildings1);
+
+        Assert.assertEquals(skyline1.size(), 8);
+        Assert.assertEquals(skyline1.get(0), List.of(2, 10));
+        Assert.assertEquals(skyline1.get(1), List.of(3, 15));
+        Assert.assertEquals(skyline1.get(2), List.of(7, 12));
+        Assert.assertEquals(skyline1.get(3), List.of(12, 0));
+        Assert.assertEquals(skyline1.get(4), List.of(15, 10));
+        Assert.assertEquals(skyline1.get(5), List.of(20, 8));
+        Assert.assertEquals(skyline1.get(6), List.of(24, 0));
+
+        int[][] buildings2 = {{0, 2, 3}, {2, 5, 3}};
+        List<List<Integer>> skyline2 = skylineCalculator.getSkyline(buildings2);
+
+        Assert.assertEquals(skyline2.size(), 3);
+        Assert.assertEquals(skyline2.get(0), List.of(0, 3));
+        Assert.assertEquals(skyline2.get(1), List.of(5, 0));
+    }
+}
+package JavaAdvanced3;
+
+import java.util.Scanner;
+
+class TrieNode {
+    TrieNode[] children = new TrieNode[26];
+    boolean isEndOfWord;
+
+    TrieNode() {
+        isEndOfWord = false;
+        for (int i = 0; i < 26; i++) {
+            children[i] = null;
+        }
+    }
+}
+
+public class TrieImplementation {
+    private TrieNode root;
+
+    public TrieImplementation() {
+        root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+            int index = word.charAt(i) - 'a';
+            if (node.children[index] == null) {
+                node.children[index] = new TrieNode();
+            }
+            node = node.children[index];
+        }
+        node.isEndOfWord = true;
+    }
+
+    public boolean search(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+            int index = word.charAt(i) - 'a';
+            if (node.children[index] == null) {
+                return false;
+            }
+            node = node.children[index];
+        }
+        return node != null && node.isEndOfWord;
+    }
+
+    public boolean startsWith(String prefix) {
+        TrieNode node = root;
+        for (int i = 0; i < prefix.length(); i++) {
+            int index = prefix.charAt(i) - 'a';
+            if (node.children[index] == null) {
+                return false;
+            }
+            node = node.children[index];
+        }
+        return node != null;
+    }
+
+    public void delete(String word) {
+        delete(root, word, 0);
+    }
+
+    private boolean delete(TrieNode node, String word, int depth) {
+        if (node == null) {
+            return false;
+        }
+
+        if (depth == word.length()) {
+            if (!node.isEndOfWord) {
+                return false; // Word not present in trie
+            }
+            node.isEndOfWord = false;
+
+            // If the node has no other children, it can be deleted
+            return isNodeEmpty(node);
+        }
+
+        int index = word.charAt(depth) - 'a';
+        if (delete(node.children[index], word, depth + 1)) {
+            // Recursively delete the child node
+            node.children[index] = null;
+
+            // If the node has no other children and is not an end of a word, it can be deleted
+            return isNodeEmpty(node) && !node.isEndOfWord;
+        }
+
+        return false;
+    }
+
+    private boolean isNodeEmpty(TrieNode node) {
+        for (TrieNode child : node.children) {
+            if (child != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TrieImplementation trie = new TrieImplementation();
+
+        while (true) {
+            System.out.println("1. Insert Word");
+            System.out.println("2. Search Word");
+            System.out.println("3. Delete Word");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the word to insert: ");
+                    String insertWord = scanner.nextLine();
+                    trie.insert(insertWord);
+                    System.out.println("Word inserted successfully!");
+                    break;
+                case 2:
+                    System.out.print("Enter the word to search: ");
+                    String searchWord = scanner.nextLine();
+                    boolean searchResult = trie.search(searchWord);
+                    System.out.println("Word '" + searchWord + "' is " + (searchResult ? "present" : "not present") + " in the trie.");
+                    break;
+                case 3:
+                    System.out.print("Enter the word to delete: ");
+                    String deleteWord = scanner.nextLine();
+                    trie.delete(deleteWord);
+                    System.out.println("Word deleted successfully!");
+                    break;
+                case 4:
+                    System.out.println("Exiting the program. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+package JavaAdvanced3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TrieImplementationTest {
+
+    @Test
+    public void testInsertAndSearch() {
+        TrieImplementation trie = new TrieImplementation();
+        trie.insert("apple");
+        trie.insert("app");
+        trie.insert("apricot");
+
+        Assert.assertTrue(trie.search("apple"));
+        Assert.assertTrue(trie.search("app"));
+        Assert.assertTrue(trie.search("apricot"));
+        Assert.assertFalse(trie.search("banana"));
+    }
+
+    @Test
+    public void testDelete() {
+        TrieImplementation trie = new TrieImplementation();
+        trie.insert("apple");
+        trie.insert("app");
+        trie.insert("apricot");
+
+        trie.delete("app");
+        Assert.assertFalse(trie.search("app"));
+        Assert.assertTrue(trie.search("apple"));
+        Assert.assertTrue(trie.search("apricot"));
+
+        trie.delete("apricot");
+        Assert.assertFalse(trie.search("apricot"));
+        Assert.assertTrue(trie.search("apple"));
+    }
+
+    @Test
+    public void testStartsWith() {
+        TrieImplementation trie = new TrieImplementation();
+        trie.insert("apple");
+        trie.insert("app");
+        trie.insert("apricot");
+
+        Assert.assertTrue(trie.startsWith("app"));
+        Assert.assertTrue(trie.startsWith("apri"));
+        Assert.assertFalse(trie.startsWith("banana"));
+    }
+}
