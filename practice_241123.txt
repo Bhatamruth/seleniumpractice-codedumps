@@ -1,0 +1,1318 @@
+package JavaAdvanced4;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.stream.Stream;
+
+public class BiDirectionalStream<T> {
+
+    private final Deque<T> leftDeque;
+    private final Deque<T> rightDeque;
+
+    public BiDirectionalStream(Stream<T> stream) {
+        this.leftDeque = new ArrayDeque<>();
+        this.rightDeque = new ArrayDeque<>();
+
+        // Populate both deques from the stream
+        stream.forEachOrdered(leftDeque::offerLast);
+        rightDeque.addAll(leftDeque);
+    }
+
+    public T getNextFromLeft() {
+        return leftDeque.pollFirst();
+    }
+
+    public T getNextFromRight() {
+        return rightDeque.pollLast();
+    }
+
+    public boolean hasElements() {
+        return !leftDeque.isEmpty() || !rightDeque.isEmpty();
+    }
+}
+
+
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
+import java.util.stream.Stream;
+
+public class BiDirectionalStreamTest {
+
+    @Test
+    public void testBiDirectionalStream() {
+        // Test with a small stream for simplicity
+        BiDirectionalStream<Integer> biDirectionalStream = new BiDirectionalStream<>(Stream.of(1, 2, 3, 4, 5));
+
+        // Assertions
+        assertTrue(biDirectionalStream.hasElements());
+
+        assertEquals(biDirectionalStream.getNextFromLeft(), Integer.valueOf(1));
+        assertEquals(biDirectionalStream.getNextFromRight(), Integer.valueOf(5));
+
+        assertEquals(biDirectionalStream.getNextFromLeft(), Integer.valueOf(2));
+        assertEquals(biDirectionalStream.getNextFromRight(), Integer.valueOf(4));
+
+        assertEquals(biDirectionalStream.getNextFromLeft(), Integer.valueOf(3));
+
+        assertFalse(biDirectionalStream.hasElements());
+    }
+}
+
+
+package JavaAdvanced4;
+
+import java.util.Scanner;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+public class CompletableFutureExample {
+
+    public static void main(String[] args) {
+        // Take user input
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the first number: ");
+        int num1 = scanner.nextInt();
+        System.out.print("Enter the second number: ");
+        int num2 = scanner.nextInt();
+
+        // Perform asynchronous addition
+        CompletableFuture<Integer> futureSum = CompletableFuture.supplyAsync(() -> addAsync(num1, num2));
+
+        // Wait for the asynchronous task to complete and get the result
+        try {
+            int sum = futureSum.get();
+            System.out.println("Sum of " + num1 + " and " + num2 + " is: " + sum);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+
+    private static int addAsync(int a, int b) {
+        System.out.println("Performing addition asynchronously...");
+        sleep(2000); // Simulating a time-consuming task
+        return a + b;
+    }
+
+    private static void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+import static org.testng.Assert.assertEquals;
+
+public class CompletableFutureTest {
+
+    @Test
+    public void testCompletableFuture() {
+        int num1 = 5;
+        int num2 = 7;
+
+        CompletableFuture<Integer> futureSum = CompletableFuture.supplyAsync(() -> addAsync(num1, num2));
+
+        try {
+            int sum = futureSum.get();
+            assertEquals(sum, num1 + num2);
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private int addAsync(int a, int b) {
+        // Simulating a time-consuming task
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        return a + b;
+    }
+}
+
+
+package JavaAdvanced4;
+
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class CustomCollector {
+    public static void main(String[] args) {
+        // Taking user input or using predefined list
+        List<Person> personList = Arrays.asList(
+                new Person("Alice", 25),
+                new Person("Bob", 30),
+                new Person("Charlie", 25),
+                new Person("David", 30)
+        );
+
+        // Specify the property for grouping (e.g., age)
+        String propertyForGrouping = "age";
+
+        // Use the custom collector to group elements by the specified property
+        Map<Object, List<Person>> groupedByProperty = groupByProperty(personList, propertyForGrouping);
+
+        // Display the result
+        System.out.println("Grouped by Property '" + propertyForGrouping + "':");
+        groupedByProperty.forEach((key, value) -> System.out.println(key + ": " + value));
+    }
+
+    public static <T> Collector<T, ?, Map<Object, List<T>>> groupingByProperty(String propertyName) {
+        return Collectors.groupingBy(item -> {
+            try {
+                return item.getClass().getMethod("get" + capitalize(propertyName)).invoke(item);
+            } catch (Exception e) {
+                throw new IllegalStateException(e);
+            }
+        });
+    }
+
+    private static String capitalize(String s) {
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    public static <T> Map<Object, List<T>> groupByProperty(List<T> list, String propertyName) {
+        return list.stream().collect(groupingByProperty(propertyName));
+    }
+}
+
+
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import static org.testng.Assert.assertEquals;
+
+public class CustomCollectorTest {
+
+    @Test
+    public void testGroupByProperty() {
+        List<Person> personList = Arrays.asList(
+                new Person("Alice", 25),
+                new Person("Bob", 30),
+                new Person("Charlie", 25),
+                new Person("David", 30)
+        );
+
+        String propertyForGrouping = "age";
+
+        Map<Object, List<Person>> groupedByProperty = CustomCollector.groupByProperty(personList, propertyForGrouping);
+
+        // Assertions
+        assertEquals(groupedByProperty.size(), 2);
+        assertEquals(groupedByProperty.get(25).size(), 2);
+        assertEquals(groupedByProperty.get(30).size(), 2);
+    }
+}
+package JavaAdvanced4;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Component Interface
+interface Collection {
+    void add(String element);
+
+    List<String> getElements();
+}
+
+// Concrete Component
+class BasicCollection implements Collection {
+    private List<String> elements = new ArrayList<>();
+
+    @Override
+    public void add(String element) {
+        elements.add(element);
+    }
+
+    @Override
+    public List<String> getElements() {
+        return elements;
+    }
+}
+
+// Decorator
+class FilteredCollection implements Collection {
+    private Collection collection;
+    private String filter;
+
+    public FilteredCollection(Collection collection, String filter) {
+        this.collection = collection;
+        this.filter = filter;
+    }
+
+    @Override
+    public void add(String element) {
+        // Add filtering logic if needed
+        if (element.contains(filter)) {
+            collection.add(element);
+        }
+    }
+
+    @Override
+    public List<String> getElements() {
+        return collection.getElements();
+    }
+}
+
+public class DecoratorPatternExample {
+    public static void main(String[] args) {
+        // Creating a basic collection
+        Collection basicCollection = new BasicCollection();
+
+        // Creating a filtered collection decorator
+        Collection filteredCollection = new FilteredCollection(basicCollection, "A");
+
+        // Adding elements to the filtered collection
+        filteredCollection.add("Apple");
+        filteredCollection.add("Banana");
+        filteredCollection.add("Orange");
+
+        // Displaying elements in the filtered collection
+        System.out.println("Filtered Collection Elements: " + filteredCollection.getElements());
+    }
+}
+package JavaAdvanced4;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Employee {
+    private String name;
+    private int age;
+
+    public Employee(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class DistinctByProperty {
+    public static void main(String[] args) {
+        // Sample user input
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("John", 25),
+                new Employee("Alice", 30),
+                new Employee("John", 25),
+                new Employee("Bob", 22),
+                new Employee("Alice", 30)
+        );
+
+        // Specify the property for filtering (e.g., name)
+        String propertyToFilter = "name";
+
+        // Filtering and keeping only distinct values of the specified property
+        List<String> distinctValues = employeeList.stream()
+                .map(employee -> getProperty(employee, propertyToFilter))
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Displaying the distinct values
+        System.out.println("Distinct Values of Property '" + propertyToFilter + "':");
+        distinctValues.forEach(System.out::println);
+    }
+
+    private static String getProperty(Employee employee, String property) {
+        switch (property) {
+            case "name":
+                return employee.getName();
+            case "age":
+                return String.valueOf(employee.getAge());
+            default:
+                throw new IllegalArgumentException("Invalid property: " + property);
+        }
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.testng.Assert.assertEquals;
+
+public class DistinctByPropertyTest {
+
+    @Test
+    public void testDistinctByProperty() {
+        // Test with a list of Person objects
+        List<Person> personList = Arrays.asList(
+                new Person("John", 25),
+                new Person("Alice", 30),
+                new Person("John", 25),
+                new Person("Bob", 22),
+                new Person("Alice", 30)
+        );
+
+        // Specify the property for filtering (e.g., name)
+        String propertyToFilter = "name";
+
+        // Filtering and keeping only distinct values of the specified property
+        List<String> distinctValues = personList.stream()
+                .map(person -> getProperty(person, propertyToFilter))
+                .distinct()
+                .collect(Collectors.toList());
+
+        // Assertions
+        assertEquals(distinctValues.size(), 3);
+        assertEquals(distinctValues.get(0), "John");
+        assertEquals(distinctValues.get(1), "Alice");
+        assertEquals(distinctValues.get(2), "Bob");
+    }
+
+    private String getProperty(Person person, String property) {
+        switch (property) {
+            case "name":
+                return person.getName();
+            case "age":
+                return String.valueOf(person.getAge());
+            default:
+                throw new IllegalArgumentException("Invalid property: " + property);
+        }
+    }
+}
+package JavaAdvanced4;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+// Interface
+interface UserService {
+    void saveUser(String username);
+    String getUser(String username);
+}
+
+// Implementation
+class UserServiceImpl implements UserService {
+    @Override
+    public void saveUser(String username) {
+        System.out.println("Saving user: " + username);
+    }
+
+    @Override
+    public String getUser(String username) {
+        return "User: " + username;
+    }
+}
+
+// Dynamic Proxy
+class UserServiceProxy implements InvocationHandler {
+    private final UserService target;
+
+    public UserServiceProxy(UserService target) {
+        this.target = target;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // Custom action before method invocation
+        System.out.println("Before " + method.getName() + " method");
+
+        // Invoke the original method on the target object
+        Object result = method.invoke(target, args);
+
+        // Custom action after method invocation
+        System.out.println("After " + method.getName() + " method");
+
+        return result;
+    }
+}
+
+public class DynamicProxyExample {
+    public static void main(String[] args) {
+        // Create the target object
+        UserService userService = new UserServiceImpl();
+
+        // Create the dynamic proxy
+        UserService proxy = (UserService) Proxy.newProxyInstance(
+                UserService.class.getClassLoader(),
+                new Class[]{UserService.class},
+                new UserServiceProxy(userService)
+        );
+
+        // Call methods on the proxy
+        proxy.saveUser("John");
+        String user = proxy.getUser("Alice");
+
+        // Display the result
+        System.out.println("Result from getUser method: " + user);
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
+
+import java.lang.reflect.Proxy;
+
+public class DynamicProxyTest {
+
+    @Test
+    public void testDynamicProxy() {
+        // Create the target object
+        UserService userService = new UserServiceImpl();
+
+        // Create the dynamic proxy
+        UserService proxy = (UserService) Proxy.newProxyInstance(
+                UserService.class.getClassLoader(),
+                new Class[]{UserService.class},
+                new UserServiceProxy(userService)
+        );
+
+        // Call methods on the proxy
+        proxy.saveUser("John");
+        String user = proxy.getUser("Alice");
+
+        // Assertions
+        assertTrue(user.contains("Alice"));
+    }
+}
+package JavaAdvanced4;
+
+import java.util.Scanner;
+import java.util.Stack;
+
+public class ExpressionCalculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a mathematical expression with parentheses: ");
+        String expression = scanner.nextLine();
+
+        try {
+            double result = calculateExpression(expression);
+            System.out.println("Result: " + result);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        scanner.close();
+    }
+
+    public static double calculateExpression(String expression) {
+        Stack<Double> numbers = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        for (char ch : expression.toCharArray()) {
+            if (ch == ' ') {
+                continue;
+            }
+
+            if (Character.isDigit(ch)) {
+                StringBuilder numBuilder = new StringBuilder();
+                numBuilder.append(ch);
+
+                int i = 0;
+				// Continue reading digits to form a complete number
+                while ((i + 1) < expression.length() && (Character.isDigit(expression.charAt(i + 1)) || expression.charAt(i + 1) == '.')) {
+                    numBuilder.append(expression.charAt(++i));
+                }
+
+                numbers.push(Double.parseDouble(numBuilder.toString()));
+            } else if (ch == '(') {
+                operators.push(ch);
+            } else if (ch == ')') {
+                while (!operators.isEmpty() && operators.peek() != '(') {
+                    applyOperator(numbers, operators);
+                }
+                operators.pop(); // Discard the '('
+            } else if (isOperator(ch)) {
+                while (!operators.isEmpty() && hasPrecedence(ch, operators.peek())) {
+                    applyOperator(numbers, operators);
+                }
+                operators.push(ch);
+            } else {
+                throw new IllegalArgumentException("Invalid character in the expression: " + ch);
+            }
+        }
+
+        while (!operators.isEmpty()) {
+            applyOperator(numbers, operators);
+        }
+
+        if (numbers.size() != 1 || !operators.isEmpty()) {
+            throw new IllegalArgumentException("Invalid expression");
+        }
+
+        return numbers.pop();
+    }
+
+    private static boolean isOperator(char ch) {
+        return ch == '+' || ch == '-' || ch == '*' || ch == '/';
+    }
+
+    private static boolean hasPrecedence(char op1, char op2) {
+        if ((op1 == '*' || op1 == '/') && (op2 == '+' || op2 == '-')) {
+            return false;
+        }
+        return true;
+    }
+
+    private static void applyOperator(Stack<Double> numbers, Stack<Character> operators) {
+        char operator = operators.pop();
+        double operand2 = numbers.pop();
+        double operand1 = numbers.pop();
+
+        switch (operator) {
+            case '+':
+                numbers.push(operand1 + operand2);
+                break;
+            case '-':
+                numbers.push(operand1 - operand2);
+                break;
+            case '*':
+                numbers.push(operand1 * operand2);
+                break;
+            case '/':
+                if (operand2 == 0) {
+                    throw new IllegalArgumentException("Division by zero is not allowed");
+                }
+                numbers.push(operand1 / operand2);
+                break;
+        }
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+public class ExpressionCalculatorTest {
+
+    @Test
+    public void testCalculateExpression() {
+        assertEquals(ExpressionCalculator.calculateExpression("1 + 2 * (3 - 4)"), -1.0);
+        assertEquals(ExpressionCalculator.calculateExpression("(4 + 5) * 2 - 7"), 11.0);
+        assertEquals(ExpressionCalculator.calculateExpression("10 / (2 + 3)"), 2.0);
+        assertEquals(ExpressionCalculator.calculateExpression("3 * (5 - 2) / 2"), 7.5);
+    }
+}
+
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+public class ExpressionCalculatorTest {
+
+    @Test
+    public void testCalculateExpression() {
+        assertEquals(ExpressionCalculator.calculateExpression("1 + 2 * (3 - 4)"), -1.0);
+        assertEquals(ExpressionCalculator.calculateExpression("(4 + 5) * 2 - 7"), 11.0);
+        assertEquals(ExpressionCalculator.calculateExpression("10 / (2 + 3)"), 2.0);
+        assertEquals(ExpressionCalculator.calculateExpression("3 * (5 - 2) / 2"), 7.5);
+    }
+}
+
+package JavaAdvanced4;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FilterAndTransform {
+    public static void main(String[] args) {
+        // Taking user input or using predefined list
+        List<String> inputList = Arrays.asList("apple", "banana", "orange", "grape", "kiwi");
+
+        // Specify the condition for filtering
+        String condition = "a";
+
+        // Use Java streams to filter and transform the list
+        List<String> result = filterAndTransform(inputList, condition);
+
+        // Display the result
+        System.out.println("Filtered and Transformed List: " + result);
+    }
+
+    public static List<String> filterAndTransform(List<String> inputList, String condition) {
+        return inputList.stream()
+                .filter(s -> s.contains(condition))
+                .map(String::toUpperCase) // Transforming by converting to uppercase
+                .collect(Collectors.toList());
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+import static org.testng.Assert.assertEquals;
+
+public class FilterAndTransformTest {
+
+    @Test
+    public void testFilterAndTransform() {
+        List<String> inputList = Arrays.asList("apple", "banana", "orange", "grape", "kiwi");
+        String condition = "a";
+
+        List<String> result = FilterAndTransform.filterAndTransform(inputList, condition);
+
+        // Assertions
+        assertEquals(result.size(), 3);
+        assertEquals(result.get(0), "APPLE");
+        assertEquals(result.get(1), "BANANA");
+        assertEquals(result.get(2), "GRAPE");
+    }
+}
+package JavaAdvanced4;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+public class LambdaComparatorExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<String> stringList = new ArrayList<>();
+
+        System.out.println("Enter strings to add to the list (type 'exit' to stop):");
+
+        while (true) {
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            stringList.add(input);
+        }
+
+        // Sorting the list based on string lengths using lambda expression and comparator
+        Collections.sort(stringList, Comparator.comparingInt(String::length));
+
+        // Displaying the sorted list
+        System.out.println("Sorted List based on String Lengths:");
+        stringList.forEach(System.out::println);
+
+        scanner.close();
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+
+public class LambdaComparatorTest {
+
+    @Test
+    public void testLambdaComparator() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Java");
+        stringList.add("Python");
+        stringList.add("JavaScript");
+
+        // Sorting the list based on string lengths using lambda expression and comparator
+        Collections.sort(stringList, Comparator.comparingInt(String::length));
+
+        // Assertions
+        assertEquals(stringList.get(0), "Java");
+        assertEquals(stringList.get(1), "Python");
+        assertEquals(stringList.get(2), "JavaScript");
+    }
+}
+
+package JavaAdvanced4;
+
+import java.util.*;
+
+class LRUCache<K, V> extends LinkedHashMap<K, V> {
+    private final int capacity;
+
+    public LRUCache(int capacity) {
+        super(capacity, 0.75f, true);
+        this.capacity = capacity;
+    }
+
+    @Override
+    protected boolean removeEldestEntry(Map.Entry<K, V> eldest) {
+        return size() > capacity;
+    }
+}
+
+public class LRUCacheExample {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the capacity of the LRU Cache: ");
+        int capacity = scanner.nextInt();
+
+        // Create an LRU Cache with the specified capacity
+        LRUCache<Integer, String> lruCache = new LRUCache<>(capacity);
+
+        // Perform cache operations
+        lruCache.put(1, "Value1");
+        lruCache.put(2, "Value2");
+        lruCache.put(3, "Value3");
+
+        System.out.println("LRU Cache Contents: " + lruCache);
+
+        // Access a key to update its position in the cache
+        System.out.print("Enter a key to access (simulate access): ");
+        int keyToAccess = scanner.nextInt();
+        String value = lruCache.get(keyToAccess);
+
+        System.out.println("Value associated with key " + keyToAccess + ": " + value);
+        System.out.println("Updated LRU Cache Contents: " + lruCache);
+
+        // Close the scanner
+        scanner.close();
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+
+public class LRUCacheTest {
+
+    @Test
+    public void testLRUCache() {
+        LRUCache<Integer, String> lruCache = new LRUCache<>(3);
+
+        lruCache.put(1, "Value1");
+        lruCache.put(2, "Value2");
+        lruCache.put(3, "Value3");
+
+        assertEquals(lruCache.get(1), "Value1");
+        assertEquals(lruCache.get(2), "Value2");
+        assertEquals(lruCache.get(3), "Value3");
+
+        lruCache.put(4, "Value4"); // This will remove the least recently used entry (key=1)
+
+        // Assertions after adding a new entry
+        assertEquals(lruCache.get(1), null); // Key 1 should not be present in the cache
+        assertEquals(lruCache.get(2), "Value2");
+        assertEquals(lruCache.get(3), "Value3");
+        assertEquals(lruCache.get(4), "Value4");
+    }
+}
+package JavaAdvanced4;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class MinimumWindowSubstring {
+
+    public static String minWindow(String s, String t) {
+        if (s == null || t == null || s.length() == 0 || t.length() == 0) {
+            return "";
+        }
+
+        Map<Character, Integer> targetMap = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            targetMap.put(c, targetMap.getOrDefault(c, 0) + 1);
+        }
+
+        int left = 0, right = 0, minLen = Integer.MAX_VALUE, minStart = 0;
+        int requiredChars = t.length();
+
+        while (right < s.length()) {
+            char currentChar = s.charAt(right);
+            if (targetMap.containsKey(currentChar)) {
+                if (targetMap.get(currentChar) > 0) {
+                    requiredChars--;
+                }
+                targetMap.put(currentChar, targetMap.get(currentChar) - 1);
+            }
+
+            while (requiredChars == 0) {
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    minStart = left;
+                }
+
+                char leftChar = s.charAt(left);
+                if (targetMap.containsKey(leftChar)) {
+                    targetMap.put(leftChar, targetMap.get(leftChar) + 1);
+                    if (targetMap.get(leftChar) > 0) {
+                        requiredChars++;
+                    }
+                }
+
+                left++;
+            }
+
+            right++;
+        }
+
+        return minLen == Integer.MAX_VALUE ? "" : s.substring(minStart, minStart + minLen);
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        String s = "ADOBECODEBANC";
+        String t = "ABC";
+        System.out.println("Minimum Window Substring: " + minWindow(s, t));
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class MinimumWindowSubstringTest {
+
+    @Test
+    public void testMinWindowSubstring() {
+        Assert.assertEquals(MinimumWindowSubstring.minWindow("ADOBECODEBANC", "ABC"), "BANC");
+        Assert.assertEquals(MinimumWindowSubstring.minWindow("aa", "aa"), "aa");
+        Assert.assertEquals(MinimumWindowSubstring.minWindow("a", "a"), "a");
+        Assert.assertEquals(MinimumWindowSubstring.minWindow("a", "aa"), "");
+    }
+}
+package JavaAdvanced4;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+
+public class ParallelStreamProcessing {
+
+    public static void main(String[] args) {
+        // Take user input for the size of the list
+        int listSize = getUserInput();
+
+        // Generate a large list of elements
+        List<Integer> largeList = generateLargeList(listSize);
+
+        // Perform a time-consuming operation using parallel streams
+        long result = processWithParallelStream(largeList);
+
+        // Display the result
+        System.out.println("Result of Parallel Stream Processing: " + result);
+    }
+
+    private static int getUserInput() {
+        // You can customize this part based on your requirements
+        // For simplicity, let's use a predefined list size here.
+        return 1000000;
+    }
+
+    private static List<Integer> generateLargeList(int size) {
+        return ThreadLocalRandom.current().ints(size).boxed().collect(Collectors.toList());
+    }
+
+    static long processWithParallelStream(List<Integer> list) {
+        return list.parallelStream()
+                .mapToLong(ParallelStreamProcessing::timeConsumingOperation)
+                .sum();
+    }
+
+    private static long timeConsumingOperation(int value) {
+        // Simulate a time-consuming operation (e.g., a complex computation)
+        return value * value;
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import java.util.List;
+import static org.testng.Assert.assertEquals;
+
+public class ParallelStreamProcessingTest {
+
+    @Test
+    public void testParallelStreamProcessing() {
+        // Test with a small list for simplicity
+        List<Integer> testList = List.of(1, 2, 3, 4, 5);
+
+        long result = ParallelStreamProcessing.processWithParallelStream(testList);
+
+        // Assertions
+        assertEquals(result, 55); // Sum of squares: 1 + 4 + 9 + 16 + 25 = 55
+    }
+}
+package JavaAdvanced4;
+import java.util.ArrayList;
+import java.util.List;
+
+// Enum representing different types of vehicles
+enum VehicleType {
+    CAR,
+    MOTORCYCLE
+}
+
+// Class representing a parking spot
+class ParkingSpot {
+    private int spotNumber;
+    private boolean occupied;
+    private VehicleType vehicleType;
+
+    public ParkingSpot(int spotNumber, VehicleType vehicleType) {
+        this.spotNumber = spotNumber;
+        this.occupied = false;
+        this.vehicleType = vehicleType;
+    }
+
+    public int getSpotNumber() {
+        return spotNumber;
+    }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
+
+    public void occupy() {
+        occupied = true;
+    }
+
+    public void vacate() {
+        occupied = false;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+}
+
+// Class representing a parking floor
+class ParkingFloor {
+    private List<ParkingSpot> spots;
+
+    public ParkingFloor(int numSpots) {
+        spots = new ArrayList<>();
+        for (int i = 1; i <= numSpots; i++) {
+            spots.add(new ParkingSpot(i, VehicleType.CAR)); // Default: CAR spots
+        }
+    }
+
+    public List<ParkingSpot> getSpots() {
+        return spots;
+    }
+
+    // Additional methods for finding available spots, etc.
+}
+
+// Class representing a parking lot
+class ParkingLot {
+    private List<ParkingFloor> floors;
+
+    public ParkingLot(int numFloors, int spotsPerFloor) {
+        floors = new ArrayList<>();
+        for (int i = 1; i <= numFloors; i++) {
+            floors.add(new ParkingFloor(spotsPerFloor));
+        }
+    }
+
+    public List<ParkingFloor> getFloors() {
+        return floors;
+    }
+
+    // Additional methods for parking, retrieving, finding available spots, etc.
+}
+
+// Example usage
+public class ParkingLotExample {
+    public static void main(String[] args) {
+        ParkingLot parkingLot = new ParkingLot(3, 10);
+
+        // Access parking lot and perform operations
+        // ...
+
+        // Example TestNG program (TestNG annotations omitted for simplicity)
+        ParkingLotTest.testParkingLot(parkingLot);
+    }
+}
+
+class ParkingLotTest {
+    public static void testParkingLot(ParkingLot parkingLot) {
+        // Test parking, retrieving, finding available spots, etc.
+        // Assertions to verify that operations produce the correct results
+        // ...
+    }
+}
+package JavaAdvanced4;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class StatefulTransformation {
+
+    public static void main(String[] args) {
+        // Sample user input
+        List<String> inputStrings = Arrays.asList("Java", "Stream", "Operations");
+
+        // Perform stateful transformation using the reduce operation
+        String result = inputStrings.stream()
+                .reduce((partialResult, currentString) -> {
+                    // Stateful transformation: Concatenate the current string to the partial result
+                    if (partialResult.isEmpty()) {
+                        return currentString;
+                    } else {
+                        return partialResult + " " + currentString;
+                    }
+                })
+                .orElse("");
+
+        // Display the result
+        System.out.println("Stateful Transformed Result: " + result);
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class StatefulTransformationTest {
+
+    @Test
+    public void testStatefulTransformation() {
+        // Test with a list of strings
+        List<String> inputStrings = Arrays.asList("Java", "Stream", "Operations");
+
+        // Perform stateful transformation using the reduce operation
+        String result = inputStrings.stream()
+                .reduce((partialResult, currentString) -> {
+                    if (partialResult.isEmpty()) {
+                        return currentString;
+                    } else {
+                        return partialResult + " " + currentString;
+                    }
+                })
+                .orElse("");
+
+        // Assertions
+        assertEquals(result, "Java Stream Operations");
+    }
+}
+package JavaAdvanced4;
+
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
+public class ThreadPool {
+    private final int poolSize;
+    private final WorkerThread[] threads;
+    private final BlockingQueue<Runnable> taskQueue;
+
+    public ThreadPool(int poolSize) {
+        this.poolSize = poolSize;
+        this.taskQueue = new LinkedBlockingQueue<>();
+        this.threads = new WorkerThread[poolSize];
+
+        for (int i = 0; i < poolSize; i++) {
+            threads[i] = new WorkerThread();
+            threads[i].start();
+        }
+    }
+
+    public void submitTask(Runnable task) {
+        try {
+            taskQueue.put(task);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private class WorkerThread extends Thread {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Runnable task = taskQueue.take();
+                    task.run();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.annotations.Test;
+import static org.testng.Assert.*;
+
+public class ThreadPoolTest {
+
+    @Test
+    public void testThreadPool() throws InterruptedException {
+        final int poolSize = 3;
+        final int tasksCount = 5;
+
+        ThreadPool threadPool = new ThreadPool(poolSize);
+        CountingTask countingTask = new CountingTask();
+
+        for (int i = 0; i < tasksCount; i++) {
+            threadPool.submitTask(countingTask);
+        }
+
+        // Allow some time for tasks to complete
+        Thread.sleep(1000);
+
+        assertEquals(countingTask.getCounter(), tasksCount);
+    }
+
+    private static class CountingTask implements Runnable {
+        private int counter = 0;
+
+        @Override
+        public void run() {
+            counter++;
+        }
+
+        public int getCounter() {
+            return counter;
+        }
+    }
+}
+package JavaAdvanced4;
+
+import java.util.*;
+
+public class WordLadder {
+
+    public static int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> wordSet = new HashSet<>(wordList);
+        if (!wordSet.contains(endWord)) {
+            return 0; // End word is not in the word list, transformation is not possible.
+        }
+
+        Queue<String> queue = new LinkedList<>();
+        queue.offer(beginWord);
+        int level = 1;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+
+            for (int i = 0; i < size; i++) {
+                char[] currentWord = queue.poll().toCharArray();
+
+                for (int j = 0; j < currentWord.length; j++) {
+                    char originalChar = currentWord[j];
+
+                    for (char c = 'a'; c <= 'z'; c++) {
+                        if (c != originalChar) {
+                            currentWord[j] = c;
+                            String transformedWord = new String(currentWord);
+
+                            if (transformedWord.equals(endWord)) {
+                                return level + 1;
+                            }
+
+                            if (wordSet.contains(transformedWord)) {
+                                queue.offer(transformedWord);
+                                wordSet.remove(transformedWord);
+                            }
+                        }
+                    }
+
+                    currentWord[j] = originalChar; // Revert back the change for next iterations.
+                }
+            }
+
+            level++;
+        }
+
+        return 0; // Transformation is not possible.
+    }
+
+    public static void main(String[] args) {
+        // Example usage:
+        String beginWord = "hit";
+        String endWord = "cog";
+        List<String> wordList = Arrays.asList("hot", "dot", "dog", "lot", "log", "cog");
+
+        System.out.println("Length of the shortest transformation sequence: "
+                + ladderLength(beginWord, endWord, wordList));
+    }
+}
+package JavaAdvanced4;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+
+public class WordLadderTest {
+
+    @Test
+    public void testWordLadder() {
+        Assert.assertEquals(WordLadder.ladderLength("hit", "cog",
+                Arrays.asList("hot", "dot", "dog", "lot", "log", "cog")), 5);
+        Assert.assertEquals(WordLadder.ladderLength("hit", "cog",
+                Arrays.asList("hot", "dot", "dog", "lot", "log")), 0);
+    }
+}
