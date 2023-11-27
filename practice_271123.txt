@@ -1,0 +1,779 @@
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class a8 {
+
+    @Test
+    public void testReverseString() {
+        String reversed = ReverseStrings.reverseString("hello");
+        Assert.assertEquals(reversed, "olleh", "String reversal is incorrect");
+
+        reversed = ReverseString.reverseString("12345");
+        Assert.assertEquals(reversed, "54321", "String reversal is incorrect");
+    }
+}
+
+package javaIntermediate;
+
+import java.util.Arrays;
+
+public class ArrayEquality {
+    public static void main(String[] args) {
+        int[] array1 = {1, 2, 3, 4, 5};
+        int[] array2 = {1, 2, 3, 4, 5};
+
+        boolean isEqual = Arrays.equals(array1, array2);
+
+        System.out.println("Arrays are equal: " + isEqual);
+    }
+}package javaIntermediate;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class AverageExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        double average = numbers.stream()
+                .mapToDouble(Integer::doubleValue)
+                .average()
+                .orElse(0);
+
+        System.out.println("Average: " + average);
+    }
+}
+package javaIntermediate;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CharacterCount {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        Map<Character, Integer> charCountMap = countCharacters(input);
+
+        System.out.println("Character Counts:");
+        for (Map.Entry<Character, Integer> entry : charCountMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+        scanner.close();
+    }
+
+    static Map<Character, Integer> countCharacters(String str) {
+        Map<Character, Integer> charCountMap = new HashMap<>();
+
+        for (char ch : str.toCharArray()) {
+            charCountMap.put(ch, charCountMap.getOrDefault(ch, 0) + 1);
+        }
+
+        return charCountMap;
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Map;
+
+public class CharacterCountTest {
+
+    @Test
+    public void testCharacterCount() {
+        Map<Character, Integer> charCountMap = CharacterCount.countCharacters("hello");
+        Assert.assertEquals(charCountMap.get('h'), Integer.valueOf(1), "Incorrect count for 'h'");
+        Assert.assertEquals(charCountMap.get('l'), Integer.valueOf(2), "Incorrect count for 'l'");
+        Assert.assertEquals(charCountMap.get('o'), Integer.valueOf(1), "Incorrect count for 'o'");
+
+        charCountMap = CharacterCount.countCharacters("programming");
+        Assert.assertEquals(charCountMap.get('g'), Integer.valueOf(2), "Incorrect count for 'g'");
+        Assert.assertEquals(charCountMap.get('m'), Integer.valueOf(2), "Incorrect count for 'm'");
+        Assert.assertNull(charCountMap.get('z'), "'z' should not be present in the map");
+    }
+}
+package javaIntermediate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class EvenNumbersFilter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a list of integers separated by space: ");
+        String input = scanner.nextLine();
+        List<Integer> numbers = Arrays.stream(input.split("\\s+"))
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+
+        List<Integer> evenNumbers = filterEvenNumbers(numbers);
+
+        System.out.println("Even Numbers: " + evenNumbers);
+
+        scanner.close();
+    }
+
+    static List<Integer> filterEvenNumbers(List<Integer> numbers) {
+        return numbers.stream()
+                .filter(n -> n % 2 == 0)
+                .collect(Collectors.toList());
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class EvenNumbersFilterTest {
+
+    @Test
+    public void testFilterEvenNumbers() {
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        List<Integer> evenNumbers = EvenNumbersFilter.filterEvenNumbers(numbers);
+
+        Assert.assertEquals(evenNumbers, List.of(2, 4, 6, 8, 10), "Even numbers filtering is incorrect");
+
+        numbers = List.of(11, 13, 15, 17, 19);
+        evenNumbers = EvenNumbersFilter.filterEvenNumbers(numbers);
+
+        Assert.assertTrue(evenNumbers.isEmpty(), "Even numbers filtering is incorrect for an empty list");
+    }
+}
+
+package javaIntermediate;
+
+import java.util.ArrayList;
+
+class GenericStack<T> {
+    private ArrayList<T> stack;
+
+    public GenericStack() {
+        this.stack = new ArrayList<>();
+    }
+
+    public void push(T item) {
+        stack.add(item);
+    }
+
+    public T pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return stack.remove(stack.size() - 1);
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public int size() {
+        return stack.size();
+    }
+
+    public T peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return stack.get(stack.size() - 1);
+    }
+}
+
+public class GenericStackExample {
+    public static void main(String[] args) {
+        GenericStack<Integer> stack = new GenericStack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        System.out.println("Stack size: " + stack.size());
+        System.out.println("Top element: " + stack.peek());
+
+        while (!stack.isEmpty()) {
+            System.out.println("Popped: " + stack.pop());
+        }
+    }
+}
+package javaIntermediate;
+
+import java.util.ArrayList;
+
+class GenericStack<T> {
+    private ArrayList<T> stack;
+
+    public GenericStack() {
+        this.stack = new ArrayList<>();
+    }
+
+    public void push(T item) {
+        stack.add(item);
+    }
+
+    public T pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return stack.remove(stack.size() - 1);
+    }
+
+    public boolean isEmpty() {
+        return stack.isEmpty();
+    }
+
+    public int size() {
+        return stack.size();
+    }
+
+    public T peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return stack.get(stack.size() - 1);
+    }
+}
+
+public class GenericStackExample {
+    public static void main(String[] args) {
+        GenericStack<Integer> stack = new GenericStack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        System.out.println("Stack size: " + stack.size());
+        System.out.println("Top element: " + stack.peek());
+
+        while (!stack.isEmpty()) {
+            System.out.println("Popped: " + stack.pop());
+        }
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class GenericStackTest {
+
+    @Test
+    public void testGenericStack() {
+        GenericStack<Integer> stack = new GenericStack<>();
+        Assert.assertTrue(stack.isEmpty(), "New stack should be empty");
+
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        Assert.assertEquals(stack.size(), 3, "Stack size should be 3");
+        Assert.assertEquals(stack.peek(), Integer.valueOf(3), "Top element should be 3");
+
+        Assert.assertFalse(stack.isEmpty(), "Stack should not be empty after pushing elements");
+
+        Assert.assertEquals(stack.pop(), Integer.valueOf(3), "Popped element should be 3");
+        Assert.assertEquals(stack.size(), 2, "Stack size should be 2 after popping");
+
+        Assert.assertEquals(stack.pop(), Integer.valueOf(2), "Popped element should be 2");
+        Assert.assertEquals(stack.pop(), Integer.valueOf(1), "Popped element should be 1");
+
+        Assert.assertTrue(stack.isEmpty(), "Stack should be empty after popping all elements");
+    }
+}
+package javaIntermediate;
+
+//Create a HashSet and Demonstrate How it Handles Duplicates:
+ 
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class HashSetExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Set<String> uniqueWords = new HashSet<>();
+
+        System.out.print("Enter words (enter 'exit' to stop): ");
+        while (scanner.hasNext()) {
+            String word = scanner.next();
+            if (word.equals("exit")) {
+                break;
+            }
+            uniqueWords.add(word);
+        }
+
+        System.out.println("Unique words in the set: " + uniqueWords);
+    }
+}
+package javaIntermediate;
+
+import java.util.Scanner;
+
+public class PalindromeCheck {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        boolean isPalindrome = checkPalindrome(input);
+
+        if (isPalindrome) {
+            System.out.println("The string is a palindrome.");
+        } else {
+            System.out.println("The string is not a palindrome.");
+        }
+
+        scanner.close();
+    }
+
+    static boolean checkPalindrome(String str) {
+        str = str.replaceAll("\\s+", "").toLowerCase();
+        int left = 0;
+        int right = str.length() - 1;
+
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class PalindromeCheckTest {
+
+    @Test
+    public void testPalindromeCheck() {
+        boolean isPalindrome = PalindromeCheck.checkPalindrome("level");
+        Assert.assertTrue(isPalindrome, "String should be a palindrome");
+
+        isPalindrome = PalindromeCheck.checkPalindrome("Hello");
+        Assert.assertFalse(isPalindrome, "String should not be a palindrome");
+    }
+}
+package javaIntermediate;
+
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class PriorityQueueExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+
+        System.out.print("Enter elements to add to the priority queue (enter a non-integer to stop): ");
+        while (scanner.hasNextInt()) {
+            int element = scanner.nextInt();
+            priorityQueue.add(element);
+        }
+
+        System.out.println("Polling elements from the priority queue:");
+        while (!priorityQueue.isEmpty()) {
+            System.out.println(priorityQueue.poll());
+        }
+    }
+}
+package javaIntermediate;
+
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class RandomNumberFilter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the threshold value: ");
+        int threshold = scanner.nextInt();
+
+        List<Integer> randomNumbers = generateRandomNumbers(10, 1, 100);
+        List<Integer> filteredNumbers = filterNumbersAboveThreshold(randomNumbers, threshold);
+
+        System.out.println("Random Numbers: " + randomNumbers);
+        System.out.println("Filtered Numbers (above " + threshold + "): " + filteredNumbers);
+
+        scanner.close();
+    }
+
+    private static List<Integer> generateRandomNumbers(int count, int min, int max) {
+        return new Random().ints(count, min, max + 1).boxed().collect(Collectors.toList());
+    }
+
+    static List<Integer> filterNumbersAboveThreshold(List<Integer> numbers, int threshold) {
+        return numbers.stream()
+                .filter(n -> n > threshold)
+                .collect(Collectors.toList());
+    }
+}
+package javaIntermediate;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class RandomNumberFilterTest {
+
+    @Test
+    public void testFilterNumbersAboveThreshold() {
+        List<Integer> numbers = List.of(15, 35, 50, 75, 90);
+
+        List<Integer> filteredNumbers = RandomNumberFilter.filterNumbersAboveThreshold(numbers, 60);
+
+        Assert.assertEquals(filteredNumbers, List.of(75, 90), "Number filtering is incorrect");
+
+        numbers = List.of(10, 20, 30, 40, 50);
+        filteredNumbers = RandomNumberFilter.filterNumbersAboveThreshold(numbers, 60);
+
+        Assert.assertTrue(filteredNumbers.isEmpty(), "Number filtering is incorrect for an empty list");
+    }
+}
+package javaIntermediate;
+
+import java.util.Scanner;
+
+public class ReverseString {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        String reversed = reverseString(input);
+
+        System.out.println("Reversed String: " + reversed);
+
+        scanner.close();
+    }
+
+    static String reverseString(String str) {
+        char[] charArray = str.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+
+        while (left < right) {
+            char temp = charArray[left];
+            charArray[left] = charArray[right];
+            charArray[right] = temp;
+
+            left++;
+            right--;
+        }
+
+        return new String(charArray);
+    }
+}
+package javaIntermediate;
+
+import java.util.Scanner;
+
+public class ReverseStrings {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        String reversed = reverseString(input);
+
+        System.out.println("Reversed String: " + reversed);
+
+        scanner.close();
+    }
+
+    static String reverseString(String str) {
+        char[] charArray = str.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+
+        while (left < right) {
+            char temp = charArray[left];
+            charArray[left] = charArray[right];
+            charArray[right] = temp;
+
+            left++;
+            right--;
+        }
+
+        return new String(charArray);
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ReverseStringTest {
+
+    @Test
+    public void testReverseString() {
+        String reversed = ReverseString.reverseString("hello");
+        Assert.assertEquals(reversed, "olleh", "String reversal is incorrect");
+
+        reversed = ReverseString.reverseString("12345");
+        Assert.assertEquals(reversed, "54321", "String reversal is incorrect");
+    }
+}
+
+package javaIntermediate;
+
+import java.util.Arrays;
+
+public class RotateArray {
+    public static void main(String[] args) {
+        int[] array = {1, 2, 3, 4, 5};
+        int positionsToRotate = 2;
+
+        rotateArray(array, positionsToRotate);
+
+        System.out.println("Rotated Array: " + Arrays.toString(array));
+    }
+
+    private static void rotateArray(int[] arr, int positions) {
+        int n = arr.length;
+        positions %= n; // To handle cases where positions > n
+
+        int[] temp = new int[positions];
+        for (int i = 0; i < positions; i++) {
+            temp[i] = arr[i];
+        }
+
+        for (int i = positions; i < n; i++) {
+            arr[i - positions] = arr[i];
+        }
+
+        for (int i = 0; i < positions; i++) {
+            arr[n - positions + i] = temp[i];
+        }
+    }
+}
+package javaIntermediate;
+
+import java.util.Arrays;
+import java.util.List;
+
+class Employee {
+    private String name;
+    private double salary;
+
+    public Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+}
+
+public class SalaryCalculationExample {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+                new Employee("John", 50000),
+                new Employee("Jane", 60000),
+                new Employee("Bob", 75000)
+        );
+
+        double totalSalary = employees.stream()
+                .map(Employee::getSalary)
+                .reduce(0.0, Double::sum);
+
+        System.out.println("Total Salary: " + totalSalary);
+    }
+}
+package javaIntermediate;
+
+import java.util.Arrays;
+
+public class SecondSmallestNumber {
+    public static void main(String[] args) {
+        int[] array = {5, 3, 9, 1, 7, 4, 8, 2};
+
+        Arrays.sort(array);
+
+        int secondSmallest = array[1];
+
+        System.out.println("Second Smallest Number: " + secondSmallest);
+    }
+}
+
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamExamplesTest {
+
+    @Test
+    public void testAverageCalculation() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        double average = numbers.stream()
+                .mapToDouble(Integer::doubleValue)
+                .average()
+                .orElse(0);
+
+        Assert.assertEquals(average, 5.5, 0.001, "Average calculation is incorrect");
+    }
+
+    @Test
+    public void testStringFilter() {
+        List<String> strings = Arrays.asList("apple", "banana", "cherry", "orange", "pear");
+        char startsWithLetter = 'b';
+
+        List<String> filteredStrings = strings.stream()
+                .filter(s -> s.startsWith(String.valueOf(startsWithLetter)))
+                .toList();
+
+        Assert.assertEquals(filteredStrings, Arrays.asList("banana"), "String filter is incorrect");
+    }
+
+    @Test
+    public void testSalaryCalculation() {
+        List<Employee> employees = Arrays.asList(
+                new Employee("John", 50000),
+                new Employee("Jane", 60000),
+                new Employee("Bob", 75000)
+        );
+
+        double totalSalary = employees.stream()
+                .map(Employee::getSalary)
+                .reduce(0.0, Double::sum);
+
+        Assert.assertEquals(totalSalary, 185000.0, 0.001, "Total salary calculation is incorrect");
+    }
+}
+package javaIntermediate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringFilterExample {
+    public static void main(String[] args) {
+        List<String> strings = Arrays.asList("apple", "banana", "cherry", "orange", "pear");
+        char startsWithLetter = 'b';
+
+        List<String> filteredStrings = strings.stream()
+                .filter(s -> s.startsWith(String.valueOf(startsWithLetter)))
+                .collect(Collectors.toList());
+
+        System.out.println("Filtered Strings: " + filteredStrings);
+    }
+}
+
+package javaIntermediate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class SubstringFilter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a list of strings separated by space: ");
+        String input = scanner.nextLine();
+        List<String> strings = Arrays.asList(input.split("\\s+"));
+
+        System.out.print("Enter a substring to filter: ");
+        String substring = scanner.nextLine();
+
+        List<String> filteredStrings = filterBySubstring(strings, substring);
+
+        System.out.println("Strings containing '" + substring + "': " + filteredStrings);
+
+        scanner.close();
+    }
+
+    static List<String> filterBySubstring(List<String> strings, String substring) {
+        return strings.stream()
+                .filter(s -> s.contains(substring))
+                .collect(Collectors.toList());
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class SubstringFilterTest {
+
+    @Test
+    public void testFilterBySubstring() {
+        List<String> strings = List.of("apple", "banana", "cherry", "orange", "pear");
+
+        List<String> filteredStrings = SubstringFilter.filterBySubstring(strings, "an");
+
+        Assert.assertEquals(filteredStrings, List.of("banana", "orange"), "Substring filtering is incorrect");
+
+        strings = List.of("cat", "dog", "fish");
+        filteredStrings = SubstringFilter.filterBySubstring(strings, "bird");
+
+        Assert.assertTrue(filteredStrings.isEmpty(), "Substring filtering is incorrect for an empty list");
+    }
+}
+
+package javaIntermediate;
+
+import java.util.Scanner;
+
+public class UserInputExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        System.out.println("You entered: " + number);
+
+        scanner.close();
+    }
+}
+package javaIntermediate;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
+
+public class UserInputTest {
+
+    @Test
+    public void testUserInput() {
+        String input = "42";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        System.setIn(System.in); // Reset System.in to standard input stream
+
+        Assert.assertEquals(number, 42, "User input is incorrect");
+    }
+}
