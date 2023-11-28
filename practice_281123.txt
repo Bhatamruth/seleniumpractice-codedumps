@@ -1,0 +1,1343 @@
+package javaIntermediate1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+class Book implements Comparable<Book> {
+    private String title;
+    private String author;
+    private int publicationYear;
+
+    public Book(String title, String author, int publicationYear) {
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public int getPublicationYear() {
+        return publicationYear;
+    }
+
+    @Override
+    public int compareTo(Book other) {
+        return this.title.compareTo(other.title);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{title='" + title + "', author='" + author + "', publicationYear=" + publicationYear + '}';
+    }
+}
+
+public class BookSortingProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Book> bookList = new ArrayList<>();
+
+        // Input for the number of books
+        System.out.print("Enter the number of books: ");
+        int numBooks = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        // Input for book details
+        for (int i = 1; i <= numBooks; i++) {
+            System.out.println("Enter details for Book #" + i);
+            System.out.print("Enter Title: ");
+            String title = scanner.nextLine();
+            System.out.print("Enter Author: ");
+            String author = scanner.nextLine();
+            System.out.print("Enter Publication Year: ");
+            int publicationYear = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            bookList.add(new Book(title, author, publicationYear));
+        }
+
+        // Sorting using Comparable (natural order - based on title)
+        Collections.sort(bookList);
+
+        System.out.println("\nSorted Book List (Comparable - Alphabetical Order):");
+        bookList.forEach(System.out::println);
+
+        scanner.close();
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class BookSortingTest {
+
+    @Test
+    public void testBookSorting() {
+        List<Book> bookList = new ArrayList<>();
+        bookList.add(new Book("Java Programming", "John Doe", 2020));
+        bookList.add(new Book("Data Structures", "Jane Smith", 2018));
+        bookList.add(new Book("Algorithm Design", "Alice Johnson", 2022));
+
+        // Sorting using Comparable (natural order - based on title)
+        Collections.sort(bookList);
+
+        Assert.assertEquals(bookList.get(0).getTitle(), "Algorithm Design");
+        Assert.assertEquals(bookList.get(1).getTitle(), "Data Structures");
+        Assert.assertEquals(bookList.get(2).getTitle(), "Java Programming");
+    }
+}
+package javaIntermediate1;
+
+import java.util.Scanner;
+
+class Node<T> {
+    T data;
+    Node<T> next;
+
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class CustomLinkedList<T> {
+    private Node<T> head;
+
+    public void insert(T data) {
+        Node<T> newNode = new Node<>(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node<T> current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+    public void delete(T data) {
+        if (head == null) {
+            return;
+        }
+
+        if (head.data.equals(data)) {
+            head = head.next;
+            return;
+        }
+
+        Node<T> current = head;
+        while (current.next != null && !current.next.data.equals(data)) {
+            current = current.next;
+        }
+
+        if (current.next != null) {
+            current.next = current.next.next;
+        }
+    }
+
+    public void traverse() {
+        Node<T> current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        CustomLinkedList<String> linkedList = new CustomLinkedList<>();
+
+        while (true) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Insert an element");
+            System.out.println("2. Delete an element");
+            System.out.println("3. Traverse the list");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element to insert: ");
+                    String insertElement = scanner.nextLine();
+                    linkedList.insert(insertElement);
+                    break;
+                case 2:
+                    System.out.print("Enter element to delete: ");
+                    String deleteElement = scanner.nextLine();
+                    linkedList.delete(deleteElement);
+                    break;
+                case 3:
+                    System.out.println("Linked List:");
+                    linkedList.traverse();
+                    break;
+                case 4:
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CustomLinkedListTest {
+
+    @Test
+    public void testCustomLinkedListOperations() {
+        CustomLinkedList<Integer> linkedList = new CustomLinkedList<>();
+
+        linkedList.insert(1);
+        linkedList.insert(2);
+        linkedList.insert(3);
+
+        Assert.assertEquals(linkedList.toString(), "1 2 3 ", "Insertion operation is incorrect");
+
+        linkedList.delete(2);
+
+        Assert.assertEquals(linkedList.toString(), "1 3 ", "Deletion operation is incorrect");
+
+        linkedList.insert(4);
+
+        Assert.assertEquals(linkedList.toString(), "1 3 4 ", "Insertion operation after deletion is incorrect");
+    }
+}
+package javaIntermediate1;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+public class ElementFrequency {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the list
+        System.out.print("Enter elements for the list (space-separated): ");
+        String input = scanner.nextLine();
+        List<String> elements = List.of(input.split("\\s+"));
+
+        // Finding the frequency of each element
+        Map<String, Integer> frequencyMap = findElementFrequency(elements);
+
+        System.out.println("Frequency of each element:");
+        for (Map.Entry<String, Integer> entry : frequencyMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+
+        scanner.close();
+    }
+
+    public static <T> Map<T, Integer> findElementFrequency(List<T> elements) {
+        Map<T, Integer> frequencyMap = new HashMap<>();
+
+        for (T element : elements) {
+            frequencyMap.put(element, frequencyMap.getOrDefault(element, 0) + 1);
+        }
+
+        return frequencyMap;
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+import java.util.Map;
+
+public class ElementFrequencyTest {
+
+    @Test
+    public void testFindElementFrequency() {
+        List<String> elements = List.of("apple", "banana", "orange", "banana", "kiwi", "apple", "apple");
+
+        Map<String, Integer> frequencyMap = ElementFrequency.findElementFrequency(elements);
+
+        Assert.assertEquals(frequencyMap.get("apple"), Integer.valueOf(3), "Frequency of 'apple' is incorrect");
+        Assert.assertEquals(frequencyMap.get("banana"), Integer.valueOf(2), "Frequency of 'banana' is incorrect");
+        Assert.assertEquals(frequencyMap.get("orange"), Integer.valueOf(1), "Frequency of 'orange' is incorrect");
+        Assert.assertEquals(frequencyMap.get("kiwi"), Integer.valueOf(1), "Frequency of 'kiwi' is incorrect");
+
+        elements = List.of("1", "2", "3", "2", "4", "1", "5", "2");
+
+        frequencyMap = ElementFrequency.findElementFrequency(elements);
+
+        Assert.assertEquals(frequencyMap.get("1"), Integer.valueOf(2), "Frequency of '1' is incorrect");
+        Assert.assertEquals(frequencyMap.get("2"), Integer.valueOf(3), "Frequency of '2' is incorrect");
+        Assert.assertEquals(frequencyMap.get("3"), Integer.valueOf(1), "Frequency of '3' is incorrect");
+        Assert.assertEquals(frequencyMap.get("4"), Integer.valueOf(1), "Frequency of '4' is incorrect");
+        Assert.assertEquals(frequencyMap.get("5"), Integer.valueOf(1), "Frequency of '5' is incorrect");
+    }
+}
+package javaIntermediate1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee implements Comparable<Employee> {
+    private int id;
+    private String name;
+    private double salary;
+
+    public Employee(int id, String name, double salary) {
+        this.id = id;
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    // Comparable implementation based on salary
+    @Override
+    public int compareTo(Employee other) {
+        return Double.compare(this.salary, other.salary);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{id=" + id + ", name='" + name + "', salary=" + salary + '}';
+    }
+}
+
+public class EmployeeSortingProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Employee> employeeList = new ArrayList<>();
+
+        // Input for the number of employees
+        System.out.print("Enter the number of employees: ");
+        int numEmployees = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        // Input for employee details
+        for (int i = 1; i <= numEmployees; i++) {
+            System.out.println("Enter details for Employee #" + i);
+            System.out.print("Enter ID: ");
+            int id = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+            System.out.print("Enter Name: ");
+            String name = scanner.nextLine();
+            System.out.print("Enter Salary: ");
+            double salary = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
+            employeeList.add(new Employee(id, name, salary));
+        }
+
+        // Sorting using Comparable (natural order - based on salary)
+        Collections.sort(employeeList);
+
+        System.out.println("\nSorted Employee List (Comparable):");
+        employeeList.forEach(System.out::println);
+
+        // Sorting using Comparator (reverse order - based on salary)
+        Comparator<Employee> salaryComparator = Comparator.comparingDouble(Employee::getSalary).reversed();
+        employeeList.sort(salaryComparator);
+
+        System.out.println("\nSorted Employee List (Comparator - Reverse Order):");
+        employeeList.forEach(System.out::println);
+
+        scanner.close();
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class EmployeeSortingTest {
+
+    @Test
+    public void testEmployeeSorting() {
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(new Employee(101, "John", 50000.0));
+        employeeList.add(new Employee(102, "Jane", 60000.0));
+        employeeList.add(new Employee(103, "Doe", 45000.0));
+
+        // Sorting using Comparable (natural order - based on salary)
+        Collections.sort(employeeList);
+
+        Assert.assertEquals(employeeList.get(0).getSalary(), 45000.0);
+        Assert.assertEquals(employeeList.get(1).getSalary(), 50000.0);
+        Assert.assertEquals(employeeList.get(2).getSalary(), 60000.0);
+
+        // Sorting using Comparator (reverse order - based on salary)
+        Comparator<Employee> salaryComparator = Comparator.comparingDouble(Employee::getSalary).reversed();
+        employeeList.sort(salaryComparator);
+
+        Assert.assertEquals(employeeList.get(0).getSalary(), 60000.0);
+        Assert.assertEquals(employeeList.get(1).getSalary(), 50000.0);
+        Assert.assertEquals(employeeList.get(2).getSalary(), 45000.0);
+    }
+}
+
+package javaIntermediate1;
+
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class IntersectionOfSets {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for Set 1
+        System.out.print("Enter elements for Set 1 (comma-separated): ");
+        String input1 = scanner.nextLine();
+        Set<String> set1 = new HashSet<>(Set.of(input1.split(",")));
+
+        // Input for Set 2
+        System.out.print("Enter elements for Set 2 (comma-separated): ");
+        String input2 = scanner.nextLine();
+        Set<String> set2 = new HashSet<>(Set.of(input2.split(",")));
+
+        // Finding the intersection of the two sets
+        Set<String> intersection = findIntersection(set1, set2);
+
+        System.out.println("Intersection of the sets: " + intersection);
+
+        scanner.close();
+    }
+
+    public static <T> Set<T> findIntersection(Set<T> set1, Set<T> set2) {
+        Set<T> intersectionSet = new HashSet<>(set1);
+        intersectionSet.retainAll(set2);
+        return intersectionSet;
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Set;
+
+public class IntersectionOfSetsTest {
+
+    @Test
+    public void testFindIntersection() {
+        Set<String> set1 = Set.of("1", "2", "3", "4");
+        Set<String> set2 = Set.of("3", "4", "5", "6");
+
+        Set<String> intersection = IntersectionOfSets.findIntersection(set1, set2);
+
+        Assert.assertEquals(intersection, Set.of("3", "4"), "Intersection calculation is incorrect");
+
+        set1 = Set.of("apple", "banana", "orange");
+        set2 = Set.of("banana", "grape", "kiwi");
+
+        intersection = IntersectionOfSets.findIntersection(set1, set2);
+
+        Assert.assertEquals(intersection, Set.of("banana"), "Intersection calculation is incorrect");
+
+        set1 = Set.of("1", "2", "3");
+        set2 = Set.of("4", "5", "6");
+
+        intersection = IntersectionOfSets.findIntersection(set1, set2);
+
+        Assert.assertTrue(intersection.isEmpty(), "Intersection calculation is incorrect for disjoint sets");
+
+        set1 = Set.of("java", "python", "javascript");
+        set2 = Set.of("c++", "python", "ruby");
+
+        intersection = IntersectionOfSets.findIntersection(set1, set2);
+
+        Assert.assertEquals(intersection, Set.of("python"), "Intersection calculation is incorrect");
+    }
+}
+package javaIntermediate1;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class KthLargestElement {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the array
+        System.out.print("Enter elements for the array (space-separated): ");
+        String input = scanner.nextLine();
+        int[] array = Arrays.stream(input.split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        // Input for K
+        System.out.print("Enter the value of K: ");
+        int k = scanner.nextInt();
+
+        // Finding the Kth largest element
+        int kthLargest = findKthLargest(array, k);
+
+        System.out.println("The " + k + "th largest element is: " + kthLargest);
+
+        scanner.close();
+    }
+
+    public static int findKthLargest(int[] array, int k) {
+        Arrays.sort(array);
+        return array[array.length - k];
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class KthLargestElementTest {
+
+    @Test
+    public void testFindKthLargest() {
+        int[] array1 = {3, 1, 4, 1, 5, 9, 2, 6};
+        Assert.assertEquals(KthLargestElement.findKthLargest(array1, 3), 5, "Test Case 1 Failed");
+
+        int[] array2 = {-1, 2, 0};
+        Assert.assertEquals(KthLargestElement.findKthLargest(array2, 1), 2, "Test Case 2 Failed");
+
+        int[] array3 = {7, 7, 7, 7, 7, 7};
+        Assert.assertEquals(KthLargestElement.findKthLargest(array3, 2), 7, "Test Case 3 Failed");
+
+        int[] array4 = {-5, 3, 9, 1, 7, -6};
+        Assert.assertEquals(KthLargestElement.findKthLargest(array4, 4), 1, "Test Case 4 Failed");
+
+        int[] array5 = {1};
+        Assert.assertEquals(KthLargestElement.findKthLargest(array5, 1), 1, "Test Case 5 Failed");
+    }
+}
+package javaIntermediate1;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Scanner;
+
+class LRUCache<K, V> {
+    private final int capacity;
+    private final Map<K, V> cacheMap;
+    private final LinkedList<K> lruOrder;
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        this.cacheMap = new HashMap<>();
+        this.lruOrder = new LinkedList<>();
+    }
+
+    public V get(K key) {
+        if (cacheMap.containsKey(key)) {
+            // Move the key to the front of the LRU order
+            lruOrder.remove(key);
+            lruOrder.addFirst(key);
+            return cacheMap.get(key);
+        }
+        return null;
+    }
+
+    public void put(K key, V value) {
+        if (cacheMap.size() >= capacity) {
+            // Evict the least recently used key
+            K lruKey = lruOrder.removeLast();
+            cacheMap.remove(lruKey);
+        }
+
+        // Add the new key to the front of the LRU order
+        lruOrder.addFirst(key);
+        cacheMap.put(key, value);
+    }
+
+    public void display() {
+        System.out.println("LRU Cache Contents:");
+        for (K key : lruOrder) {
+            System.out.println(key + ": " + cacheMap.get(key));
+        }
+        System.out.println();
+    }
+}
+
+public class LRUCacheImplementation {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for LRU Cache capacity
+        System.out.print("Enter the capacity of the LRU Cache: ");
+        int capacity = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        LRUCache<String, Integer> lruCache = new LRUCache<>(capacity);
+
+        while (true) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Get value by key");
+            System.out.println("2. Put key-value pair");
+            System.out.println("3. Display LRU Cache");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter key to get: ");
+                    String getKey = scanner.nextLine();
+                    Integer getValue = lruCache.get(getKey);
+                    System.out.println("Value for key '" + getKey + "': " + getValue);
+                    break;
+                case 2:
+                    System.out.print("Enter key: ");
+                    String putKey = scanner.nextLine();
+                    System.out.print("Enter value: ");
+                    int putValue = scanner.nextInt();
+                    lruCache.put(putKey, putValue);
+                    break;
+                case 3:
+                    lruCache.display();
+                    break;
+                case 4:
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class LRUCacheTest {
+
+    @Test
+    public void testLRUCacheOperations() {
+        LRUCache<String, Integer> lruCache = new LRUCache<>(3);
+
+        lruCache.put("a", 1);
+        lruCache.put("b", 2);
+        lruCache.put("c", 3);
+
+        Assert.assertEquals(lruCache.get("a"), Integer.valueOf(1), "Get operation for key 'a' is incorrect");
+
+        lruCache.put("d", 4);
+
+        Assert.assertNull(lruCache.get("b"), "Eviction for key 'b' is incorrect");
+
+        lruCache.put("e", 5);
+
+        Assert.assertNull(lruCache.get("c"), "Eviction for key 'c' is incorrect");
+
+        Assert.assertEquals(lruCache.get("a"), Integer.valueOf(1), "Get operation for key 'a' is incorrect");
+
+        Assert.assertEquals(lruCache.get("d"), Integer.valueOf(4), "Get operation for key 'd' is incorrect");
+
+        Assert.assertEquals(lruCache.get("e"), Integer.valueOf(5), "Get operation for key 'e' is incorrect");
+    }
+}
+package javaIntermediate1;
+
+import java.util.Scanner;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+public class PalindromeLinkedList {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the linked list values
+        System.out.print("Enter linked list values (space-separated): ");
+        String input = scanner.nextLine();
+        ListNode head = createLinkedList(input);
+
+        // Checking if the linked list is a palindrome
+        boolean isPalindrome = isPalindrome(head);
+
+        System.out.println("Is the linked list a palindrome? " + isPalindrome);
+
+        scanner.close();
+    }
+
+    public static ListNode createLinkedList(String input) {
+        String[] values = input.split("\\s+");
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        for (String value : values) {
+            current.next = new ListNode(Integer.parseInt(value));
+            current = current.next;
+        }
+
+        return dummy.next;
+    }
+
+    public static boolean isPalindrome(ListNode head) {
+        if (head == null || head.next == null) {
+            return true;
+        }
+
+        // Find the middle of the linked list
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Reverse the second half of the linked list
+        ListNode secondHalf = reverseLinkedList(slow);
+
+        // Compare the first and reversed second halves
+        while (secondHalf != null) {
+            if (head.val != secondHalf.val) {
+                return false;
+            }
+            head = head.next;
+            secondHalf = secondHalf.next;
+        }
+
+        return true;
+    }
+
+    public static ListNode reverseLinkedList(ListNode head) {
+        ListNode prev = null;
+        ListNode current = head;
+
+        while (current != null) {
+            ListNode nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+
+        return prev;
+    }
+}
+
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class PalindromeLinkedListTest {
+
+    @Test
+    public void testIsPalindrome() {
+        // Test case 1: Palindrome linked list
+        ListNode head1 = createLinkedList(1, 2, 3, 2, 1);
+        Assert.assertTrue(PalindromeLinkedList.isPalindrome(head1), "Test Case 1 Failed");
+
+        // Test case 2: Non-palindrome linked list
+        ListNode head2 = createLinkedList(1, 2, 3, 4, 5);
+        Assert.assertFalse(PalindromeLinkedList.isPalindrome(head2), "Test Case 2 Failed");
+
+        // Test case 3: Single-node linked list
+        ListNode head3 = createLinkedList(7);
+        Assert.assertTrue(PalindromeLinkedList.isPalindrome(head3), "Test Case 3 Failed");
+
+        // Test case 4: Empty linked list
+        ListNode head4 = null;
+        Assert.assertTrue(PalindromeLinkedList.isPalindrome(head4), "Test Case 4 Failed");
+
+        // Test case 5: Palindrome linked list with even number of nodes
+        ListNode head5 = createLinkedList(1, 2, 2, 1);
+        Assert.assertTrue(PalindromeLinkedList.isPalindrome(head5), "Test Case 5 Failed");
+    }
+
+    private ListNode createLinkedList(int... values) {
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+
+        for (int value : values) {
+            current.next = new ListNode(value);
+            current = current.next;
+        }
+
+        return dummy.next;
+    }
+}
+package javaIntermediate1;
+
+import java.util.Scanner;
+import java.util.Stack;
+
+class QueueUsingStacks<T> {
+    private Stack<T> stack1;
+    private Stack<T> stack2;
+
+    public QueueUsingStacks() {
+        this.stack1 = new Stack<>();
+        this.stack2 = new Stack<>();
+    }
+
+    public void enqueue(T element) {
+        stack1.push(element);
+    }
+
+    public T dequeue() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+
+        if (stack2.isEmpty()) {
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
+            }
+        }
+
+        return stack2.pop();
+    }
+
+    public boolean isEmpty() {
+        return stack1.isEmpty() && stack2.isEmpty();
+    }
+}
+
+public class QueueUsingStacksImplementation {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        QueueUsingStacks<Integer> queue = new QueueUsingStacks<>();
+
+        while (true) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Enqueue element");
+            System.out.println("2. Dequeue element");
+            System.out.println("3. Check if queue is empty");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element to enqueue: ");
+                    int element = scanner.nextInt();
+                    queue.enqueue(element);
+                    break;
+                case 2:
+                    try {
+                        int dequeuedElement = queue.dequeue();
+                        System.out.println("Dequeued element: " + dequeuedElement);
+                    } catch (IllegalStateException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    System.out.println("Is the queue empty? " + queue.isEmpty());
+                    break;
+                case 4:
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class QueueUsingStacksTest {
+
+    @Test
+    public void testQueueOperations() {
+        QueueUsingStacks<String> queue = new QueueUsingStacks<>();
+
+        Assert.assertTrue(queue.isEmpty(), "Queue should be empty initially");
+
+        queue.enqueue("apple");
+        queue.enqueue("banana");
+        queue.enqueue("orange");
+
+        Assert.assertFalse(queue.isEmpty(), "Queue should not be empty after enqueuing elements");
+
+        Assert.assertEquals(queue.dequeue(), "apple", "Dequeued element is incorrect");
+        Assert.assertEquals(queue.dequeue(), "banana", "Dequeued element is incorrect");
+
+        queue.enqueue("kiwi");
+
+        Assert.assertEquals(queue.dequeue(), "orange", "Dequeued element is incorrect");
+        Assert.assertEquals(queue.dequeue(), "kiwi", "Dequeued element is incorrect");
+        Assert.assertTrue(queue.isEmpty(), "Queue should be empty after all operations");
+    }
+
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void testDequeueOnEmptyQueue() {
+        QueueUsingStacks<Integer> queue = new QueueUsingStacks<>();
+        queue.dequeue();  // Expecting IllegalStateException
+    }
+}
+package javaIntermediate1;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Scanner;
+
+public class RemoveDuplicates {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the list
+        System.out.print("Enter elements for the list (space-separated): ");
+        String input = scanner.nextLine();
+        List<String> list = new ArrayList<>(List.of(input.split("\\s+")));
+
+        // Removing duplicates without using additional data structures
+        removeDuplicatesInPlace(list);
+
+        System.out.println("List after removing duplicates: " + list);
+
+        scanner.close();
+    }
+
+    public static <T> void removeDuplicatesInPlace(List<T> list) {
+        LinkedHashSet<T> set = new LinkedHashSet<>(list);
+        list.clear();
+        list.addAll(set);
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class RemoveDuplicatesTest {
+
+    @Test
+    public void testRemoveDuplicatesInPlace() {
+        List<String> list = List.of("apple", "banana", "orange", "banana", "kiwi", "apple", "apple");
+
+        RemoveDuplicates.removeDuplicatesInPlace(list);
+
+        Assert.assertEquals(list, List.of("apple", "banana", "orange", "kiwi"), "List after removing duplicates is incorrect");
+
+        list = List.of("1", "2", "3", "2", "4", "1", "5", "2");
+
+        RemoveDuplicates.removeDuplicatesInPlace(list);
+
+        Assert.assertEquals(list, List.of("1", "2", "3", "4", "5"), "List after removing duplicates is incorrect");
+
+        list = List.of("java", "python", "java", "python", "ruby", "javascript");
+
+        RemoveDuplicates.removeDuplicatesInPlace(list);
+
+        Assert.assertEquals(list, List.of("java", "python", "ruby", "javascript"), "List after removing duplicates is incorrect");
+    }
+}
+package javaIntermediate1;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class StackUsingQueues<T> {
+    private Queue<T> queue1;
+    private Queue<T> queue2;
+
+    public StackUsingQueues() {
+        this.queue1 = new LinkedList<>();
+        this.queue2 = new LinkedList<>();
+    }
+
+    public void push(T element) {
+        queue1.add(element);
+    }
+
+    public T pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+
+        while (queue1.size() > 1) {
+            queue2.add(queue1.poll());
+        }
+
+        T poppedElement = queue1.poll();
+
+        // Swap the references of queue1 and queue2
+        Queue<T> temp = queue1;
+        queue1 = queue2;
+        queue2 = temp;
+
+        return poppedElement;
+    }
+
+    public boolean isEmpty() {
+        return queue1.isEmpty() && queue2.isEmpty();
+    }
+}
+
+public class StackUsingQueuesImplementation {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StackUsingQueues<Integer> stack = new StackUsingQueues<>();
+
+        while (true) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Push element");
+            System.out.println("2. Pop element");
+            System.out.println("3. Check if stack is empty");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume the newline character
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter element to push: ");
+                    int element = scanner.nextInt();
+                    stack.push(element);
+                    break;
+                case 2:
+                    try {
+                        int poppedElement = stack.pop();
+                        System.out.println("Popped element: " + poppedElement);
+                    } catch (IllegalStateException e) {
+                        System.out.println("Error: " + e.getMessage());
+                    }
+                    break;
+                case 3:
+                    System.out.println("Is the stack empty? " + stack.isEmpty());
+                    break;
+                case 4:
+                    System.out.println("Exiting program.");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class StackUsingQueuesTest {
+
+    @Test
+    public void testStackOperations() {
+        StackUsingQueues<Integer> stack = new StackUsingQueues<>();
+
+        Assert.assertTrue(stack.isEmpty(), "Stack should be empty initially");
+
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        Assert.assertFalse(stack.isEmpty(), "Stack should not be empty after pushing elements");
+
+        Assert.assertEquals(stack.pop(), Integer.valueOf(3), "Popped element is incorrect");
+        Assert.assertEquals(stack.pop(), Integer.valueOf(2), "Popped element is incorrect");
+
+        stack.push(4);
+
+        Assert.assertEquals(stack.pop(), Integer.valueOf(4), "Popped element is incorrect");
+        Assert.assertTrue(stack.isEmpty(), "Stack should be empty after all operations");
+    }
+
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void testPopOnEmptyStack() {
+        StackUsingQueues<String> stack = new StackUsingQueues<>();
+        stack.pop();  // Expecting IllegalStateException
+    }
+}
+package javaIntermediate1;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+class Student {
+    private int id;
+    private String name;
+    private double GPA;
+
+    public Student(int id, String name, double GPA) {
+        this.id = id;
+        this.name = name;
+        this.GPA = GPA;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getGPA() {
+        return GPA;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{id=" + id + ", name='" + name + "', GPA=" + GPA + '}';
+    }
+}
+
+public class StudentSortingProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        List<Student> studentList = new ArrayList<>();
+
+        // Input for the number of students
+        System.out.print("Enter the number of students: ");
+        int numStudents = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        // Input for student details
+        for (int i = 1; i <= numStudents; i++) {
+            System.out.println("Enter details for Student #" + i);
+            System.out.print("Enter ID: ");
+            int id = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+            System.out.print("Enter Name: ");
+            String name = scanner.nextLine();
+            System.out.print("Enter GPA: ");
+            double GPA = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
+            studentList.add(new Student(id, name, GPA));
+        }
+
+        // Sorting using Comparator (reverse order - based on GPA)
+        Comparator<Student> GPAComparator = Comparator.comparingDouble(Student::getGPA).reversed();
+        studentList.sort(GPAComparator);
+
+        System.out.println("\nSorted Student List (Comparator - Reverse Order):");
+        studentList.forEach(System.out::println);
+
+        scanner.close();
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class StudentSortingTest {
+
+    @Test
+    public void testStudentSorting() {
+        List<Student> studentList = new ArrayList<>();
+        studentList.add(new Student(101, "John", 3.8));
+        studentList.add(new Student(102, "Jane", 3.9));
+        studentList.add(new Student(103, "Doe", 3.5));
+
+        // Sorting using Comparator (reverse order - based on GPA)
+        Comparator<Student> GPAComparator = Comparator.comparingDouble(Student::getGPA).reversed();
+        studentList.sort(GPAComparator);
+
+        Assert.assertEquals(studentList.get(0).getGPA(), 3.9);
+        Assert.assertEquals(studentList.get(1).getGPA(), 3.8);
+        Assert.assertEquals(studentList.get(2).getGPA(), 3.5);
+    }
+}
+package javaIntermediate1;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+
+public class UnionOfLists {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for List 1
+        System.out.print("Enter elements for List 1 (comma-separated): ");
+        String input1 = scanner.nextLine();
+        List<String> list1 = new ArrayList<>(List.of(input1.split(",")));
+
+        // Input for List 2
+        System.out.print("Enter elements for List 2 (comma-separated): ");
+        String input2 = scanner.nextLine();
+        List<String> list2 = new ArrayList<>(List.of(input2.split(",")));
+
+        // Finding the union of the two lists
+        List<String> union = findUnion(list1, list2);
+
+        System.out.println("Union of the lists: " + union);
+
+        scanner.close();
+    }
+
+    public static <T> List<T> findUnion(List<T> list1, List<T> list2) {
+        Set<T> unionSet = new HashSet<>(list1);
+        unionSet.addAll(list2);
+        return new ArrayList<>(unionSet);
+    }
+}
+package javaIntermediate1;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class UnionOfListsTest {
+
+    @Test
+    public void testFindUnion() {
+        List<String> list1 = List.of("1", "2", "3", "4");
+        List<String> list2 = List.of("3", "4", "5", "6");
+
+        List<String> union = UnionOfLists.findUnion(list1, list2);
+
+        Assert.assertEquals(union, List.of("1", "2", "3", "4", "5", "6"), "Union calculation is incorrect");
+
+        list1 = List.of("apple", "banana", "orange");
+        list2 = List.of("banana", "grape", "kiwi");
+
+        union = UnionOfLists.findUnion(list1, list2);
+
+        Assert.assertEquals(union, List.of("apple", "banana", "orange", "grape", "kiwi"), "Union calculation is incorrect");
+
+        list1 = List.of("1", "2", "3");
+        list2 = List.of("1", "2", "3");
+
+        union = UnionOfLists.findUnion(list1, list2);
+
+        Assert.assertEquals(union, List.of("1", "2", "3"), "Union calculation is incorrect for identical lists");
+
+        list1 = List.of("java", "python", "javascript");
+        list2 = List.of("c++", "python", "ruby");
+
+        union = UnionOfLists.findUnion(list1, list2);
+
+        Assert.assertEquals(union, List.of("java", "python", "javascript", "c++", "ruby"), "Union calculation is incorrect");
+    }
+}
+Union of Two Lists:
+Given two lists, write a function to find their union (distinct elements from both lists).
+
+Intersection of Two Sets:
+Implement a function to find the common elements between two sets.
+
+Frequency of Elements:
+Write a program to find the frequency of each element in a list.
+
+Remove Duplicates from a List:
+Remove duplicates from an ArrayList without using additional data structures.
+
+Implement a Custom Linked List:
+Create a simple linked list with basic operations like insertion, deletion, and traversal.
+
+Implement LRU Cache:
+Design and implement an LRU (Least Recently Used) cache.
+
+Find the Kth Largest Element:
+Write a function to find the Kth largest element in an array.
+
+Implement a Stack Using Queues:
+Implement a stack using two queues.
+
+Implement a Queue Using Stacks:
+Implement a queue using two stacks.
+
+Check for Palindrome Linked List:
+Given a linked list, determine if it is a palindrome.
+
+Group Anagrams:
+Given a list of strings, group anagrams together.
+
+Implement Trie (Prefix Tree):
+Implement a trie with insert, search, and delete operations.
+
+Top K Frequent Elements:
+Given an array, find the k most frequent elements.
+
+Implement a Circular Buffer:
+Design and implement a circular buffer with a fixed size.
+
+Serialize and Deserialize a Binary Tree:
+Write functions to serialize and deserialize a binary tree.
+
+Find Missing Number in Array:
+Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing.
+
+Detect Cycle in a Directed Graph:
+Given a directed graph, detect if there is a cycle in it.
+
+Implement Min Heap:
+Implement a minimum heap and perform basic operations.
+
+LRU Cache with Constant Time Operations:
+Design and implement an LRU cache such that all operations are performed in constant time.
+
+Implement a Binary Search Tree Iterator:
+Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.Employee Sorting:
+Create an Employee class with attributes (id, name, salary). Implement a program that sorts a list of employees based on their salary using both Comparable and Comparator interfaces.
+
+Student Ranking:
+Design a Student class with attributes (id, name, GPA). Implement a program that uses a custom Comparator to sort a list of students by GPA in descending order.
+
+Book Library:
+Create a Book class with attributes (title, author, publication year). Implement a program that uses the Comparable interface to sort a list of books alphabetically by title.
+
