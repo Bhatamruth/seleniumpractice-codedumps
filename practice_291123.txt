@@ -1,0 +1,1304 @@
+package JavaIntermediate3;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class BinarySearchInList {
+
+    public static <T extends Comparable<T>> int binarySearch(List<T> list, T target) {
+        int left = 0;
+        int right = list.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int comparison = target.compareTo(list.get(mid));
+
+            if (comparison == 0) {
+                return mid; // Element found at position mid
+            } else if (comparison < 0) {
+                right = mid - 1; // Target is in the left half
+            } else {
+                left = mid + 1; // Target is in the right half
+            }
+        }
+
+        return -1; // Element not found
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the number of elements in the list
+        System.out.print("Enter the number of elements in the sorted list: ");
+        int numElements = scanner.nextInt();
+
+        // Input for the sorted elements
+        System.out.println("Enter the sorted elements separated by spaces:");
+        List<Integer> sortedList = new ArrayList<>();
+        for (int i = 0; i < numElements; i++) {
+            sortedList.add(scanner.nextInt());
+        }
+
+        // Input for the element to search
+        System.out.print("Enter the element to search: ");
+        int targetElement = scanner.nextInt();
+
+        // Perform binary search
+        int position = binarySearch(sortedList, targetElement);
+
+        // Display the result
+        if (position != -1) {
+            System.out.println("Element " + targetElement + " found at position " + position);
+        } else {
+            System.out.println("Element " + targetElement + " not found in the list.");
+        }
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class BinarySearchInListTest {
+
+    @Test
+    public void testBinarySearch() {
+        List<Integer> sortedList = Arrays.asList(1, 3, 5, 7, 9, 11, 13);
+
+        // Assertions
+        Assert.assertEquals(BinarySearchInList.binarySearch(sortedList, 7), 3);
+        Assert.assertEquals(BinarySearchInList.binarySearch(sortedList, 9), 4);
+        Assert.assertEquals(BinarySearchInList.binarySearch(sortedList, 1), 0);
+        Assert.assertEquals(BinarySearchInList.binarySearch(sortedList, 13), 6);
+        Assert.assertEquals(BinarySearchInList.binarySearch(sortedList, 6), -1);
+    }
+}
+
+package JavaIntermediate3;
+
+import java.util.Scanner;
+import java.util.Stack;
+
+class TreeNodes {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNodes(int val) {
+        this.val = val;
+    }
+}
+
+class BSTIterator {
+    private Stack<TreeNode> stack;
+
+    public BSTIterator(TreeNode root) {
+        stack = new Stack<>();
+        pushAll(root);
+    }
+
+    public boolean hasNext() {
+        return !stack.isEmpty();
+    }
+
+    public int next() {
+        TreeNode node = stack.pop();
+        pushAll(node.right);
+        return node.val;
+    }
+
+    private void pushAll(TreeNode node) {
+        while (node != null) {
+            stack.push(node);
+            node = node.left;
+        }
+    }
+}
+
+public class BSTIteratorProgram {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the number of nodes
+        System.out.print("Enter the number of nodes in the BST: ");
+        int numNodes = scanner.nextInt();
+
+        // Input for the nodes
+        System.out.println("Enter the values of the nodes separated by spaces:");
+        int[] values = new int[numNodes];
+        for (int i = 0; i < numNodes; i++) {
+            values[i] = scanner.nextInt();
+        }
+
+        // Build the BST
+        TreeNode root = buildBST(values);
+
+        // Create a BSTIterator
+        BSTIterator iterator = new BSTIterator(root);
+
+        // Display the elements using the iterator
+        System.out.print("BST Elements (In-order): ");
+        while (iterator.hasNext()) {
+            System.out.print(iterator.next() + " ");
+        }
+
+        scanner.close();
+    }
+
+    private static TreeNode buildBST(int[] values) {
+        TreeNode root = null;
+        for (int value : values) {
+            root = insert(root, value);
+        }
+        return root;
+    }
+
+    private static TreeNode insert(TreeNode root, int value) {
+        if (root == null) {
+            return new TreeNode(value);
+        }
+
+        if (value < root.val) {
+            root.left = insert(root.left, value);
+        } else {
+            root.right = insert(root.right, value);
+        }
+
+        return root;
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class BSTIteratorTest {
+
+    @Test
+    public void testBSTIterator() {
+        TreeNode root = new TreeNode(7);
+        root.left = new TreeNode(3);
+        root.right = new TreeNode(15);
+        root.right.left = new TreeNode(9);
+        root.right.right = new TreeNode(20);
+
+        BSTIterator iterator = new BSTIterator(root);
+
+        // Assertions
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(iterator.next(), 3);
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(iterator.next(), 7);
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(iterator.next(), 9);
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(iterator.next(), 15);
+        Assert.assertTrue(iterator.hasNext());
+        Assert.assertEquals(iterator.next(), 20);
+        Assert.assertFalse(iterator.hasNext());
+    }
+}
+
+package JavaIntermediate3;
+
+import java.util.Scanner;
+
+class CircularBuffer {
+    private int[] buffer;
+    private int size;
+    private int front;
+    private int rear;
+    private int count;
+
+    public CircularBuffer(int size) {
+        this.size = size;
+        this.buffer = new int[size];
+        this.front = 0;
+        this.rear = -1;
+        this.count = 0;
+    }
+
+    public void enqueue(int value) {
+        if (isFull()) {
+            System.out.println("Buffer is full. Cannot enqueue.");
+        } else {
+            rear = (rear + 1) % size;
+            buffer[rear] = value;
+            count++;
+            System.out.println("Enqueued: " + value);
+        }
+    }
+
+    public void dequeue() {
+        if (isEmpty()) {
+            System.out.println("Buffer is empty. Cannot dequeue.");
+        } else {
+            int removedValue = buffer[front];
+            front = (front + 1) % size;
+            count--;
+            System.out.println("Dequeued: " + removedValue);
+        }
+    }
+
+    public void display() {
+        System.out.print("Current Buffer: ");
+        int current = front;
+        for (int i = 0; i < count; i++) {
+            System.out.print(buffer[current] + " ");
+            current = (current + 1) % size;
+        }
+        System.out.println();
+    }
+
+     boolean isEmpty() {
+        return count == 0;
+    }
+
+    boolean isFull() {
+        return count == size;
+    }
+}
+
+public class CircularBufferProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the size of the circular buffer
+        System.out.print("Enter the size of the circular buffer: ");
+        int bufferSize = scanner.nextInt();
+        CircularBuffer circularBuffer = new CircularBuffer(bufferSize);
+
+        // Circular buffer operations
+        while (true) {
+            System.out.println("\nChoose an operation:");
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Display");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the value to enqueue: ");
+                    int enqueueValue = scanner.nextInt();
+                    circularBuffer.enqueue(enqueueValue);
+                    break;
+                case 2:
+                    circularBuffer.dequeue();
+                    break;
+                case 3:
+                    circularBuffer.display();
+                    break;
+                case 0:
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class CircularBufferTest {
+
+    @Test
+    public void testCircularBufferOperations() {
+        CircularBuffer circularBuffer = new CircularBuffer(3);
+
+        // Enqueue
+        circularBuffer.enqueue(1);
+        circularBuffer.enqueue(2);
+        circularBuffer.enqueue(3);
+
+        // Assertions
+        Assert.assertTrue(circularBuffer.isFull());
+        Assert.assertFalse(circularBuffer.isEmpty());
+
+        // Display
+        circularBuffer.display();
+
+        // Dequeue
+        circularBuffer.dequeue();
+
+        // Assertions
+        Assert.assertFalse(circularBuffer.isFull());
+        Assert.assertFalse(circularBuffer.isEmpty());
+
+        // Display
+        circularBuffer.display();
+    }
+}
+package JavaIntermediate3;
+
+import java.util.Iterator;
+import java.util.Scanner;
+
+class Node<T> {
+    T data;
+    Node<T> next;
+
+    public Node(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class CustomLinkedList<T> implements Iterable<T> {
+    private Node<T> head;
+
+    public CustomLinkedList() {
+        this.head = null;
+    }
+
+    public void add(T data) {
+        Node<T> newNode = new Node<>(data);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node<T> current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new CustomIterator();
+    }
+
+    private class CustomIterator implements Iterator<T> {
+        private Node<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            T data = current.data;
+            current = current.next;
+            return data;
+        }
+    }
+
+	public void add(String data) {
+		// TODO Auto-generated method stub
+		
+	}
+}
+
+public class CustomIteratorPrograms {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Create a custom linked list
+        CustomLinkedList<Integer> customList = new CustomLinkedList<>();
+
+        // Input for the number of elements in the list
+        System.out.print("Enter the number of elements in the list: ");
+        int numElements = scanner.nextInt();
+
+        // Input for the elements
+        System.out.println("Enter the elements separated by spaces:");
+        for (int i = 0; i < numElements; i++) {
+            int element = scanner.nextInt();
+            customList.add(element);
+        }
+
+        // Display the elements using the custom iterator
+        System.out.print("Custom Linked List Elements: ");
+        for (Integer element : customList) {
+            System.out.print(element + " ");
+        }
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import java.util.*;
+
+class DirectedGraph {
+    private int vertices;
+    private List<List<Integer>> adjList;
+
+    public DirectedGraph(int vertices) {
+        this.vertices = vertices;
+        this.adjList = new ArrayList<>(vertices);
+        for (int i = 0; i < vertices; i++) {
+            adjList.add(new ArrayList<>());
+        }
+    }
+
+    public void addEdge(int source, int destination) {
+        adjList.get(source).add(destination);
+    }
+
+    public boolean isCyclic() {
+        boolean[] visited = new boolean[vertices];
+        boolean[] recursionStack = new boolean[vertices];
+
+        for (int i = 0; i < vertices; i++) {
+            if (!visited[i] && isCyclicUtil(i, visited, recursionStack)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isCyclicUtil(int vertex, boolean[] visited, boolean[] recursionStack) {
+        visited[vertex] = true;
+        recursionStack[vertex] = true;
+
+        for (Integer neighbor : adjList.get(vertex)) {
+            if (!visited[neighbor] && isCyclicUtil(neighbor, visited, recursionStack)) {
+                return true;
+            } else if (recursionStack[neighbor]) {
+                return true;
+            }
+        }
+
+        recursionStack[vertex] = false;
+        return false;
+    }
+}
+
+public class DetectCycleInDirectedGraph {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the number of vertices
+        System.out.print("Enter the number of vertices: ");
+        int vertices = scanner.nextInt();
+
+        // Create a directed graph
+        DirectedGraph directedGraph = new DirectedGraph(vertices);
+
+        // Input for the number of edges
+        System.out.print("Enter the number of edges: ");
+        int edges = scanner.nextInt();
+
+        // Input for the edges
+        System.out.println("Enter the edges (source and destination) separated by spaces:");
+        for (int i = 0; i < edges; i++) {
+            int source = scanner.nextInt();
+            int destination = scanner.nextInt();
+            directedGraph.addEdge(source, destination);
+        }
+
+        // Detect if there is a cycle
+        boolean isCyclic = directedGraph.isCyclic();
+
+        // Display the result
+        if (isCyclic) {
+            System.out.println("The directed graph contains a cycle.");
+        } else {
+            System.out.println("The directed graph does not contain a cycle.");
+        }
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class DetectCycleInDirectedGraphTest {
+
+    @Test
+    public void testDetectCycleInDirectedGraph() {
+        DirectedGraph graph1 = new DirectedGraph(4);
+        graph1.addEdge(0, 1);
+        graph1.addEdge(1, 2);
+        graph1.addEdge(2, 3);
+        graph1.addEdge(3, 1);
+
+        DirectedGraph graph2 = new DirectedGraph(3);
+        graph2.addEdge(0, 1);
+        graph2.addEdge(1, 2);
+        graph2.addEdge(2, 0);
+
+        // Assertions
+        Assert.assertTrue(graph1.isCyclic());
+        Assert.assertTrue(graph2.isCyclic());
+    }
+}
+package JavaIntermediate3;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class FindMissingNumber {
+
+    public static int findMissingNumber(int[] nums) {
+        int n = nums.length;
+        // Calculate the sum of the first n natural numbers
+        int expectedSum = n * (n + 1) / 2;
+        // Calculate the sum of the elements in the array
+        int actualSum = Arrays.stream(nums).sum();
+        // The missing number is the difference between the expected and actual sums
+        return expectedSum - actualSum;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the array
+        System.out.println("Enter distinct numbers separated by spaces:");
+        String[] numbersInput = scanner.nextLine().split(" ");
+
+        // Convert string array to int array
+        int[] nums = Arrays.stream(numbersInput)
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        // Find the missing number
+        int missingNumber = findMissingNumber(nums);
+
+        // Display the missing number
+        System.out.println("Missing Number: " + missingNumber);
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class FindMissingNumberTest {
+
+    @Test
+    public void testFindMissingNumber() {
+        int[] inputArray = {3, 0, 1};
+
+        int result = FindMissingNumber.findMissingNumber(inputArray);
+
+        // Assertions
+        Assert.assertEquals(result, 2);
+    }
+}
+package JavaIntermediate3;
+
+import java.util.*;
+
+public class GroupAnagrams {
+
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> anagramGroups = new HashMap<>();
+
+        for (String str : strs) {
+            // Sort each string to identify anagrams
+            char[] charArray = str.toCharArray();
+            Arrays.sort(charArray);
+            String sortedStr = new String(charArray);
+
+            // Add to the corresponding group in the map
+            anagramGroups.computeIfAbsent(sortedStr, k -> new ArrayList<>()).add(str);
+        }
+
+        return new ArrayList<>(anagramGroups.values());
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the number of strings
+        System.out.print("Enter the number of strings: ");
+        int numStrings = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        // Input for strings
+        String[] strings = new String[numStrings];
+        for (int i = 0; i < numStrings; i++) {
+            System.out.print("Enter string #" + (i + 1) + ": ");
+            strings[i] = scanner.nextLine();
+        }
+
+        // Grouping anagrams
+        List<List<String>> result = groupAnagrams(strings);
+
+        // Displaying the grouped anagrams
+        System.out.println("\nGrouped Anagrams:");
+        for (List<String> group : result) {
+            System.out.println(group);
+        }
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class GroupAnagramsTest {
+
+    @Test
+    public void testGroupAnagrams() {
+        String[] inputStrings = {"eat", "tea", "tan", "ate", "nat", "bat"};
+
+        List<List<String>> result = GroupAnagrams.groupAnagrams(inputStrings);
+
+        // Assertions
+        Assert.assertEquals(result.size(), 3);
+        Assert.assertTrue(result.contains(List.of("eat", "tea", "ate")));
+        Assert.assertTrue(result.contains(List.of("tan", "nat")));
+        Assert.assertTrue(result.contains(List.of("bat")));
+    }
+}
+package JavaIntermediate3;
+
+import java.util.Scanner;
+
+class MinHeap {
+    private int[] heap;
+    private int size;
+    private int capacity;
+
+    public MinHeap(int capacity) {
+        this.capacity = capacity;
+        this.size = 0;
+        this.heap = new int[capacity];
+    }
+
+    private int parent(int index) {
+        return (index - 1) / 2;
+    }
+
+    private int leftChild(int index) {
+        return 2 * index + 1;
+    }
+
+    private int rightChild(int index) {
+        return 2 * index + 2;
+    }
+
+    private void swap(int index1, int index2) {
+        int temp = heap[index1];
+        heap[index1] = heap[index2];
+        heap[index2] = temp;
+    }
+
+    public void insert(int value) {
+        if (size == capacity) {
+            System.out.println("Heap is full. Cannot insert.");
+            return;
+        }
+
+        heap[size] = value;
+        int currentIndex = size;
+        size++;
+
+        while (currentIndex > 0 && heap[currentIndex] < heap[parent(currentIndex)]) {
+            swap(currentIndex, parent(currentIndex));
+            currentIndex = parent(currentIndex);
+        }
+    }
+
+    public int extractMin() {
+        if (size == 0) {
+            System.out.println("Heap is empty. Cannot extract minimum.");
+            return -1; // Return a default value indicating failure
+        }
+
+        int min = heap[0];
+        heap[0] = heap[size - 1];
+        size--;
+
+        heapify(0);
+
+        return min;
+    }
+
+    private void heapify(int index) {
+        int leftChildIndex = leftChild(index);
+        int rightChildIndex = rightChild(index);
+        int smallest = index;
+
+        if (leftChildIndex < size && heap[leftChildIndex] < heap[smallest]) {
+            smallest = leftChildIndex;
+        }
+
+        if (rightChildIndex < size && heap[rightChildIndex] < heap[smallest]) {
+            smallest = rightChildIndex;
+        }
+
+        if (smallest != index) {
+            swap(index, smallest);
+            heapify(smallest);
+        }
+    }
+
+    public void display() {
+        System.out.print("Min Heap: ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(heap[i] + " ");
+        }
+        System.out.println();
+    }
+}
+
+public class MinHeapProgram {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the capacity of the heap
+        System.out.print("Enter the capacity of the min heap: ");
+        int capacity = scanner.nextInt();
+
+        // Create a min heap
+        MinHeap minHeap = new MinHeap(capacity);
+
+        // Input for the number of elements to insert
+        System.out.print("Enter the number of elements to insert: ");
+        int numElements = scanner.nextInt();
+
+        // Input for the elements
+        System.out.println("Enter the elements to insert:");
+        for (int i = 0; i < numElements; i++) {
+            int element = scanner.nextInt();
+            minHeap.insert(element);
+        }
+
+        // Display the min heap
+        minHeap.display();
+
+        // Extract the minimum element
+        int extractedMin = minHeap.extractMin();
+        System.out.println("Extracted Minimum Element: " + extractedMin);
+
+        // Display the min heap after extraction
+        minHeap.display();
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class MinHeapTest {
+
+    @Test
+    public void testMinHeap() {
+        MinHeap minHeap = new MinHeap(5);
+
+        // Insert elements
+        minHeap.insert(5);
+        minHeap.insert(3);
+        minHeap.insert(8);
+        minHeap.insert(1);
+        minHeap.insert(6);
+
+        // Assertions
+        Assert.assertEquals(minHeap.extractMin(), 1);
+        Assert.assertEquals(minHeap.extractMin(), 3);
+
+        // Display
+        minHeap.display();
+    }
+}
+package JavaIntermediate3;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+public class SerializeDeserializeBinaryTree {
+
+    // Serialize a binary tree to a string
+    public static String serialize(TreeNode root) {
+        if (root == null) {
+            return "null";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+
+            if (current != null) {
+                sb.append(current.val).append(",");
+                queue.offer(current.left);
+                queue.offer(current.right);
+            } else {
+                sb.append("null").append(",");
+            }
+        }
+
+        return sb.toString();
+    }
+
+    // Deserialize a string to a binary tree
+    public static TreeNode deserialize(String data) {
+        if (data.equals("null")) {
+            return null;
+        }
+
+        String[] values = data.split(",");
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode root = new TreeNode(Integer.parseInt(values[0]));
+        queue.offer(root);
+
+        for (int i = 1; i < values.length; i++) {
+            TreeNode parent = queue.poll();
+
+            if (!values[i].equals("null")) {
+                parent.left = new TreeNode(Integer.parseInt(values[i]));
+                queue.offer(parent.left);
+            }
+
+            i++;
+
+            if (!values[i].equals("null")) {
+                parent.right = new TreeNode(Integer.parseInt(values[i]));
+                queue.offer(parent.right);
+            }
+        }
+
+        return root;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the binary tree
+        System.out.println("Enter the nodes of the binary tree separated by spaces (enter 'null' for null nodes):");
+        String[] nodesInput = scanner.nextLine().split(" ");
+
+        // Build the binary tree
+        TreeNode root = buildBinaryTree(nodesInput);
+
+        // Serialize the binary tree
+        String serializedTree = serialize(root);
+        System.out.println("Serialized Tree: " + serializedTree);
+
+        // Deserialize the binary tree
+        TreeNode deserializedRoot = deserialize(serializedTree);
+
+        // Display the deserialized binary tree
+        System.out.println("\nDeserialized Binary Tree:");
+        displayBinaryTree(deserializedRoot);
+
+        scanner.close();
+    }
+
+    private static TreeNode buildBinaryTree(String[] nodesInput) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        TreeNode root = new TreeNode(Integer.parseInt(nodesInput[0]));
+        queue.offer(root);
+
+        for (int i = 1; i < nodesInput.length; i += 2) {
+            TreeNode parent = queue.poll();
+
+            if (!nodesInput[i].equals("null")) {
+                parent.left = new TreeNode(Integer.parseInt(nodesInput[i]));
+                queue.offer(parent.left);
+            }
+
+            if (i + 1 < nodesInput.length && !nodesInput[i + 1].equals("null")) {
+                parent.right = new TreeNode(Integer.parseInt(nodesInput[i + 1]));
+                queue.offer(parent.right);
+            }
+        }
+
+        return root;
+    }
+
+    private static void displayBinaryTree(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode current = queue.poll();
+
+            if (current != null) {
+                System.out.print(current.val + " ");
+                queue.offer(current.left);
+                queue.offer(current.right);
+            } else {
+                System.out.print("null ");
+            }
+        }
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class SerializeDeserializeBinaryTreeTest {
+
+    @Test
+    public void testSerializeDeserializeBinaryTree() {
+        // Create a sample binary tree for testing
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        // Serialize the binary tree
+        String serializedTree = SerializeDeserializeBinaryTree.serialize(root);
+
+        // Assertions for serialization
+        Assert.assertEquals(serializedTree, "1,2,3,4,5,null,null,null,null,null,null,");
+
+        // Deserialize the binary tree
+        TreeNode deserializedRoot = SerializeDeserializeBinaryTree.deserialize(serializedTree);
+
+        // Assertions for deserialization
+        Assert.assertNotNull(deserializedRoot);
+        Assert.assertEquals(deserializedRoot.val, 1);
+        Assert.assertNotNull(deserializedRoot.left);
+        Assert.assertEquals(deserializedRoot.left.val, 2);
+        Assert.assertNotNull(deserializedRoot.right);
+        Assert.assertEquals(deserializedRoot.right.val, 3);
+        Assert.assertNotNull(deserializedRoot.left.left);
+        Assert.assertEquals(deserializedRoot.left.left.val, 4);
+        Assert.assertNotNull(deserializedRoot.left.right);
+        Assert.assertEquals(deserializedRoot.left.right.val, 5);
+        Assert.assertNull(deserializedRoot.right.left);
+        Assert.assertNull(deserializedRoot.right.right);
+        Assert.assertNull(deserializedRoot.left.left.left);
+        Assert.assertNull(deserializedRoot.left.left.right);
+        Assert.assertNull(deserializedRoot.left.right.left);
+        Assert.assertNull(deserializedRoot.left.right.right);
+    }
+}
+package JavaIntermediate3;
+
+import java.util.*;
+
+public class TopKFrequentElements {
+
+    public static List<Integer> topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> frequencyMap = new HashMap<>();
+
+        for (int num : nums) {
+            frequencyMap.put(num, frequencyMap.getOrDefault(num, 0) + 1);
+        }
+
+        PriorityQueue<Map.Entry<Integer, Integer>> minHeap =
+                new PriorityQueue<>(Comparator.comparingInt(Map.Entry::getValue));
+
+        for (Map.Entry<Integer, Integer> entry : frequencyMap.entrySet()) {
+            minHeap.offer(entry);
+            if (minHeap.size() > k) {
+                minHeap.poll();
+            }
+        }
+
+        List<Integer> result = new ArrayList<>();
+        while (!minHeap.isEmpty()) {
+            result.add(minHeap.poll().getKey());
+        }
+
+        Collections.reverse(result);
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the array
+        System.out.print("Enter the number of elements in the array: ");
+        int n = scanner.nextInt();
+        int[] nums = new int[n];
+        System.out.print("Enter the elements of the array separated by spaces: ");
+        for (int i = 0; i < n; i++) {
+            nums[i] = scanner.nextInt();
+        }
+
+        // Input for k
+        System.out.print("Enter the value of k: ");
+        int k = scanner.nextInt();
+
+        // Finding k most frequent elements
+        List<Integer> result = topKFrequent(nums, k);
+
+        // Displaying the result
+        System.out.println("\nTop " + k + " Frequent Elements: " + result);
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+public class TopKFrequentElementsTest {
+
+    @Test
+    public void testTopKFrequentElements() {
+        int[] inputArray = {1, 1, 1, 2, 2, 3};
+        int k = 2;
+
+        List<Integer> result = TopKFrequentElements.topKFrequent(inputArray, k);
+
+        // Assertions
+        Assert.assertEquals(result.size(), k);
+        Assert.assertTrue(result.contains(1));
+        Assert.assertTrue(result.contains(2));
+        Assert.assertFalse(result.contains(3));
+    }
+}
+package JavaIntermediate3;
+
+import java.util.Scanner;
+
+class TrieNode {
+    TrieNode[] children;
+    private boolean isEndOfWord;
+
+    public TrieNode() {
+        this.children = new TrieNode[26]; // Assuming lowercase English letters
+        this.isEndOfWord = false;
+    }
+
+    public TrieNode getChild(char ch) {
+        return children[ch - 'a'];
+    }
+
+    public void setChild(char ch, TrieNode node) {
+        children[ch - 'a'] = node;
+    }
+
+    public boolean isEndOfWord() {
+        return isEndOfWord;
+    }
+
+    public void setEndOfWord(boolean endOfWord) {
+        isEndOfWord = endOfWord;
+    }
+}
+
+class Trie {
+    private TrieNode root;
+
+    public Trie() {
+        this.root = new TrieNode();
+    }
+
+    public void insert(String word) {
+        TrieNode current = root;
+
+        for (char ch : word.toCharArray()) {
+            if (current.getChild(ch) == null) {
+                current.setChild(ch, new TrieNode());
+            }
+            current = current.getChild(ch);
+        }
+
+        current.setEndOfWord(true);
+    }
+
+    public boolean search(String word) {
+        TrieNode node = searchNode(word);
+        return node != null && node.isEndOfWord();
+    }
+
+    public boolean delete(String word) {
+        return delete(root, word, 0);
+    }
+
+    private TrieNode searchNode(String word) {
+        TrieNode current = root;
+
+        for (char ch : word.toCharArray()) {
+            current = current.getChild(ch);
+            if (current == null) {
+                return null;
+            }
+        }
+
+        return current;
+    }
+
+    private boolean delete(TrieNode current, String word, int index) {
+        if (index == word.length()) {
+            if (!current.isEndOfWord()) {
+                return false; // Word not found
+            }
+            current.setEndOfWord(false);
+            return isEmptyNode(current);
+        }
+
+        char ch = word.charAt(index);
+        TrieNode nextNode = current.getChild(ch);
+
+        if (nextNode == null) {
+            return false; // Word not found
+        }
+
+        boolean shouldDeleteCurrentNode = delete(nextNode, word, index + 1);
+
+        if (shouldDeleteCurrentNode) {
+            current.setChild(ch, null);
+            return isEmptyNode(current);
+        }
+
+        return false;
+    }
+
+    private boolean isEmptyNode(TrieNode node) {
+        for (TrieNode child : node.children) {
+            if (child != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+public class TrieProgram {
+    public static void main(String[] args) {
+        Trie trie = new Trie();
+        Scanner scanner = new Scanner(System.in);
+
+        // Insert operation
+        System.out.print("Enter the word to insert into the Trie: ");
+        String insertWord = scanner.nextLine();
+        trie.insert(insertWord);
+
+        // Search operation
+        System.out.print("Enter the word to search in the Trie: ");
+        String searchWord = scanner.nextLine();
+        boolean searchResult = trie.search(searchWord);
+        System.out.println("Search Result: " + searchResult);
+
+        // Delete operation
+        System.out.print("Enter the word to delete from the Trie: ");
+        String deleteWord = scanner.nextLine();
+        boolean deleteResult = trie.delete(deleteWord);
+        System.out.println("Delete Result: " + deleteResult);
+
+        scanner.close();
+    }
+}
+package JavaIntermediate3;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class TrieTest {
+
+    @Test
+    public void testTrieOperations() {
+        Trie trie = new Trie();
+
+        // Insert operation
+        trie.insert("apple");
+
+        // Search operation
+        Assert.assertTrue(trie.search("apple"));
+        Assert.assertFalse(trie.search("app"));
+
+        // Delete operation
+        Assert.assertTrue(trie.delete("apple"));
+        Assert.assertFalse(trie.search("apple"));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////
+28-11-23
+Group Anagrams:
+Given a list of strings, group anagrams together.
+
+Implement Trie (Prefix Tree):
+Implement a trie with insert, search, and delete operations.
+
+Top K Frequent Elements:
+Given an array, find the k most frequent elements.
+
+Implement a Circular Buffer:
+Design and implement a circular buffer with a fixed size.
+
+Serialize and Deserialize a Binary Tree:
+Write functions to serialize and deserialize a binary tree.
+
+Find Missing Number in Array:
+Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing.
+
+Detect Cycle in a Directed Graph:
+Given a directed graph, detect if there is a cycle in it.
+
+Implement Min Heap:
+Implement a minimum heap and perform basic operations.
+
+LRU Cache with Constant Time Operations:
+Design and implement an LRU cache such that all operations are performed in constant time.
+
+Implement a Binary Search Tree Iterator:
+Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
+
+Search in List:
+Write a method that uses binary search to find the position of a specific element in a sorted list. Ensure the list elements implement the Comparable interface.
+
+Custom Iterator:
+Implement a custom Iterator for a custom collection class (e.g., a linked list). Test the iterator to iterate through the elements of the collection.
+
+
+
+
+
+
+
+
+
+
+
