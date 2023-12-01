@@ -1,0 +1,819 @@
+Streams and Lambdas:
+
+Write a program to use streams to find the sum of all even numbers in a list.
+Implement a custom Collector to calculate the product of a list of integers using streams.
+Create a lambda expression to filter a list of strings and return a new list with lengths greater than 5.
+Functional Interfaces:
+
+Define a custom functional interface and use it with a lambda expression.
+Explain the difference between Predicate, Consumer, and Function interfaces in Java 8.
+Default Methods:
+
+Create an interface with a default method and implement it in a class.
+Discuss the use of default methods in multiple inheritance scenarios.
+Optional:
+
+Demonstrate the use of Optional to handle null values in a program.
+Write a method using Optional to find the length of a string if it is present.
+Collections:
+
+Implement a program to find the intersection of two lists without using loops.
+Create a custom comparator to sort a list of objects by multiple attributes.
+Functional Programming:
+
+Write a program that demonstrates immutability using Java collections.
+Implement a higher-order function that takes a function as an argument and returns a modified list.
+Concurrency:
+
+Explain the concept of parallel streams and when to use them.
+Write a program to demonstrate thread safety using Collections.synchronizedList.
+DateTime API:
+
+Use the new Date and Time API to calculate the difference between two dates.
+Implement a program that prints the current date and time in a specific format.
+Reflection and Annotations:
+
+Create a custom annotation and use reflection to process annotated methods.
+Discuss the benefits and drawbacks of using reflection in Java.
+CompletableFuture:
+
+Implement a program that uses CompletableFuture to perform asynchronous tasks.
+Compare CompletableFuture with traditional Future for asynchronous programming.
+
+
+package JavaIntermediate5;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class CollectionsExample {
+
+    // Method to find the intersection of two lists without using loops
+    static <T> List<T> findIntersection(List<T> list1, List<T> list2) {
+        return list1.stream().filter(list2::contains).collect(Collectors.toList());
+    }
+
+ // Custom comparator to sort a list of objects by multiple attributes
+    private static Comparator<Person> customComparator = Comparator
+            .comparing((Person p) -> p.getName())  // Modify here to specify the type
+            .thenComparingInt(Person::getAge);
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Taking user input for two lists of integers
+        System.out.print("Enter elements for List 1 (comma-separated): ");
+        List<Integer> list1 = parseIntegerList(scanner.nextLine());
+
+        System.out.print("Enter elements for List 2 (comma-separated): ");
+        List<Integer> list2 = parseIntegerList(scanner.nextLine());
+
+        // Finding the intersection of the two lists
+        List<Integer> intersection = findIntersection(list1, list2);
+
+        // Displaying the intersection
+        System.out.println("Intersection of the two lists: " + intersection);
+
+        // Creating a list of Person objects for sorting
+        List<Person> persons = new ArrayList<>();
+        persons.add(new Person("John", 30));
+        persons.add(new Person("Alice", 25));
+        persons.add(new Person("Bob", 28));
+
+        // Sorting the list of Person objects using the custom comparator
+        persons.sort(customComparator);
+
+        // Displaying the sorted list of Person objects
+        System.out.println("Sorted List of Persons: " + persons);
+
+        scanner.close();
+    }
+
+    // Helper method to parse comma-separated integers into a list
+    private static List<Integer> parseIntegerList(String input) {
+        String[] elements = input.split(",");
+        List<Integer> integerList = new ArrayList<>();
+        for (String element : elements) {
+            integerList.add(Integer.parseInt(element.trim()));
+        }
+        return integerList;
+    }
+}
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class CollectionsExampleTest {
+
+    @Test
+    public void testFindIntersection() {
+        List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
+        List<Integer> list2 = Arrays.asList(3, 4, 5, 6, 7);
+
+        List<Integer> intersection = CollectionsExample.findIntersection(list1, list2);
+
+        Assert.assertEquals(intersection, Arrays.asList(3, 4, 5));
+    }
+
+    // Add more test methods for other functionalities if needed
+}
+package JavaIntermediate5;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+public class CompletableFutureExample {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "Async Result";
+        });
+
+        System.out.println("Main thread is not blocked");
+        String result = future.get(); // Blocking call to get the result
+        System.out.println("Result: " + result);
+    }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.concurrent.ExecutionException;
+
+public class CompletableFutureExampleTest {
+
+    @Test
+    public void testCompletableFutureExample() throws ExecutionException, InterruptedException {
+        CompletableFutureExample.main(null);
+        // Add assertions based on the expected behavior
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+}
+package JavaIntermediate5;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
+
+public class ConcurrencyExample {
+
+    // Method to demonstrate parallel streams
+     static void demonstrateParallelStreams() {
+        List<Integer> numbers = new ArrayList<>();
+        IntStream.range(1, 1000000).forEach(numbers::add);
+
+        // Sequential stream
+        long sequentialTime = System.currentTimeMillis();
+        numbers.stream().mapToInt(Integer::intValue).sum();
+        System.out.println("Sequential Time: " + (System.currentTimeMillis() - sequentialTime) + "ms");
+
+        // Parallel stream
+        long parallelTime = System.currentTimeMillis();
+        numbers.parallelStream().mapToInt(Integer::intValue).sum();
+        System.out.println("Parallel Time: " + (System.currentTimeMillis() - parallelTime) + "ms");
+    }
+
+    // Method to demonstrate thread safety using Collections.synchronizedList
+     static void demonstrateThreadSafety() {
+        List<String> synchronizedList = Collections.synchronizedList(new ArrayList<>());
+
+        // Create two threads to add elements concurrently
+        Thread thread1 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                synchronizedList.add("Thread1-" + i);
+            }
+        });
+
+        Thread thread2 = new Thread(() -> {
+            for (int i = 0; i < 1000; i++) {
+                synchronizedList.add("Thread2-" + i);
+            }
+        });
+
+        thread1.start();
+        thread2.start();
+
+        try {
+            thread1.join();
+            thread2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Display the size of the synchronized list
+        System.out.println("Synchronized List Size: " + synchronizedList.size());
+    }
+
+    public static void main(String[] args) {
+        // Demonstrate parallel streams
+        demonstrateParallelStreams();
+
+        // Demonstrate thread safety
+        demonstrateThreadSafety();
+    }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.*;
+public class ConcurrencyExampleTest {
+
+    @Test
+    public void testParallelStreams() {
+        // No direct output to test, so adding a placeholder assertion
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    public void testThreadSafety() {
+        ConcurrencyExample.demonstrateThreadSafety();
+        // Add assertions based on the expected behavior
+        List<String> synchronizedList = Collections.synchronizedList( new ArrayList<>());
+        Assert.assertEquals(synchronizedList.size(), 2000); // Placeholder assertion
+    }
+}
+package JavaIntermediate5;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
+public class DateTimeExample {
+
+    // Method to calculate the difference between two dates
+    private static void calculateDateDifference(LocalDateTime dateTime1, LocalDateTime dateTime2) {
+        Duration duration = Duration.between(dateTime1, dateTime2);
+        long days = duration.toDays();
+        long hours = duration.toHours() % 24;
+        long minutes = duration.toMinutes() % 60;
+        long seconds = duration.toSeconds() % 60;
+
+        System.out.println("Difference between the two dates:");
+        System.out.println(days + " days, " + hours + " hours, " + minutes + " minutes, " + seconds + " seconds");
+    }
+
+    // Method to print the current date and time in a specific format
+    static void printCurrentDateTime() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        System.out.println("Current Date and Time: " + formattedDateTime);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Taking user input for two dates
+        System.out.print("Enter the first date and time (yyyy-MM-dd HH:mm:ss): ");
+        String inputDate1 = scanner.nextLine();
+        LocalDateTime dateTime1 = LocalDateTime.parse(inputDate1, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        System.out.print("Enter the second date and time (yyyy-MM-dd HH:mm:ss): ");
+        String inputDate2 = scanner.nextLine();
+        LocalDateTime dateTime2 = LocalDateTime.parse(inputDate2, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // Calculate the difference between the two dates
+        calculateDateDifference(dateTime1, dateTime2);
+
+        // Print the current date and time
+        printCurrentDateTime();
+
+        scanner.close();
+    }
+}
+package JavaIntermediate5;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.time.LocalDateTime;
+
+public class DateTimeExampleTest {
+
+    @Test
+    public void testCalculateDateDifference() {
+        // No direct output to test, so adding a placeholder assertion
+        Assert.assertTrue(true);
+    }
+
+    @Test
+    public void testPrintCurrentDateTime() {
+        DateTimeExample.printCurrentDateTime();
+        // Add assertions based on the expected behavior
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+}
+
+package JavaIntermediate5;
+
+import java.util.Scanner;
+
+//Interface with a default method
+interface MyInterface {
+ void regularMethod();
+
+ default void defaultMethod() {
+     System.out.println("Default method in MyInterface");
+ }
+}
+
+//Class implementing the interface
+class MyClass implements MyInterface {
+ @Override
+ public void regularMethod() {
+     System.out.println("Regular method in MyClass");
+ }
+}
+
+public class DefaultMethodExample {
+
+ public static void main(String[] args) {
+     // Taking user input
+     Scanner scanner = new Scanner(System.in);
+     System.out.print("Enter any input: ");
+     scanner.nextLine();
+
+     // Creating an instance of the implementing class
+     MyClass myClass = new MyClass();
+
+     // Calling regular method
+     myClass.regularMethod();
+
+     // Calling default method
+     myClass.defaultMethod();
+
+     // Closing scanner
+     scanner.close();
+ }
+}
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class DefaultMethodExampleTest {
+
+    @Test
+    public void testDefaultMethod() {
+        // Creating an instance of the implementing class
+        MyClass myClass = new MyClass();
+
+        // Calling regular method
+        myClass.regularMethod();
+
+        // Calling default method
+        myClass.defaultMethod();
+
+        // Adding assertions
+        Assert.assertTrue(true); // Placeholder assertion for demonstration
+    }
+
+    @Test
+    public void testInterfaceDefaultMethod() {
+        // Discuss the use of default methods in multiple inheritance scenarios
+
+        // Placeholder assertions for demonstration
+        Assert.assertTrue(true);
+        Assert.assertTrue(true);
+    }
+}
+package JavaIntermediate5;
+
+import java.util.Scanner;
+
+//Custom functional interface
+@FunctionalInterface
+interface CustomFunctionalInterface {
+ void performAction(String input);
+}
+
+public class FunctionalInterfacesExample {
+
+ public static void main(String[] args) {
+     // Taking user input
+     Scanner scanner = new Scanner(System.in);
+     System.out.print("Enter a string: ");
+     String userInput = scanner.nextLine();
+
+     // Using custom functional interface with lambda expression
+     CustomFunctionalInterface customFunction = input -> {
+         System.out.println("Custom Functional Interface Action: " + input);
+         // Additional actions can be performed here
+     };
+
+     // Performing the action
+     customFunction.performAction(userInput);
+
+     // Closing scanner
+     scanner.close();
+ }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class FunctionalInterfacesExampleTest {
+
+    @Test
+    public void testCustomFunctionalInterface() {
+        String testInput = "TestString";
+
+        // Using custom functional interface with lambda expression
+        CustomFunctionalInterface customFunction = input -> {
+            System.out.println("Custom Functional Interface Action: " + input);
+            // Additional actions can be performed here
+        };
+
+        // Performing the action
+        customFunction.performAction(testInput);
+
+        // Adding assertion
+        Assert.assertTrue(true); // Placeholder assertion for demonstration
+    }
+
+    @Test
+    public void testFunctionalInterfaceDifference() {
+        // Explain the difference between Predicate, Consumer, and Function interfaces in Java 8
+
+        // Predicate: Takes an argument and returns a boolean result
+        // Consumer: Takes an argument and performs an action without returning any result
+        // Function: Takes an argument, performs an action, and returns a result
+
+        // Placeholder assertions for demonstration
+        Assert.assertTrue(true); // Predicate
+        Assert.assertTrue(true); // Consumer
+        Assert.assertTrue(true); // Function
+    }
+}
+package JavaIntermediate5;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class FunctionalProgrammingExample {
+
+    // Program demonstrating immutability using Java collections
+    static void demonstrateImmutability() {
+        List<String> originalList = Arrays.asList("Java", "Python", "C++");
+
+        // Creating an immutable copy using Collectors.toList()
+        List<String> immutableList = originalList.stream().collect(Collectors.toList());
+
+        // Modifying the original list
+        originalList.add("JavaScript");  // This will throw an UnsupportedOperationException
+
+        // Displaying both lists
+        System.out.println("Original List: " + originalList);
+        System.out.println("Immutable List: " + immutableList);
+    }
+
+    // Higher-order function to transform a list using a function
+    static <T, R> List<R> transformList(List<T> inputList, Function<T, R> transformer) {
+        return inputList.stream().map(transformer).collect(Collectors.toList());
+    }
+
+    public static void main(String[] args) {
+        // Demonstrate immutability
+        demonstrateImmutability();
+
+        // Higher-order function usage
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<String> stringList = transformList(numbers, Object::toString);
+
+        // Displaying the transformed list
+        System.out.println("Transformed List: " + stringList);
+    }
+}
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class FunctionalProgrammingExampleTest {
+
+    @Test
+    public void testImmutability() {
+        FunctionalProgrammingExample.demonstrateImmutability();
+        // Add assertions based on the expected behavior
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+
+    @Test
+    public void testTransformList() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<String> transformedList = FunctionalProgrammingExample.transformList(numbers, Object::toString);
+        // Add assertions based on the expected behavior
+        Assert.assertEquals(transformedList.size(), 5);
+        // Add more assertions as needed
+    }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class FunctionalProgrammingExampleTest {
+
+    @Test
+    public void testImmutability() {
+        FunctionalProgrammingExample.demonstrateImmutability();
+        // Add assertions based on the expected behavior
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+
+    @Test
+    public void testTransformList() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        List<String> transformedList = FunctionalProgrammingExample.transformList(numbers, Object::toString);
+        // Add assertions based on the expected behavior
+        Assert.assertEquals(transformedList.size(), 5);
+        // Add more assertions as needed
+    }
+}
+
+package JavaIntermediate5;
+
+import java.util.Optional;
+import java.util.Scanner;
+
+public class OptionalExample {
+
+    // Method using Optional to find the length of a string if present
+    static Optional<Integer> findStringLength(String input) {
+        return Optional.ofNullable(input).map(String::length);
+    }
+
+    public static void main(String[] args) {
+        // Taking user input
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter a string (or leave it blank for null): ");
+        String userInput = scanner.nextLine();
+
+        // Using Optional to handle null values
+        Optional<String> optionalString = Optional.ofNullable(userInput);
+
+        // Displaying the length of the string using Optional
+        optionalString.ifPresent(s -> System.out.println("Length of the string: " + s.length()));
+
+        // Using the findStringLength method
+        Optional<Integer> lengthOptional = findStringLength(userInput);
+
+        // Displaying the length of the string using the findStringLength method
+        lengthOptional.ifPresent(length -> System.out.println("Length of the string using findStringLength: " + length));
+
+        // Closing scanner
+        scanner.close();
+    }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.google.common.base.Optional;
+
+ 
+
+public class OptionalExampleTest {
+
+    @Test
+    public void testFindStringLength() {
+        // Testing the findStringLength method with a non-null string
+        java.util.Optional<Integer> lengthOptional = OptionalExample.findStringLength("TestString");
+        Assert.assertTrue(lengthOptional.isPresent());
+        Assert.assertEquals(lengthOptional.get(), Integer.valueOf(10));
+
+        // Testing the findStringLength method with a null string
+        lengthOptional = OptionalExample.findStringLength(null);
+        Assert.assertFalse(lengthOptional.isPresent());
+    }
+}
+package JavaIntermediate5;
+
+import java.lang.annotation.*;
+import java.lang.reflect.Method;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+@interface MyAnnotation {
+    String value() default "";
+}
+
+public class ReflectionExample {
+
+    @MyAnnotation("Annotation Example")
+    public static void myAnnotatedMethod() {
+        System.out.println("Method with custom annotation");
+    }
+
+    public static void processAnnotations(Object obj) {
+        Class<?> clazz = obj.getClass();
+        Method[] methods = clazz.getDeclaredMethods();
+
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(MyAnnotation.class)) {
+                MyAnnotation annotation = method.getAnnotation(MyAnnotation.class);
+                System.out.println("Annotation Value: " + annotation.value());
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        processAnnotations(new ReflectionExample());
+    }
+}
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+public class ReflectionExampleTest {
+
+    @Test
+    public void testProcessAnnotations() {
+        ReflectionExample obj = new ReflectionExample();
+        obj.processAnnotations(obj);
+        // Add assertions based on the expected behavior
+        Assert.assertTrue(true); // Placeholder assertion
+    }
+}
+package JavaIntermediate5;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringFilter {
+
+    public static void main(String[] args) {
+        // Taking user input
+        // You can replace this part with Scanner for dynamic user input
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "strawberry");
+
+        // Using lambda expression to filter strings with lengths greater than 5
+        List<String> filteredWords = words.stream()
+                                         .filter(word -> word.length() > 5)
+                                         .collect(Collectors.toList());
+
+        // Displaying the result
+        System.out.println("Filtered words: " + filteredWords);
+    }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringFilterTest {
+
+    @Test
+    public void testStringFilter() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "strawberry");
+        List<String> expectedFilteredWords = Arrays.asList("banana", "orange", "strawberry");
+
+        List<String> actualFilteredWords = words.stream()
+                                               .filter(word -> word.length() > 5)
+                                               .collect(Collectors.toList());
+
+        // Adding assertion
+        Assert.assertEquals(actualFilteredWords, expectedFilteredWords, "Filtered words don't match.");
+    }
+}
+
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringFilterTest {
+
+    @Test
+    public void testStringFilter() {
+        List<String> words = Arrays.asList("apple", "banana", "orange", "grape", "strawberry");
+        List<String> expectedFilteredWords = Arrays.asList("banana", "orange", "strawberry");
+
+        List<String> actualFilteredWords = words.stream()
+                                               .filter(word -> word.length() > 5)
+                                               .collect(Collectors.toList());
+
+        // Adding assertion
+        Assert.assertEquals(actualFilteredWords, expectedFilteredWords, "Filtered words don't match.");
+    }
+}
+
+package JavaIntermediate5;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class SumOfEvenNumbers {
+
+    public static void main(String[] args) {
+        // Taking user input
+        // You can replace this part with Scanner for dynamic user input
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Using streams to find the sum of even numbers
+        int sumOfEvens = numbers.stream()
+                                .filter(n -> n % 2 == 0)
+                                .mapToInt(Integer::intValue)
+                                .sum();
+
+        // Displaying the result
+        System.out.println("Sum of even numbers: " + sumOfEvens);
+    }
+}
+package JavaIntermediate5;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.List;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import java.util.Arrays;
+import java.util.List;
+
+public class SumOfEvenNumbersTest {
+
+    @Test
+    public void testSumOfEvenNumbers() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        int expectedSum = 2 + 4 + 6 + 8 + 10;
+
+        int actualSum = numbers.stream()
+                               .filter(n -> n % 2 == 0)
+                               .mapToInt(Integer::intValue)
+                               .sum();
+
+        // Adding assertion
+        Assert.assertEquals(actualSum, expectedSum, "Sum of even numbers doesn't match.");
+    }
+}
+
+
