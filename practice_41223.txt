@@ -1,0 +1,1008 @@
+package rahulshetty_testng;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class AlertHandlingTest {
+
+    WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+    }
+
+    @Test
+    public void testAlertHandling() throws InterruptedException {
+        String text = "amruth";
+
+        // Enter text and click the first button to trigger an alert
+        driver.findElement(By.name("enter-name")).sendKeys(text);
+        driver.findElement(By.id("alertbtn")).click();
+
+        // Assert and accept the first alert
+        Assert.assertTrue(waitForAlertAndVerifyText("Hello " + text + ", share this practice page and share your knowledge"));
+        acceptAlert();
+
+        // Click the second button to trigger a confirmation alert
+        driver.findElement(By.id("confirmbtn")).click();
+
+        // Assert and dismiss the confirmation alert
+        Assert.assertTrue(waitForAlertAndVerifyText("Hello , Are you sure you want to confirm?"));
+        dismissAlert();
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    // Helper method to wait for an alert, verify its text, and return true if successful
+    private boolean waitForAlertAndVerifyText(String expectedText) {
+        try {
+            Alert alert = driver.switchTo().alert();
+            String actualText = alert.getText();
+            Assert.assertEquals(actualText, expectedText);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Helper method to accept an alert
+    private void acceptAlert() {
+        driver.switchTo().alert().accept();
+        // Add a small delay to allow the alert to be processed
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Helper method to dismiss an alert
+    private void dismissAlert() {
+        driver.switchTo().alert().dismiss();
+        // Add a small delay to allow the alert to be processed
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.List;
+
+public class Assignment7TestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+    }
+
+    @Test
+    public void testAutocomplete() throws InterruptedException {
+        driver.findElement(By.cssSelector("input[id='autocomplete']")).sendKeys("Ind");
+        Thread.sleep(3000);
+        List<WebElement> options = driver.findElements(By.cssSelector("li[class='ui-menu-item']"));
+
+        for (WebElement option : options) {
+            if (option.getText().equalsIgnoreCase("India")) {
+                option.click();
+                break;
+            }
+        }
+
+        driver.findElement(By.className("logoClass")).click();
+        String actualText = driver.findElement(By.cssSelector("h2 span")).getText();
+        String expectedText = "An Academy to Learn Earn & Shine  in your QA Career";
+        Assert.assertEquals(actualText, expectedText, "Mismatch in header text");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.util.List;
+
+public class AutoSuggestiveTestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testAutoSuggestive() throws InterruptedException {
+        driver.findElement(By.id("autosuggest")).sendKeys("ind");
+        Thread.sleep(3000);
+
+        List<WebElement> options = driver.findElements(By.cssSelector("li[class='ui-menu-item'] a"));
+
+        boolean indiaFound = false;
+        for (WebElement option : options) {
+            if (option.getText().equalsIgnoreCase("India")) {
+                indiaFound = true;
+                option.click();
+                break;
+            }
+        }
+
+        Assert.assertTrue(indiaFound, "India option not found in auto-suggest list");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+public class BrokenLinksTestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://www.rahulshettyacademy.com/");
+        driver.findElement(By.cssSelector("a[href='practice-project']")).click();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+    }
+
+    @Test
+    public void testBrokenLinks() throws IOException {
+        String validLink = driver.findElement(By.cssSelector("a[href*=\"soapui\"]")).getAttribute("href");
+        int responseCodeValidLink = getResponseCode(validLink);
+        Assert.assertEquals(responseCodeValidLink, 200, "Valid link is broken");
+
+        String brokenLink = driver.findElement(By.cssSelector("a[href*='broken']")).getAttribute("href");
+        int responseCodeBrokenLink = getResponseCode(brokenLink);
+        Assert.assertTrue(responseCodeBrokenLink >= 400, "Broken link is not detected");
+    }
+
+    private int getResponseCode(String url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.setRequestMethod("HEAD");
+        connection.connect();
+        int responseCode = connection.getResponseCode();
+        connection.disconnect();
+        return responseCode;
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
+public class BrokenLinksTestNG2 {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+    }
+
+    @Test
+    public void testBrokenLinks() throws IOException {
+        List<WebElement> links = driver.findElements(By.cssSelector("li[class='gf-li'] a"));
+        SoftAssert softAssert = new SoftAssert();
+
+        for (WebElement link : links) {
+            String url = link.getAttribute("href");
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            int responseCode = connection.getResponseCode();
+            System.out.println(responseCode);
+            
+        }
+
+        softAssert.assertAll();
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class CalendarTestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testCalendarSelection() throws InterruptedException {
+        driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+        driver.findElement(By.xpath("//a[@value='BLR']")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("(//a[@value='MAA'])[2]")).click();
+
+        // here I have used index to search the value in the second dropdown list
+        // alternatively, we can use parent-child tag combination to perform the same operation
+        driver.findElement(By.xpath("//div[@id='glsctl00_mainContent_ddl_destinationStation1_CTNR'] //a[@value='MAA']")).click();
+        Thread.sleep(3);
+        // now the calendar will auto-popup
+        // to select the current date as it has a unique attribute value as 'highlight'
+        WebElement currentDate = driver.findElement(By.cssSelector("a[class*='highlight']"));
+        currentDate.click();
+
+
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class CheckBoxHandlingTest {
+
+    WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+    }
+
+    @Test
+    public void testCheckBoxHandling() throws InterruptedException {
+        // Click on the checkbox and assert its selected state
+        driver.findElement(By.cssSelector("input#checkBoxOption1")).click();
+        Assert.assertTrue(driver.findElement(By.cssSelector("input#checkBoxOption1")).isSelected());
+
+        Thread.sleep(2000);
+
+        // Click again to uncheck and assert its selected state
+        driver.findElement(By.cssSelector("input#checkBoxOption1")).click();
+        Assert.assertFalse(driver.findElement(By.cssSelector("input#checkBoxOption1")).isSelected());
+
+        // Assert the number of checkboxes present on the page
+        int numberOfCheckboxes = driver.findElements(By.cssSelector("input[type*='checkbox']")).size();
+        Assert.assertEquals(numberOfCheckboxes, 3);
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class CheckBoxTestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testCheckBoxSelection() {
+        // To click on the checkbox
+        driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).click();
+
+        // Assertion to check if the checkbox is selected
+        Assert.assertTrue(driver.findElement(By.cssSelector("input[id*='friendsandfamily']")).isSelected(),
+                "Checkbox is not selected.");
+
+        // Assertion to check the count of checkboxes
+        int checkboxCount = driver.findElements(By.cssSelector("input[type*='checkbox']")).size();
+        Assert.assertEquals(checkboxCount, 6, "Number of checkboxes is not as expected.");
+
+        // Add more assertions if needed
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class DisabledEnabledCheckTestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testRadioButtonEnabled() {
+        System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+        driver.findElement(By.cssSelector("input[id*='ctl00_mainContent_rbtnl_Trip_1']")).click();
+        System.out.println(driver.findElement(By.id("Div1")).getAttribute("style"));
+        Assert.assertTrue(driver.findElement(By.id("Div1")).getAttribute("style").contains("1"), "Element is not enabled");
+
+        // Add more assertions if needed
+    }
+
+    @Test
+    public void testDateFieldEnabled() {
+        Assert.assertTrue(driver.findElement(By.name("ctl00$mainContent$view_date2")).isEnabled(), "Date field is not enabled");
+
+        // Add more assertions if needed
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class DropDownTestNG {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testDropDownSelection() throws InterruptedException {
+        driver.findElement(By.id("ctl00_mainContent_ddl_originStation1_CTXT")).click();
+        driver.findElement(By.xpath("//a[@value='BLR']")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("(//a[@value='MAA'])[2]")).click();
+        // Add more assertions if needed
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class FormInteractionTest {
+
+    private WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+    }
+
+    @Test
+    public void testFormInteraction() {
+        // 1. Select any checkbox
+        driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).click();
+
+        // 2. Grab the label of the selected checkbox
+        String name = driver.findElement(By.cssSelector("input[id='checkBoxOption1']")).getAttribute("name");
+        System.out.println(name);
+
+        String s = name.split("Box")[1];
+        System.out.println(s);
+
+        // 3. Select an option in dropdown, here option to select from dropdown must come from step 2
+        Select dropdown = new Select(driver.findElement(By.cssSelector("select[id='dropdown-class-example']")));
+        dropdown.selectByVisibleText(s);
+
+        // 4. Enter the step 2 grabbed text into the editbox
+        driver.findElement(By.cssSelector("[id='name']")).sendKeys(s);
+
+        // 5. Click alert and then verify if text grabbed is present in popup message
+        driver.findElement(By.cssSelector("input[id='alertbtn']")).click();
+
+        String alertMsg = driver.switchTo().alert().getText();
+        System.out.println(alertMsg);
+
+        // Assertions
+        Assert.assertTrue(alertMsg.contains(s));
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class FormSubmissionTest {
+
+    WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/angularpractice/");
+    }
+
+    @Test
+    public void testFormSubmission() throws InterruptedException {
+        WebElement staticDropdown = driver.findElement(By.id("exampleFormControlSelect1"));
+        driver.findElement(By.name("name")).sendKeys("amruth");
+        driver.findElement(By.cssSelector("input[name*='email']")).sendKeys("amruth@gmail.com");
+        driver.findElement(By.cssSelector("input[placeholder*='Password']")).sendKeys("pwd");
+        driver.findElement(By.cssSelector("input[id*='exampleCheck1']")).click();
+
+        Select dropdown = new Select(staticDropdown);
+        dropdown.selectByIndex(0);
+
+        driver.findElement(By.id("inlineRadio1")).click();
+        driver.findElement(By.cssSelector("input[name*='bday']")).sendKeys("3000-12-31");
+        driver.findElement(By.cssSelector("input[value*='Submit']")).click();
+
+        Thread.sleep(3000);
+
+        driver.findElement(By.cssSelector(".btn-success")).click();
+
+        String successMessage = driver.findElement(By.cssSelector(".alert-success")).getText();
+        Assert.assertTrue(successMessage.contains("Success! The Form has been submitted successfully!"));
+
+        // Additional assertions can be added based on the page content
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
+package rahulshetty_testng;
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class StaticDropdownTest {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testStaticDropdown() throws InterruptedException {
+        WebElement staticDropdown = driver.findElement(By.id("ctl00_mainContent_DropDownListCurrency"));
+
+        // Dropdown with Select tag - static
+        // If the select is used, it will always be a static dropdown
+        Select dropdown = new Select(staticDropdown);
+
+        // Select by Index
+        dropdown.selectByIndex(3);
+        Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "USD");
+        Thread.sleep(3000);
+
+        // Select by Visible Text
+        dropdown.selectByVisibleText("AED");
+        Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "AED");
+        Thread.sleep(3000);
+
+        // Select by Value
+        dropdown.selectByValue("INR");
+        Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "INR");
+        Thread.sleep(3000);
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.close();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+public class TableInteractionTest {
+
+    private WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("window.scroll(0,500)");
+    }
+
+    @Test
+    public void testTableInteraction() {
+        // To count rows
+        int totalRows = driver.findElements(By.cssSelector(".table-display tr")).size();
+        System.out.println("Total Rows: " + totalRows);
+
+        // To count columns
+        int totalColumns = driver.findElements(By.cssSelector(".table-display th")).size();
+        System.out.println("Total Columns: " + totalColumns);
+
+        // To print second row content
+        String secondRowContent = driver.findElement(By.cssSelector(".table-display tr:nth-child(3)")).getText();
+        System.out.println("Second Row Content: " + secondRowContent);
+
+        // Assertions
+        Assert.assertEquals(totalRows, 11);
+        Assert.assertEquals(totalColumns, 3);
+        Assert.assertFalse(secondRowContent.contains("Appium"));
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class UpdatedDropdownTest {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/dropdownsPractise/");
+    }
+
+    @Test
+    public void testUpdatedDropdown() throws InterruptedException {
+        driver.findElement(By.id("divpaxinfo")).click();
+        Thread.sleep(2000L);
+
+        for (int i = 1; i < 5; i++) {
+            Thread.sleep(1000);
+            driver.findElement(By.id("hrefIncAdt")).click();
+        }
+
+        driver.findElement(By.id("btnclosepaxoption")).click();
+
+        String paxInfoText = driver.findElement(By.id("divpaxinfo")).getText();
+        Assert.assertEquals(paxInfoText, "5 Adult");
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        if (driver != null) {
+            driver.close();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+public class WebDriverTestNGDemo {
+
+    private WebDriver driver;
+
+    @BeforeMethod
+    public void setUp() {
+        // Set the path to the ChromeDriver executable
+        //System.setProperty("webdriver.chrome.driver", "C:/Users/amrbhat/chromedriver.exe");
+
+        // Initialize ChromeDriver
+        driver = new ChromeDriver();
+    }
+
+    @Test
+    public void testWebDriverMethods() {
+        try {
+            // Open the website
+            driver.get("https://rahulshettyacademy.com/");
+
+          
+            // Find an element by name and perform a click action
+            WebElement loginButton = driver.findElement(By.name("login"));
+            loginButton.click();
+
+            // Navigate back to the previous page
+            driver.navigate().back();
+
+            // Find an element by link text and click it
+            WebElement practiceLink = driver.findElement(By.linkText("Practice"));
+            practiceLink.click();
+
+            // Navigate forward to the next page
+            driver.navigate().forward();
+
+            // Find an element by partial link text and click it
+            WebElement coursesLink = driver.findElement(By.partialLinkText("Courses"));
+            coursesLink.click();
+
+            // Refresh the current page
+            driver.navigate().refresh();
+
+            // Find an element by class name and assert its tag name
+            WebElement instructorElement = driver.findElement(By.className("instructor"));
+            Assert.assertEquals(instructorElement.getTagName(), "ExpectedTagName");
+
+            // Find an element by CSS selector and assert its text
+            WebElement learnSeleniumElement = driver.findElement(By.cssSelector("#learn-selenium"));
+            Assert.assertEquals(learnSeleniumElement.getText(), "Expected Learn Selenium Text");
+
+            // Find an element by XPath and assert its text
+            WebElement aboutUsElement = driver.findElement(By.xpath("//a[text()='About Us']"));
+            Assert.assertEquals(aboutUsElement.getText(), "Expected About Us Text");
+
+            // Get the current URL and assert it
+            String currentURL = driver.getCurrentUrl();
+            Assert.assertEquals(currentURL, "ExpectedURL");
+
+            // Get the page source and assert it
+            String pageSource = driver.getPageSource();
+            Assert.assertTrue(pageSource.contains("ExpectedPageContent"));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Test failed due to an exception: " + e.getMessage());
+        }
+    }
+
+    @AfterMethod
+    public void tearDown() {
+        // Close the browser
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class WebTableSortingStreamsTest {
+
+    WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+    }
+
+    @Test
+    public void testWebTableSorting() {
+        // Click on the first column to sort
+        driver.findElement(By.xpath("//tr//th[1]")).click();
+
+        // Capture all items to list
+        List<WebElement> elementsList = driver.findElements(By.xpath("//tr//td[1]"));
+
+        // Capture text of all items into a new original list
+        List<String> originalList = elementsList.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        System.out.println("Original List:");
+        originalList.forEach(System.out::println);
+
+        // Apply sort to the original list -> sorted list
+        List<String> sortedList = originalList.stream().sorted().collect(Collectors.toList());
+
+        System.out.println("Sorted List:");
+        sortedList.forEach(System.out::println);
+
+        // Compare original list vs sorted list
+        Assert.assertEquals(originalList, sortedList);
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+package rahulshetty_testng;
+
+ 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class WebTableSortingTest {
+
+    WebDriver driver;
+
+    @BeforeClass
+    public void setUp() {
+        driver = new ChromeDriver();
+        driver.get("https://rahulshettyacademy.com/seleniumPractise/#/offers");
+    }
+
+    @Test
+    public void testWebTableSorting() throws InterruptedException {
+        // Click on the first column to sort
+        driver.findElement(By.xpath("//tr/th[1]")).click();
+
+        // Capture all web elements into a list
+        List<WebElement> elementsList = driver.findElements(By.xpath("//tr/td[1]"));
+
+        // Capture text of all web elements into a new (original) list
+        List<String> originalList = elementsList.stream().map(WebElement::getText).collect(Collectors.toList());
+
+        // Sort the original list
+        List<String> sortedList = originalList.stream().sorted().collect(Collectors.toList());
+
+        // Compare original list vs sorted list
+        Assert.assertEquals(originalList, sortedList);
+
+        List<String> price;
+
+        // Scan the name column with getText ->Beans->print the price of the Rice
+        do {
+            List<WebElement> rows = driver.findElements(By.xpath("//tr/td[1]"));
+
+            price = rows.stream()
+                    .filter(s -> s.getText().contains("Rice"))
+                    .map(this::getPriceVeggie)
+                    .collect(Collectors.toList());
+
+            price.forEach(System.out::println);
+
+            if (price.size() < 1) {
+                driver.findElement(By.cssSelector("[aria-label='Next']")).click();
+            }
+
+        } while (price.size() < 1);
+    }
+
+    private String getPriceVeggie(WebElement s) {
+        String priceValue = s.findElement(By.xpath("following-sibling::td[1]")).getText();
+        return priceValue;
+    }
+
+    @AfterClass
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+}
+
