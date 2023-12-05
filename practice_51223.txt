@@ -1,0 +1,1042 @@
+package javaAdvanced1.Concurrency_Multithreading;
+
+//CompletableFuture for Asynchronous Execution:
+//se CompletableFuture to perform two asynchronous tasks and combine their results.
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+
+public class CompletableFutureExample {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Task 1 is running...");
+            return 10;
+        });
+
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> {
+            System.out.println("Task 2 is running...");
+            return 5;
+        });
+
+        CompletableFuture<Integer> combinedFuture = future1.thenCombine(future2, (result1, result2) -> result1 + result2);
+
+        System.out.println("Combined result: " + combinedFuture.get());
+    }
+}
+package javaAdvanced1.Concurrency_Multithreading;
+
+//CountDownLatch for Synchronization:
+//Use CountDownLatch to synchronize multiple threads before they proceed.
+ 
+import java.util.concurrent.CountDownLatch;
+
+public class CountdownLatchExample {
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(3);
+
+        Runnable task = () -> {
+            System.out.println("Thread " + Thread.currentThread().getId() + " is working.");
+            latch.countDown();
+        };
+
+        for (int i = 0; i < 3; i++) {
+            new Thread(task).start();
+        }
+
+        latch.await(); // Wait until count reaches zero
+
+        System.out.println("All threads have completed their work.");
+    }
+}package javaAdvanced1.Concurrency_Multithreading;
+//ExecutorService with Callable:
+//Use ExecutorService and Callable to calculate the factorial of a number in a separate thread and obtain the result using Future.
+import java.util.concurrent.*;
+
+public class FactorialCalculator implements Callable<Long> {
+    private final int number;
+
+    public FactorialCalculator(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public Long call() throws Exception {
+        long result = 1;
+        for (int i = 1; i <= number; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
+        int numberToCalculate = 5;
+        
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Future<Long> future = executorService.submit(new FactorialCalculator(numberToCalculate));
+
+        // Do other work concurrently
+
+        Long result = future.get();
+        System.out.println("Factorial of " + numberToCalculate + " is: " + result);
+
+        executorService.shutdown();
+    }
+}
+package javaAdvanced1.Concurrency_Multithreading;
+
+//ExecutorService with Runnable:
+//Use ExecutorService with Runnable to print numbers in parallel.
+ 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class ParallelPrint implements Runnable {
+    private final int number;
+
+    public ParallelPrint(int number) {
+        this.number = number;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Thread " + Thread.currentThread().getId() + ": " + number);
+    }
+
+    public static void main(String[] args) {
+        int totalThreads = 5;
+        ExecutorService executorService = Executors.newFixedThreadPool(totalThreads);
+
+        for (int i = 0; i < totalThreads; i++) {
+            executorService.execute(new ParallelPrint(i));
+        }
+
+        executorService.shutdown();
+    }
+}package javaAdvanced1.Concurrency_Multithreading;
+
+//Semaphore for Resource Management:
+//Use Semaphore to control access to a shared resource.
+ 
+import java.util.concurrent.Semaphore;
+
+public class ResourceManagementExample {
+    static Semaphore semaphore = new Semaphore(3);
+
+    static class Worker extends Thread {
+        private final int id;
+
+        public Worker(int id) {
+            this.id = id;
+        }
+
+        @Override
+        public void run() {
+            try {
+                semaphore.acquire();
+                System.out.println("Thread " + id + " is accessing the resource.");
+                Thread.sleep(2000); // Simulating work
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                semaphore.release();
+                System.out.println("Thread " + id + " released the resource.");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        for (int i = 0; i < 5; i++) {
+            new Worker(i).start();
+        }
+    }
+}
+package javaAdvanced1.Functional_methods;
+//Function Challenge:
+	//Implement a Function named calculateAverage that takes a list of integers and returns the average. Use this function to calculate the average of a given list.
+import java.util.List;
+import java.util.function.Function;
+
+public class AverageCalculator {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(10, 20, 30, 40, 50);
+
+        // Function to calculate the average
+        Function<List<Integer>, Double> calculateAverage = AverageCalculator::calculateAverage;
+
+        // Calculate the average of the given list
+        double average = calculateAverage.apply(numbers);
+
+        // Print the original list and the calculated average
+        System.out.println("Original Numbers: " + numbers);
+        System.out.println("Average: " + average);
+    }
+
+    // Function to calculate the average of a list of integers
+    private static Double calculateAverage(List<Integer> numbers) {
+        if (numbers.isEmpty()) {
+            return 0.0;
+        }
+
+        // Use the Java Stream API to calculate the average
+        return numbers.stream()
+                .mapToDouble(Integer::doubleValue)
+                .average()
+                .orElse(0.0);
+    }
+}
+package javaAdvanced1.Functional_methods;
+
+import java.util.function.Consumer;
+
+public class ConsumerExample {
+    public static void main(String[] args) {
+        // Consumer to print a message
+        Consumer<String> printMessage = message -> System.out.println("Message: " + message);
+
+        printMessage.accept("Hello, world!");  // Output: Message: Hello, world!
+    }
+}
+package javaAdvanced1.Functional_methods;
+
+import java.util.function.Function;
+
+public class FunctionExample {
+    public static void main(String[] args) {
+        // Function to square a number
+        Function<Integer, Integer> square = num -> num * num;
+
+        System.out.println(square.apply(3));  // Output: 9
+        System.out.println(square.apply(5));  // Output: 25
+    }
+}
+package javaAdvanced1.Functional_methods;
+//Function Challenge with Default Methods:
+//Implement a new function interface named CustomFunction that extends Function<Integer, String>. Add a default method prefixWith that takes a string and returns a new function that prefixes the input string to the result of the original function.
+
+import java.util.function.Function;
+
+//Custom functional interface extending Function<Integer, String>
+interface CustomFunction extends Function<Integer, String> {
+
+ // Default method to prefix a string to the result of the original function
+ default CustomFunction prefixWith(String prefix) {
+     // Return a new function that incorporates the prefix
+     return input -> prefix + apply(input);
+ }
+}
+
+public class FunctionWithDefaultMethod {
+
+ public static void main(String[] args) {
+     // Create an instance of CustomFunction
+     CustomFunction customFunction = FunctionWithDefaultMethod::convertToString;
+
+     // Use the default method to create a new function with a prefix
+     CustomFunction functionWithPrefix = customFunction.prefixWith("Result: ");
+
+     // Test the original function and the function with prefix
+     System.out.println("Original Function Result: " + customFunction.apply(42));
+     System.out.println("Function with Prefix Result: " + functionWithPrefix.apply(42));
+ }
+
+ // Implementation of the original function
+ private static String convertToString(Integer number) {
+     return "Number: " + number.toString();
+ }
+}
+
+package javaAdvanced1.Functional_methods;
+//Predicate Challenge with Negation:
+//Write a Predicate named isNotZero that checks if a given integer is not equal to zero. Use this predicate to filter out non-zero elements from a list of integers.
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class NonZeroFilter {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(0, 5, -3, 0, 8, -2);
+
+        // Predicate to check if a number is not equal to zero
+        Predicate<Integer> isNotZero = NonZeroFilter::isNotZero;
+
+        // Filter out non-zero elements from the list
+        List<Integer> nonZeroNumbers = filterNonZeroNumbers(numbers, isNotZero);
+
+        // Print the original list and the filtered non-zero numbers
+        System.out.println("Original Numbers: " + numbers);
+        System.out.println("Non-Zero Numbers: " + nonZeroNumbers);
+    }
+
+    // Predicate to check if a number is not equal to zero
+    private static boolean isNotZero(int number) {
+        return number != 0;
+    }
+
+    // Function to filter non-zero numbers from a list
+    private static List<Integer> filterNonZeroNumbers(List<Integer> numbers, Predicate<Integer> isNotZero) {
+        return numbers.stream()
+                .filter(isNotZero)
+                .collect(Collectors.toList()); // Use Collectors.toList() instead of toList()
+    }
+}
+package javaAdvanced1.Functional_methods;
+
+//Consumer Challenge with Chaining:
+//Create a chain of consumers that perform the following tasks: print the square, double, and cube of a given integer. Apply this chain of consumers to a list of integers.
+import java.util.List;
+import java.util.function.Consumer;
+
+public class NumberProcessor {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(2, 3, 5, 7, 10);
+
+        // Chain of consumers to print square, double, and cube of a number
+        Consumer<Integer> printSquare = NumberProcessor::printSquare;
+        Consumer<Integer> printDouble = NumberProcessor::printDouble;
+        Consumer<Integer> printCube = NumberProcessor::printCube;
+
+        // Chain the consumers using andThen
+        Consumer<Integer> chainOfConsumers = printSquare.andThen(printDouble).andThen(printCube);
+
+        // Apply the chain of consumers to the list of integers
+        numbers.forEach(chainOfConsumers);
+    }
+
+    // Consumer to print the square of a number
+    private static void printSquare(Integer number) {
+        System.out.println("Square of " + number + ": " + (number * number));
+    }
+
+    // Consumer to print the double of a number
+    private static void printDouble(Integer number) {
+        System.out.println("Double of " + number + ": " + (2 * number));
+    }
+
+    // Consumer to print the cube of a number
+    private static void printCube(Integer number) {
+        System.out.println("Cube of " + number + ": " + (number * number * number));
+    }
+}
+package javaAdvanced1.Functional_methods;
+
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+
+public class ParallelStringPrinter {
+
+    public static void main(String[] args) {
+        List<String> strings = List.of("One", "Two", "Three", "Four", "Five");
+
+        // Parallelized consumer to print strings
+        Consumer<String> parallelPrint = ParallelStringPrinter::printString;
+
+        // Create an ExecutorService with a fixed number of threads
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+
+        // Process each string in parallel using multiple threads
+        strings.parallelStream().forEach(str -> executorService.submit(() -> parallelPrint.accept(str)));
+
+        // Shutdown the ExecutorService
+        executorService.shutdown();
+    }
+
+    // Consumer to print a string with thread safety
+    private static void printString(String str) {
+        synchronized (System.out) {
+            System.out.println("Thread " + Thread.currentThread().getId() + ": " + str);
+        }
+    }
+}
+package javaAdvanced1.Functional_methods;
+//Predicate Challenge with Exception Handling:
+//Write a Predicate named isPositive that checks if a given integer is positive. Handle the case where the input is null, and throw a custom exception (InvalidInputException) if encountered.
+
+import java.util.function.Predicate;
+
+//Custom exception for invalid input
+class InvalidInputException extends Exception {
+ public InvalidInputException(String message) {
+     super(message);
+ }
+}
+
+public class PositiveIntegerPredicate {
+
+ public static void main(String[] args) {
+     try {
+         // Test the predicate with positive and null inputs
+         System.out.println("Is 5 positive? " + isPositive(5)); // Should print true
+         System.out.println("Is null positive? " + isPositive(null)); // Should throw InvalidInputException
+     } catch (InvalidInputException e) {
+         System.out.println("Exception: " + e.getMessage());
+     }
+ }
+
+ // Predicate to check if a given integer is positive
+ private static boolean isPositive(Integer number) throws InvalidInputException {
+     if (number == null) {
+         throw new InvalidInputException("Input cannot be null");
+     }
+     return number > 0;
+ }
+}
+package javaAdvanced1.Functional_methods;
+
+import java.util.function.Predicate;
+
+public class PredicateExample {
+    public static void main(String[] args) {
+        // Predicate to check if a number is even
+        Predicate<Integer> isEven = num -> num % 2 == 0;
+
+        System.out.println(isEven.test(4));  // Output: true
+        System.out.println(isEven.test(7));  // Output: false
+    }
+}
+package javaAdvanced1.Functional_methods;
+
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class PrimeNumberFilter {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(2, 3, 5, 6, 7, 11, 13, 15, 17, 19, 23, 29, 31);
+
+        // Predicate to check if a number is prime
+        Predicate<Integer> isPrime = PrimeNumberFilter::isPrime;
+
+        // Filter out prime numbers from the list
+        List<Integer> primeNumbers = filterPrimeNumbers(numbers, isPrime);
+
+        // Print the original list and the filtered prime numbers
+        System.out.println("Original Numbers: " + numbers);
+        System.out.println("Prime Numbers: " + primeNumbers);
+    }
+
+    // Predicate to check if a number is prime
+    private static boolean isPrime(int number) {
+        if (number <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Function to filter prime numbers from a list
+    private static List<Integer> filterPrimeNumbers(List<Integer> numbers, Predicate<Integer> isPrime) {
+        return numbers.stream()
+                .filter(isPrime)
+                .collect(Collectors.toList()); // Use Collectors.toList() instead of toList()
+    }
+}
+
+
+package javaAdvanced1.Functional_methods;
+
+//Function Challenge with Composition:
+//Use function composition to create a new function named calculateSquareOfSum that takes two integers, calculates their sum, and then squares the result.
+import java.util.function.Function;
+
+public class SquareOfSumCalculator {
+
+    public static void main(String[] args) {
+        // Function to calculate the square of sum using composition
+        Function<Integer, Integer> square = x -> x * x;
+        Function<int[], Integer> calculateSum = numbers -> numbers[0] + numbers[1];
+        Function<int[], Integer> calculateSquareOfSum = calculateSum.andThen(square);
+
+        // Example usage with two integers
+        int num1 = 5;
+        int num2 = 7;
+        int[] numbers = {num1, num2};
+        int result = calculateSquareOfSum.apply(numbers);
+
+        // Print the original numbers and the result
+        System.out.println("Numbers: " + num1 + ", " + num2);
+        System.out.println("Square of Sum: " + result);
+    }
+}
+package javaAdvanced1.Functional_methods;
+//Consumer Challenge:
+//Create a Consumer named printSquare that takes an integer and prints its square. Use this consumer to print the squares of numbers in a list.
+
+import java.util.List;
+import java.util.function.Consumer;
+
+public class SquarePrinter {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(2, 3, 5, 7, 11);
+
+        // Consumer to print the square of a number
+        Consumer<Integer> printSquare = SquarePrinter::printSquare;
+
+        // Print the squares of numbers in the list using the consumer
+        numbers.forEach(printSquare);
+    }
+
+    // Consumer to print the square of a number
+    private static void printSquare(Integer number) {
+        System.out.println("Square of " + number + ": " + (number * number));
+    }
+}
+package javaAdvanced1.Functional_methods;
+//Predicate and Function Challenge:
+//Combine a Predicate and a Function to create a function named filterAndTransform that takes a list of strings, filters out strings with length less than 5, and transforms the remaining strings to uppercase.
+
+import java.util.List;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+public class StringFilterAndTransform {
+
+    public static void main(String[] args) {
+        List<String> strings = List.of("apple", "banana", "orange", "kiwi", "grape");
+
+        // Predicate to filter out strings with length less than 5
+        Predicate<String> lengthGreaterThanEqual5 = str -> str.length() >= 5;
+
+        // Function to transform a string to uppercase
+        Function<String, String> toUpperCase = String::toUpperCase;
+
+        // Combine Predicate and Function to filter and transform strings
+        List<String> result = filterAndTransform(strings, lengthGreaterThanEqual5, toUpperCase);
+
+        // Print the original list and the filtered and transformed strings
+        System.out.println("Original Strings: " + strings);
+        System.out.println("Filtered and Transformed Strings: " + result);
+    }
+
+    // Function to filter and transform strings
+    private static List<String> filterAndTransform(
+            List<String> strings, Predicate<String> predicate, Function<String, String> transformer) {
+        return strings.stream()
+                .filter(predicate)
+                .map(transformer)
+                .collect(Collectors.toList());
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.Scanner;
+
+public class CalculatePower {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter base: ");
+        double base = scanner.nextDouble();
+
+        System.out.print("Enter exponent: ");
+        double exponent = scanner.nextDouble();
+
+        // Lambda expression to calculate power
+        PowerCalculator powerCalculator = (a, b) -> Math.pow(a, b);
+
+        System.out.println("Result: " + powerCalculator.calculatePower(base, exponent));
+    }
+
+    interface PowerCalculator {
+        double calculatePower(double base, double exponent);
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class CustomSorting {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter list of strings (comma-separated): ");
+        List<String> inputList = List.of(scanner.nextLine().split(","));
+
+        // Lambda expression for custom sorting based on string lengths
+        List<String> sortedList = inputList.stream()
+                .sorted((s1, s2) -> Integer.compare(s1.length(), s2.length()))
+                .collect(Collectors.toList());
+
+        System.out.println("Original List: " + inputList);
+        System.out.println("Sorted List (by length): " + sortedList);
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.Scanner;
+
+public class FactorialCalculation {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int number = scanner.nextInt();
+
+        // Lambda expression to calculate factorial
+        FactorialCalculator factorialCalculator = n -> {
+            int result = 1;
+            for (int i = 1; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        };
+
+        System.out.println("Factorial of " + number + ": " + factorialCalculator.calculateFactorial(number));
+    }
+
+    interface FactorialCalculator {
+        int calculateFactorial(int n);
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class FilterStrings {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter list of strings (comma-separated): ");
+        List<String> inputList = List.of(scanner.nextLine().split(","));
+
+        System.out.print("Enter the starting character: ");
+        char startChar = scanner.next().charAt(0);
+
+        // Lambda expression to filter strings
+        String startCharFilter = inputList.stream()
+                .filter(s -> s.startsWith(String.valueOf(startChar)))
+                .collect(Collectors.joining(","));
+
+        System.out.println("Original List: " + inputList);
+        System.out.println("Filtered List: " + startCharFilter);
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class FindMaximum {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        int[] array = new int[size];
+
+        System.out.print("Enter array elements: ");
+        for (int i = 0; i < size; i++) {
+            array[i] = scanner.nextInt();
+        }
+
+        // Lambda expression to find the maximum
+        MaximumFinder maximumFinder = values -> Arrays.stream(values).max().orElse(0);
+
+        System.out.println("Maximum value: " + maximumFinder.findMaximum(array));
+    }
+
+    interface MaximumFinder {
+        int findMaximum(int[] values);
+    }
+}
+package javaAdvanced1.lambda;
+import java.util.Scanner;
+
+public class FunctionalCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter first number: ");
+        double num1 = scanner.nextDouble();
+
+        System.out.print("Enter second number: ");
+        double num2 = scanner.nextDouble();
+
+        System.out.print("Enter operation (+, -, *, /): ");
+        String operation = scanner.next();
+
+        // Lambda expressions for calculator operations
+        Calculator calculator = (a, b, op) -> {
+            switch (op) {
+                case "+":
+                    return a + b;
+                case "-":
+                    return a - b;
+                case "*":
+                    return a * b;
+                case "/":
+                    if (b != 0) {
+                        return a / b;
+                    } else {
+                        return Double.NaN; // Division by zero
+                    }
+                default:
+                    return Double.NaN; // Invalid operation
+            }
+        };
+
+        double result = calculator.calculate(num1, num2, operation);
+        System.out.println("Result: " + result);
+    }
+
+    interface Calculator {
+        double calculate(double a, double b, String operation);
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
+public class ListOperations {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter list of strings (comma-separated): ");
+        List<String> inputList = List.of(scanner.nextLine().split(","));
+
+        // Lambda expressions for list operations
+        List<String> upperCaseList = inputList.stream().map(String::toUpperCase).collect(Collectors.toList());
+        List<String> sortedList = inputList.stream().sorted().collect(Collectors.toList());
+
+        System.out.println("Original List: " + inputList);
+        System.out.println("Uppercase List: " + upperCaseList);
+        System.out.println("Sorted List: " + sortedList);
+    }
+}
+
+package javaAdvanced1.lambda;
+
+import java.util.Scanner;
+import java.util.stream.IntStream;
+
+public class MatrixMultiplication {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of rows for matrix A: ");
+        int rowsA = scanner.nextInt();
+        System.out.print("Enter the number of columns for matrix A: ");
+        int colsA = scanner.nextInt();
+
+        System.out.print("Enter the number of rows for matrix B: ");
+        int rowsB = scanner.nextInt();
+        System.out.print("Enter the number of columns for matrix B: ");
+        int colsB = scanner.nextInt();
+
+        if (colsA != rowsB) {
+            System.out.println("Matrix multiplication is not possible.");
+            return;
+        }
+
+        int[][] matrixA = new int[rowsA][colsA];
+        int[][] matrixB = new int[rowsB][colsB];
+
+        System.out.println("Enter elements for matrix A:");
+        inputMatrix(scanner, matrixA);
+
+        System.out.println("Enter elements for matrix B:");
+        inputMatrix(scanner, matrixB);
+
+        // Lambda expression for matrix multiplication
+        int[][] resultMatrix = multiplyMatrices(matrixA, matrixB);
+
+        System.out.println("Resultant Matrix:");
+        printMatrix(resultMatrix);
+    }
+
+    private static void inputMatrix(Scanner scanner, int[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                matrix[i][j] = scanner.nextInt();
+            }
+        }
+    }
+
+    private static void printMatrix(int[][] matrix) {
+        for (int[] row : matrix) {
+            for (int value : row) {
+                System.out.print(value + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    private static int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB) {
+        int rowsA = matrixA.length;
+        int colsA = matrixA[0].length;
+        int colsB = matrixB[0].length;
+
+        int[][] resultMatrix = new int[rowsA][colsB];
+
+        IntStream.range(0, rowsA).parallel().forEach(i -> {
+            IntStream.range(0, colsB).parallel().forEach(j -> {
+                for (int k = 0; k < colsA; k++) {
+                    resultMatrix[i][j] += matrixA[i][k] * matrixB[k][j];
+                }
+            });
+        });
+
+        return resultMatrix;
+    }
+}
+package javaAdvanced1.lambda;
+
+import java.util.Scanner;
+
+public class PalindromeCheck {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String inputString = scanner.nextLine();
+
+        // Lambda expression to check palindrome
+        PalindromeChecker palindromeChecker = s -> {
+            String reversed = new StringBuilder(s).reverse().toString();
+            return s.equalsIgnoreCase(reversed);
+        };
+
+        System.out.println("Is Palindrome? " + palindromeChecker.isPalindrome(inputString));
+    }
+
+    interface PalindromeChecker {
+        boolean isPalindrome(String s);
+    }
+}
+
+package javaAdvanced1.Streams;
+
+//Average of List:
+
+//Calculate the average of a list of doubles using the average method of the Stream API.
+
+import java.util.Arrays;
+import java.util.List;
+
+public class AverageOfList {
+    public static void main(String[] args) {
+        // Sample list of doubles
+        List<Double> doubleList = Arrays.asList(1.2, 2.5, 3.8, 4.1, 5.4);
+
+        // Calculate the average using the Stream API
+        double average = doubleList.stream()
+                .mapToDouble(Double::doubleValue)
+                .average()
+                .orElse(0.0);
+
+        System.out.println("Average: " + average);
+    }
+}
+package javaAdvanced1.Streams;
+//Distinct Elements:
+
+//From a list of objects, extract a property and create a list of unique elements.
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class DistinctElementsExample {
+
+    public static void main(String[] args) {
+        List<Book> books = List.of(
+                new Book("Java Basics", "John Doe"),
+                new Book("Python Programming", "Jane Smith"),
+                new Book("Java Basics", "John Doe"),
+                new Book("Data Science Essentials", "Alice Johnson")
+        );
+
+        // Use Stream API to extract the author property and get distinct elements
+        List<String> uniqueAuthors = books.stream()
+                .map(Book::getAuthor)           // Extract the author property
+                .distinct()                     // Get distinct elements
+                .collect(Collectors.toList());
+
+        // Print the list of unique authors
+        System.out.println("Unique Authors: " + uniqueAuthors);
+    }
+
+    static class Book {
+        private String title;
+        private String author;
+
+        public Book(String title, String author) {
+            this.title = title;
+            this.author = author;
+        }
+
+        public String getAuthor() {
+            return author;
+        }
+    }
+}
+
+package javaAdvanced1.Streams;
+//FlatMap:
+
+//Given a list of lists of integers, use flatMap to flatten the structure into a single list.
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FlatMapExample {
+    public static void main(String[] args) {
+        // Sample list of lists of integers
+        List<List<Integer>> listOfLists = Arrays.asList(
+                Arrays.asList(1, 2, 3),
+                Arrays.asList(4, 5, 6),
+                Arrays.asList(7, 8, 9)
+        );
+
+        // Use flatMap to flatten the list of lists into a single list
+        List<Integer> flattenedList = listOfLists.stream()
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        // Display the result
+        System.out.println("Original List of Lists: " + listOfLists);
+        System.out.println("Flattened List: " + flattenedList);
+    }
+}
+package javaAdvanced1.Streams;
+//Grouping by Property:
+
+//Group a list of objects by a specific property using the Collectors.groupingBy method.
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class GroupByProperty {
+    public static void main(String[] args) {
+        // Sample list of Person objects
+        List<Person> personList = Arrays.asList(
+                new Person("Alice", 25),
+                new Person("Bob", 30),
+                new Person("Alice", 22),
+                new Person("Bob", 28),
+                new Person("Charlie", 35)
+        );
+
+        // Grouping by the "name" property
+        Map<String, List<Person>> groupedByNames = personList.stream()
+                .collect(Collectors.groupingBy(Person::getName));
+
+        // Display the result
+        groupedByNames.forEach((name, persons) -> {
+            System.out.println("Group: " + name);
+            persons.forEach(System.out::println);
+            System.out.println("----------------------");
+        });
+    }
+}
+package javaAdvanced1.Streams;
+//Map and Filter:
+
+//Given a list of integers, use the Stream API to square each number and filter out the ones greater than 100.
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class MapAndFilterExample {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(10, 5, 8, 12, 15, 7, 20);
+
+        // Use Stream API to square each number and filter out ones greater than 100
+        List<Integer> result = numbers.stream()
+                .map(n -> n * n)         // Square each number
+                .filter(n -> n > 100)    // Filter numbers greater than 100
+                .collect(Collectors.toList());
+
+        // Print the result
+        System.out.println("Squared and Filtered Numbers: " + result);
+    }
+}
+package javaAdvanced1.Streams;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+//Sorting:
+
+//Sort a list of strings in descending order of length using the sorted method.
+public class SortStringsDescending {
+    public static void main(String[] args) {
+        // Sample list of strings
+        List<String> stringList = Arrays.asList("apple", "banana", "orange", "grape", "kiwi");
+
+        // Sort the list in descending order of length
+        List<String> sortedList = stringList.stream()
+                .sorted((s1, s2) -> Integer.compare(s2.length(), s1.length()))
+                .collect(Collectors.toList());
+
+        // Display the result
+        System.out.println("Original List: " + stringList);
+        System.out.println("Sorted List (Descending Order of Length): " + sortedList);
+    }
+}
+package javaAdvanced1.Streams;
+
+//String Concatenation:
+
+//Create a list of strings and concatenate them into a single string using the Collectors.joining method.
+ 
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class StringConcatenationExample {
+
+    public static void main(String[] args) {
+        List<String> words = List.of("Hello", " ", "World", "!");
+
+        // Use Collectors.joining to concatenate strings
+        String result = words.stream()
+                .collect(Collectors.joining());
+
+        // Print the concatenated string
+        System.out.println("Concatenated String: " + result);
+    }
+}
