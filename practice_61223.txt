@@ -1,0 +1,1130 @@
+package javaHard61223;
+
+import java.util.ArrayList;
+
+public class ArrayListOperations {
+    public static void main(String[] args) {
+        // Create ArrayList
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        // Add elements
+        arrayList.add("Java");
+        arrayList.add("Python");
+        arrayList.add("C++");
+
+        // Remove element
+        arrayList.remove("Python");
+
+        // Print final list
+        System.out.println("ArrayList: " + arrayList);
+    }
+}
+
+package javaHard61223;
+
+//Enum with Constructor
+enum Color {
+ RED(255, 0, 0),
+ GREEN(0, 255, 0),
+ BLUE(0, 0, 255),
+ YELLOW(255, 255, 0),
+ CYAN(0, 255, 255),
+ MAGENTA(255, 0, 255),
+ BLACK(0, 0, 0),
+ WHITE(255, 255, 255);
+
+ private final int red, green, blue;
+
+ Color(int red, int green, int blue) {
+     this.red = red;
+     this.green = green;
+     this.blue = blue;
+ }
+
+ public void printRGB() {
+     System.out.println(name() + ": RGB(" + red + ", " + green + ", " + blue + ")");
+ }
+}
+
+public class ColorsExample {
+ public static void main(String[] args) {
+     // Print RGB values of Colors
+     for (Color color : Color.values()) {
+         color.printRGB();
+     }
+ }
+}
+
+package javaHard61223;
+
+import java.util.*;
+
+interface Sortable {
+    void sort();
+}
+
+class CustomCollection<T extends Sortable> {
+    private final List<T> elements = new ArrayList<>();
+
+    public void addElement(T element) {
+        elements.add(element);
+    }
+
+    public void sortAllElements() {
+        for (T element : elements) {
+            element.sort();
+        }
+    }
+
+    public void printAllElements() {
+        for (T element : elements) {
+            System.out.println(element);
+        }
+    }
+}
+
+class MyClass1 implements Sortable {
+    // Implement Sortable interface
+    public void sort() {
+        System.out.println("Sorting logic for MyClass1");
+    }
+
+    // Other MyClass1-specific methods and properties
+}
+
+class MyClass2 implements Sortable {
+    // Implement Sortable interface
+    public void sort() {
+        System.out.println("Sorting logic for MyClass2");
+    }
+
+    // Other MyClass2-specific methods and properties
+}
+
+public class CustomCollectionExample {
+    public static void main(String[] args) {
+        CustomCollection<MyClass1> collection1 = new CustomCollection<>();
+        collection1.addElement(new MyClass1());
+        collection1.addElement(new MyClass1());
+
+        CustomCollection<MyClass2> collection2 = new CustomCollection<>();
+        collection2.addElement(new MyClass2());
+        collection2.addElement(new MyClass2());
+
+        // Perform sorting on elements that implement Sortable
+        collection1.sortAllElements();
+        collection2.sortAllElements();
+
+        // Print all elements
+        System.out.println("Elements in Collection 1:");
+        collection1.printAllElements();
+
+        System.out.println("Elements in Collection 2:");
+        collection2.printAllElements();
+    }
+}
+package javaHard61223;
+
+import java.util.LinkedList;
+
+class KeyValuePair<K, V> {
+    private final K key;
+    private V value;
+
+    public KeyValuePair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public K getKey() {
+        return key;
+    }
+
+    public V getValue() {
+        return value;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
+    }
+}
+
+public class CustomHashMap<K, V> {
+    private static final int DEFAULT_CAPACITY = 16;
+    private static final double LOAD_FACTOR = 0.75;
+
+    private LinkedList<KeyValuePair<K, V>>[] buckets;
+    private int size;
+
+    public CustomHashMap() {
+        this(DEFAULT_CAPACITY);
+    }
+
+    public CustomHashMap(int initialCapacity) {
+        buckets = new LinkedList[initialCapacity];
+        size = 0;
+    }
+
+    private int hash(K key) {
+        return key.hashCode() % buckets.length;
+    }
+
+    private LinkedList<KeyValuePair<K, V>> getBucket(K key) {
+        int index = hash(key);
+        if (buckets[index] == null) {
+            buckets[index] = new LinkedList<>();
+        }
+        return buckets[index];
+    }
+
+    public void put(K key, V value) {
+        LinkedList<KeyValuePair<K, V>> bucket = getBucket(key);
+        for (KeyValuePair<K, V> pair : bucket) {
+            if (pair.getKey().equals(key)) {
+                pair.setValue(value);
+                return; // Key already exists, update the value
+            }
+        }
+        bucket.add(new KeyValuePair<>(key, value));
+        size++;
+
+        // Check if rehashing is needed
+        if ((double) size / buckets.length > LOAD_FACTOR) {
+            rehash();
+        }
+    }
+
+    public V get(K key) {
+        LinkedList<KeyValuePair<K, V>> bucket = getBucket(key);
+        for (KeyValuePair<K, V> pair : bucket) {
+            if (pair.getKey().equals(key)) {
+                return pair.getValue(); // Key found, return the value
+            }
+        }
+        return null; // Key not found
+    }
+
+    public void remove(K key) {
+        LinkedList<KeyValuePair<K, V>> bucket = getBucket(key);
+        for (KeyValuePair<K, V> pair : bucket) {
+            if (pair.getKey().equals(key)) {
+                bucket.remove(pair);
+                size--;
+                return; // Key found and removed
+            }
+        }
+    }
+
+    private void rehash() {
+        LinkedList<KeyValuePair<K, V>>[] oldBuckets = buckets;
+        buckets = new LinkedList[oldBuckets.length * 2];
+        size = 0;
+
+        for (LinkedList<KeyValuePair<K, V>> bucket : oldBuckets) {
+            if (bucket != null) {
+                for (KeyValuePair<K, V> pair : bucket) {
+                    put(pair.getKey(), pair.getValue());
+                }
+            }
+        }
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public static void main(String[] args) {
+        CustomHashMap<String, Integer> hashMap = new CustomHashMap<>();
+        hashMap.put("one", 1);
+        hashMap.put("two", 2);
+        hashMap.put("three", 3);
+
+        System.out.println("Size: " + hashMap.size());
+        System.out.println("Value for key 'two': " + hashMap.get("two"));
+
+        hashMap.remove("two");
+
+        System.out.println("Size after removal: " + hashMap.size());
+        System.out.println("Value for key 'two' after removal: " + hashMap.get("two"));
+    }
+}
+package javaHard61223;
+import java.util.EnumSet;
+import java.util.EnumMap;
+import java.io.*;
+
+// Simple Enum
+enum Days {
+    SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY;
+}
+
+// Enum with Constructor
+enum Colors {
+    RED(255, 0, 0),
+    GREEN(0, 255, 0),
+    BLUE(0, 0, 255);
+
+    private final int red, green, blue;
+
+    Colors(int red, int green, int blue) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+
+    public void printRGB() {
+        System.out.println(name() + ": RGB(" + red + ", " + green + ", " + blue + ")");
+    }
+}
+
+// Enum with Method
+enum WorkingHours {
+    SUNDAY(0),
+    MONDAY(8),
+    TUESDAY(8),
+    WEDNESDAY(8),
+    THURSDAY(8),
+    FRIDAY(8),
+    SATURDAY(4);
+
+    private final int hours;
+
+    WorkingHours(int hours) {
+        this.hours = hours;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+}
+
+// Constant-Specific Method
+enum ColorMessages {
+    RED {
+        @Override
+        public void printMessage() {
+            System.out.println("Red is a warm color.");
+        }
+    },
+    GREEN {
+        @Override
+        public void printMessage() {
+            System.out.println("Green symbolizes nature and life.");
+        }
+    },
+    BLUE {
+        @Override
+        public void printMessage() {
+            System.out.println("Blue is associated with calmness and serenity.");
+        }
+    };
+
+    public abstract void printMessage();
+}
+
+// EnumSet Usage
+enum Months {
+    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+}
+
+// EnumMap Usage
+enum Direction {
+    NORTH, SOUTH, EAST, WEST;
+}
+
+public class EnumExamples {
+    public static void main(String[] args) {
+        // Simple Enum
+        System.out.println("Days of the week: " + EnumSet.allOf(Days.class));
+
+        // Enum with Constructor
+        for (Colors color : Colors.values()) {
+            color.printRGB();
+        }
+
+        // Enum with Method
+        Days specificDay = Days.MONDAY;
+        System.out.println("Working hours on " + specificDay + ": " + WorkingHours.valueOf(specificDay.name()).getHours() + " hours");
+
+        // Constant-Specific Method
+        ColorMessages.GREEN.printMessage();
+
+        // EnumSet Usage
+        EnumSet<Months> summerMonths = EnumSet.of(Months.JUNE, Months.JULY, Months.AUGUST);
+        System.out.println("Summer Months: " + summerMonths);
+
+        // EnumMap Usage
+        EnumMap<Direction, Integer> distanceMap = new EnumMap<>(Direction.class);
+        distanceMap.put(Direction.NORTH, 100);
+        distanceMap.put(Direction.SOUTH, 200);
+        distanceMap.put(Direction.EAST, 150);
+        distanceMap.put(Direction.WEST, 180);
+
+        Direction specificDirection = Direction.NORTH;
+        System.out.println("Distance to " + specificDirection + ": " + distanceMap.get(specificDirection) + " miles");
+
+        // Ordinal and Values
+        System.out.println("Ordinal values of Months: ");
+        for (Months month : Months.values()) {
+            System.out.println(month + ": " + month.ordinal());
+        }
+
+        // Switch Statement with Enum
+        TrafficLight light = TrafficLight.RED;
+        switch (light) {
+            case RED:
+                System.out.println("Stop!");
+                break;
+            case YELLOW:
+                System.out.println("Slow down!");
+                break;
+            case GREEN:
+                System.out.println("Go!");
+                break;
+        }
+
+        // Enum as Singleton
+        SingletonEnum.INSTANCE.printMessage();
+
+        // Enum Serialization
+        Planets planet = Planets.EARTH;
+        serializeEnum(planet);
+        Planets deserializedPlanet = deserializeEnum(Planets.class, "serializedEnum.txt");
+        System.out.println("Deserialized Planet: " + deserializedPlanet);
+    }
+
+    // Enum as Singleton
+    enum SingletonEnum {
+        INSTANCE;
+
+        public void printMessage() {
+            System.out.println("This is a singleton enum.");
+        }
+    }
+
+    // Enum Serialization
+    static <T extends Enum<T>> void serializeEnum(Enum<T> enumValue) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("serializedEnum.txt"))) {
+            out.writeObject(enumValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static <T extends Enum<T>> T deserializeEnum(Class<T> enumType, String filename) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            return (T) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+
+// Switch Statement with Enum
+enum TrafficLight {
+    RED, YELLOW, GREEN;
+}
+
+// Enum Serialization
+enum Planets {
+    MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE;
+}
+package javaHard61223;
+
+//Generic Linked List Reversal:
+ 
+class ListNode<T> {
+    T data;
+    ListNode<T> next;
+
+    ListNode(T data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class GenericLinkedListReversal<T> {
+
+    public ListNode<T> reverse(ListNode<T> head) {
+        ListNode<T> prev = null;
+        ListNode<T> current = head;
+        ListNode<T> next = null;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        head = prev;
+        return head;
+    }
+
+    public void printList(ListNode<T> head) {
+        ListNode<T> current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        ListNode<Integer> head = new ListNode<>(1);
+        head.next = new ListNode<>(2);
+        head.next.next = new ListNode<>(3);
+        head.next.next.next = new ListNode<>(4);
+
+        GenericLinkedListReversal<Integer> reversal = new GenericLinkedListReversal<>();
+        System.out.println("Original Linked List:");
+        reversal.printList(head);
+
+        head = reversal.reverse(head);
+
+        System.out.println("Reversed Linked List:");
+        reversal.printList(head);
+    }
+}package javaHard61223;
+
+public class GenericMatrixMultiplication {
+
+    public static <T extends Number> T[][] multiplyMatrices(T[][] matrix1, T[][] matrix2) {
+        int rows1 = matrix1.length;
+        int cols1 = matrix1[0].length;
+        int rows2 = matrix2.length;
+        int cols2 = matrix2[0].length;
+
+        if (cols1 != rows2) {
+            throw new IllegalArgumentException("Number of columns in the first matrix must be equal to the number of rows in the second matrix");
+        }
+
+        // Create the result matrix
+        T[][] result = (T[][]) new Number[rows1][cols2];
+
+        for (int i = 0; i < rows1; i++) {
+            for (int j = 0; j < cols2; j++) {
+                result[i][j] = multiplyAndSum(matrix1, matrix2, i, j, cols1);
+            }
+        }
+
+        return result;
+    }
+
+    private static <T extends Number> T multiplyAndSum(T[][] matrix1, T[][] matrix2, int row, int col, int size) {
+        T sum = (T) Double.valueOf(0); // Initialize sum to 0
+
+        for (int k = 0; k < size; k++) {
+            // Multiply corresponding elements and add to the sum
+            sum = add(sum, multiply(matrix1[row][k], matrix2[k][col]));
+        }
+
+        return sum;
+    }
+
+    private static <T extends Number> T multiply(T a, T b) {
+        // Perform multiplication based on the actual numeric type
+        if (a instanceof Double || b instanceof Double) {
+            return (T) Double.valueOf(a.doubleValue() * b.doubleValue());
+        } else if (a instanceof Float || b instanceof Float) {
+            return (T) Float.valueOf(a.floatValue() * b.floatValue());
+        } else if (a instanceof Long || b instanceof Long) {
+            return (T) Long.valueOf(a.longValue() * b.longValue());
+        } else {
+            return (T) Integer.valueOf(a.intValue() * b.intValue());
+        }
+    }
+
+    private static <T extends Number> T add(T a, T b) {
+        // Perform addition based on the actual numeric type
+        if (a instanceof Double || b instanceof Double) {
+            return (T) Double.valueOf(a.doubleValue() + b.doubleValue());
+        } else if (a instanceof Float || b instanceof Float) {
+            return (T) Float.valueOf(a.floatValue() + b.floatValue());
+        } else if (a instanceof Long || b instanceof Long) {
+            return (T) Long.valueOf(a.longValue() + b.longValue());
+        } else {
+            return (T) Integer.valueOf(a.intValue() + b.intValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        Integer[][] matrix1 = {
+                {1, 2, 3},
+                {4, 5, 6}
+        };
+
+        Integer[][] matrix2 = {
+                {7, 8},
+                {9, 10},
+                {11, 12}
+        };
+
+        Integer[][] result = multiplyMatrices(matrix1, matrix2);
+
+        // Display the result
+        for (Integer[] row : result) {
+            for (Integer element : row) {
+                System.out.print(element + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+package javaHard61223;
+
+import java.util.List;
+
+public class GenericMaxFinder {
+
+    public static <T extends Comparable<T>> T findMax(List<T> list) {
+        if (list == null || list.isEmpty()) {
+            return null; // Handle empty list case
+        }
+
+        T max = list.get(0);
+
+        for (T element : list) {
+            if (element.compareTo(max) > 0) {
+                max = element;
+            }
+        }
+
+        return max;
+    }
+
+    public static void main(String[] args) {
+        List<Integer> integerList = List.of(3, 1, 7, 2, 5);
+        Integer maxInteger = findMax(integerList);
+        System.out.println("Max Integer: " + maxInteger);
+
+        List<Double> doubleList = List.of(2.5, 1.0, 3.7, 2.1, 4.9);
+        Double maxDouble = findMax(doubleList);
+        System.out.println("Max Double: " + maxDouble);
+    }
+}
+
+package javaHard61223;
+//Generic Merge Sort Algorithm:
+import java.util.Arrays;
+
+public class GenericMergeSort<T extends Comparable<T>> {
+
+    public void mergeSort(T[] array) {
+        if (array == null || array.length <= 1) {
+            return; // Already sorted
+        }
+
+        int n = array.length;
+        int mid = n / 2;
+
+        T[] leftArray = Arrays.copyOfRange(array, 0, mid);
+        T[] rightArray = Arrays.copyOfRange(array, mid, n);
+
+        mergeSort(leftArray);
+        mergeSort(rightArray);
+
+        merge(array, leftArray, rightArray);
+    }
+
+    private void merge(T[] array, T[] leftArray, T[] rightArray) {
+        int leftLength = leftArray.length;
+        int rightLength = rightArray.length;
+
+        int i = 0, j = 0, k = 0;
+
+        while (i < leftLength && j < rightLength) {
+            if (leftArray[i].compareTo(rightArray[j]) <= 0) {
+                array[k++] = leftArray[i++];
+            } else {
+                array[k++] = rightArray[j++];
+            }
+        }
+
+        while (i < leftLength) {
+            array[k++] = leftArray[i++];
+        }
+
+        while (j < rightLength) {
+            array[k++] = rightArray[j++];
+        }
+    }
+
+    public static void main(String[] args) {
+        Integer[] intArray = {5, 2, 9, 1, 5, 6};
+        GenericMergeSort<Integer> mergeSort = new GenericMergeSort<>();
+        
+        System.out.println("Original Array: " + Arrays.toString(intArray));
+        mergeSort.mergeSort(intArray);
+        System.out.println("Sorted Array: " + Arrays.toString(intArray));
+    }
+}
+
+package javaHard61223;
+
+import java.util.Comparator;
+import java.util.List;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+public class GenericPropertyComparator<T, U extends Comparable<U>> implements Comparator<T> {
+    private final java.util.function.Function<T, U> keyExtractor;
+
+    public GenericPropertyComparator(java.util.function.Function<T, U> keyExtractor) {
+        this.keyExtractor = keyExtractor;
+    }
+
+    @Override
+    public int compare(T o1, T o2) {
+        U key1 = keyExtractor.apply(o1);
+        U key2 = keyExtractor.apply(o2);
+        return key1.compareTo(key2);
+    }
+
+    public static void main(String[] args) {
+        List<Person> people = List.of(
+                new Person("Alice", 25),
+                new Person("Bob", 30),
+                new Person("Charlie", 22)
+        );
+
+        // Using the GenericPropertyComparator to compare People based on their age
+        GenericPropertyComparator<Person, Integer> ageComparator = new GenericPropertyComparator<>(Person::getAge);
+        people.sort(ageComparator);
+        System.out.println("Sorted by Age: " + people);
+
+        // Using the GenericPropertyComparator to compare People based on their name
+        GenericPropertyComparator<Person, String> nameComparator = new GenericPropertyComparator<>(Person::getName);
+        people.sort(nameComparator);
+        System.out.println("Sorted by Name: " + people);
+    }
+}
+package javaHard61223;
+
+import java.util.HashMap;
+
+public class HashMapUsage {
+    public static void main(String[] args) {
+        // Create HashMap
+        HashMap<String, Integer> hashMap = new HashMap<>();
+
+        // Add entries
+        hashMap.put("Alice", 90);
+        hashMap.put("Bob", 80);
+        hashMap.put("Charlie", 95);
+
+        // Remove entry
+        hashMap.remove("Bob");
+
+        // Print entries
+        System.out.println("HashMap: " + hashMap);
+    }
+}
+package javaHard61223;
+
+import java.util.HashSet;
+
+public class HashSetUsage {
+    public static void main(String[] args) {
+        // Create HashSet
+        HashSet<String> hashSet = new HashSet<>();
+
+        // Add elements
+        hashSet.add("Apple");
+        hashSet.add("Banana");
+        hashSet.add("Orange");
+        hashSet.add("Apple"); // Duplicate
+
+        // Print unique elements
+        System.out.println("HashSet: " + hashSet);
+    }
+}
+package javaHard61223;
+
+import java.util.LinkedHashMap;
+
+public class LinkedHashMapUsage {
+    public static void main(String[] args) {
+        // Create LinkedHashMap
+        LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<>();
+
+        // Add entries
+        linkedHashMap.put("USA", "Washington");
+        linkedHashMap.put("France", "Paris");
+        linkedHashMap.put("Japan", "Tokyo");
+
+        // Print entries in the order they were added
+        System.out.println("LinkedHashMap: " + linkedHashMap);
+    }
+}
+
+package javaHard61223;
+
+import java.util.LinkedList;
+
+public class LinkedListOperations {
+    public static void main(String[] args) {
+        // Create LinkedList
+        LinkedList<String> linkedList = new LinkedList<>();
+
+        // Add elements
+        linkedList.add("Apple");
+        linkedList.add("Banana");
+        linkedList.add("Orange");
+
+        // Remove element
+        linkedList.remove("Banana");
+
+        // Print final list
+        System.out.println("LinkedList: " + linkedList);
+    }
+}
+package javaHard61223;
+
+enum Month {
+    JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER;
+}
+
+public class MonthsEnumExample {
+    public static void main(String[] args) {
+        // Print ordinal and values
+        for (Month month : Month.values()) {
+            System.out.println(month + ": Ordinal - " + month.ordinal());
+        }
+
+        // Explanation
+        System.out.println("\nOrdinal represents the position of an enum constant in its enum declaration.");
+        System.out.println("Values returns an array of the enum constants in the order they are declared.");
+    }
+}
+package javaHard61223;
+
+import java.io.*;
+
+enum Planet {
+    MERCURY, VENUS, EARTH, MARS, JUPITER, SATURN, URANUS, NEPTUNE;
+}
+
+public class PlanetsSerializationExample {
+    public static void main(String[] args) {
+        // Serialization
+        serializeEnum(Planet.EARTH, "serializedPlanets.txt");
+
+        // Deserialization
+        Planet deserializedPlanet = deserializeEnum(Planet.class, "serializedPlanets.txt");
+        System.out.println("Deserialized Planet: " + deserializedPlanet);
+    }
+
+    static <T extends Enum<T>> void serializeEnum(Enum<T> enumValue, String filename) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            out.writeObject(enumValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static <T extends Enum<T>> T deserializeEnum(Class<T> enumType, String filename) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            return (T) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+package javaHard61223;
+
+enum SingletonEnum {
+    INSTANCE;
+
+    public void printMessage() {
+        System.out.println("This is a singleton enum.");
+    }
+}
+
+public class SingletonEnumExample {
+    public static void main(String[] args) {
+        SingletonEnum.INSTANCE.printMessage();
+    }
+}
+package javaHard61223;
+
+enum TrafficLights {
+    RED, YELLOW, GREEN;
+}
+
+public class TrafficLightExample {
+    public static void main(String[] args) {
+        TrafficLights light = TrafficLights.RED;
+
+        switch (light) {
+            case RED:
+                System.out.println("Stop!");
+                break;
+            case YELLOW:
+                System.out.println("Slow down!");
+                break;
+            case GREEN:
+                System.out.println("Go!");
+                break;
+        }
+    }
+}
+package javaHard61223;
+
+import java.util.TreeMap;
+
+public class TreeMapOperations {
+    public static void main(String[] args) {
+        // Create TreeMap
+        TreeMap<String, Integer> treeMap = new TreeMap<>();
+
+        // Add entries
+        treeMap.put("Alice", 30);
+        treeMap.put("Bob", 25);
+        treeMap.put("Charlie", 35);
+
+        // Print entries in ascending order of age
+        System.out.println("TreeMap: " + treeMap);
+    }
+}
+package javaHard61223;
+
+import java.util.TreeSet;
+
+public class TreeSetOperations {
+    public static void main(String[] args) {
+        // Create TreeSet
+        TreeSet<Integer> treeSet = new TreeSet<>();
+
+        // Add elements
+        treeSet.add(5);
+        treeSet.add(2);
+        treeSet.add(8);
+
+        // Print sorted elements
+        System.out.println("TreeSet: " + treeSet);
+    }
+}
+package javaHard61223;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+class TreeNode<T> {
+    T data;
+    TreeNode<T> left;
+    TreeNode<T> right;
+
+    TreeNode(T data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+public class TreeTraversal<T> {
+
+    public void preorderTraversal(TreeNode<T> root) {
+        if (root != null) {
+            System.out.print(root.data + " ");
+            preorderTraversal(root.left);
+            preorderTraversal(root.right);
+        }
+    }
+
+    public void inorderTraversal(TreeNode<T> root) {
+        if (root != null) {
+            inorderTraversal(root.left);
+            System.out.print(root.data + " ");
+            inorderTraversal(root.right);
+        }
+    }
+
+    public void postorderTraversal(TreeNode<T> root) {
+        if (root != null) {
+            postorderTraversal(root.left);
+            postorderTraversal(root.right);
+            System.out.print(root.data + " ");
+        }
+    }
+
+    public void levelOrderTraversal(TreeNode<T> root) {
+        if (root == null) {
+            return;
+        }
+
+        Queue<TreeNode<T>> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while (!queue.isEmpty()) {
+            TreeNode<T> current = queue.poll();
+            System.out.print(current.data + " ");
+
+            if (current.left != null) {
+                queue.offer(current.left);
+            }
+
+            if (current.right != null) {
+                queue.offer(current.right);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        TreeNode<Integer> root = new TreeNode<>(1);
+        root.left = new TreeNode<>(2);
+        root.right = new TreeNode<>(3);
+        root.left.left = new TreeNode<>(4);
+        root.left.right = new TreeNode<>(5);
+        root.right.left = new TreeNode<>(6);
+        root.right.right = new TreeNode<>(7);
+
+        TreeTraversal<Integer> treeTraversal = new TreeTraversal<>();
+
+        System.out.println("Preorder Traversal:");
+        treeTraversal.preorderTraversal(root);
+        System.out.println();
+
+        System.out.println("Inorder Traversal:");
+        treeTraversal.inorderTraversal(root);
+        System.out.println();
+
+        System.out.println("Postorder Traversal:");
+        treeTraversal.postorderTraversal(root);
+        System.out.println();
+
+        System.out.println("Level Order Traversal:");
+        treeTraversal.levelOrderTraversal(root);
+        System.out.println();
+    }
+}
+package javaHard61223;
+
+class Box<T> {
+    private T value;
+
+    public Box(T value) {
+        this.value = value;
+    }
+
+    public T getValue() {
+        return value;
+    }
+
+    public void setValue(T value) {
+        this.value = value;
+    }
+}
+
+public class WildcardExample {
+    public static void main(String[] args) {
+        // Upper-bounded wildcard
+        Box<? extends Number> box1 = new Box<>(10);
+        Number num1 = box1.getValue();
+        
+        // Lower-bounded wildcard
+        Box<? super Integer> box2 = new Box<>(20);
+        box2.setValue(30);
+
+        // Unbounded wildcard
+        Box<?> box3 = new Box<>("Hello");
+        Object obj = box3.getValue();
+    }
+}
+package javaHard61223;
+///Wildcard Upper Bound:
+
+//Explain the concept of an upper-bounded wildcard (<? extends T>) and provide an example.
+import java.util.List;
+
+public class WildcardUpperBoundExample {
+
+    // Method that prints elements of a list using an upper-bounded wildcard
+    public static void printList(List<? extends Number> list) {
+        for (Number element : list) {
+            System.out.print(element + " ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        // Example with Integer
+        List<Integer> integerList = List.of(1, 2, 3);
+        System.out.println("Integer List:");
+        printList(integerList);
+
+        // Example with Double
+        List<Double> doubleList = List.of(1.1, 2.2, 3.3);
+        System.out.println("Double List:");
+        printList(doubleList);
+
+        // Example with Number
+        List<Number> numberList = List.of(1, 2.2, 3.3);
+        System.out.println("Number List:");
+        printList(numberList);
+    }
+}
+
+package javaHard61223;
+
+//Enum with Method
+enum Day {
+ SUNDAY(0),
+ MONDAY(8),
+ TUESDAY(8),
+ WEDNESDAY(8),
+ THURSDAY(8),
+ FRIDAY(8),
+ SATURDAY(4);
+
+ private final int workingHours;
+
+ Day(int workingHours) {
+     this.workingHours = workingHours;
+ }
+
+ public int getWorkingHours() {
+     return workingHours;
+ }
+}
+
+public class WorkingHoursExample {
+ public static void main(String[] args) {
+     // Print working hours for a specific day
+     Day specificDay = Day.MONDAY;
+     System.out.println("Working hours on " + specificDay + ": " + specificDay.getWorkingHours() + " hours");
+ }
+}
+
+
+
+
+
+
+
