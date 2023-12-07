@@ -1,0 +1,511 @@
+1. Write a Java program to reverse a string without using the reverse method of Java’s String class
+This exercise will teach you about how Java handles strings. First, you should create a class with a main method that accepts a string and then returns a string where the characters are in reverse order. But, you can’t use the reverse method of the String class because that’d be cheating.
+
+Even without doing that, there are at least three ways you can solve this exercise. Can you solve it in three different ways?
+
+2. Write a Java program to determine whether a number is prime or not
+This program should accept an array of numbers. It should iterate through the array of numbers and determine if each is prime or not. Once it’s done processing, it should return only those numbers that are prime in an array.
+
+3. Create a Java Singleton class
+The singleton pattern is a design pattern that restricts the instantiation of an object to only one instance. To do this, you’ll need to create a Singleton class that has a non-parameterized constructor.
+
+The class should have one public variable called str. It should also have a static method called getSingleInstance that’ll return the single instance of the class.
+
+4. Write a Java program that returns an MD5 hash
+MD5 (Message-Digest algorithm 5) is a cryptographic function for creating 128-bit hashes from strings. It was designed by Professor Ronald Rivest of MIT, and although the function is considered cryptographically broken, it’s still useful as a programming exercise.
+
+Research the algorithm and write a Java class from scratch that accepts an alphanumeric string and returns the MD5 hash for that string.
+
+5. Write three Java lambda expressions
+This exercise will test your ability to write lambda expressions in Java. Java lambda expressions take in parameters and return a value. They’re similar to methods but don’t need a name and can be implemented in the body of a method.
+
+In this challenge, you’ll write three of them:
+
+One that returns true if a number passed to it is odd and false if it’s even.
+One that returns true if a number is prime and false if it’s not.
+One that returns true if the parameter is a palindrome and false if it’s not.
+6. Write a phone number word decoder
+Write a program in Java that’ll accept a phone number with letters and convert it to a phone number with only digits. For example, if you sent the program a phone number like 800888TEST, it should return (800) 888-8378.
+
+Note that it shouldn’t only convert letters to the digits they represent but also format the number correctly with parentheses and dashes. And, if you send the program an invalid number, it should throw an error.
+
+7. Write a method to determine consecutive numbers
+Create a method in a Java class that accepts an array of numbers as a parameter. If the array of numbers can be rearranged so that they’re consecutive numbers where no number appears twice, return true. If this isn’t possible, return false. The array can be of any size.
+
+8. Find the hex code embedded in a string
+In this challenge, you’ll create a method in Java that accepts both a string to be searched and a string that’s been encoded in hex and embedded in the first string as parameters. The method should search the first parameter and return the index of the occurrence of the second parameter
+
+9. Reverse only the letters in a string
+Write a method in Java that accepts a string as a parameter. This method should return a string that reverses the letters in the string sent as a parameter but keep all the numbers in order. For example, if you sent the method a parameter of “ez56d” then it should return “ed56z”.
+
+10. Write a Pig Latin translator
+Pig Latin is a language or language game. Here are the steps with any word. First, move the first consonant or consonant cluster to the end of the word. Second, add “ay” to the end of the word. For example, the word “banana” would become “ananabay.”
+
+Write a method in Java that turns a string that contains words into the equivalent in Pig Latin
+
+package javaHard71223;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class a {
+    public static void main(String[] args) {
+        List<String> strings = new ArrayList<>();
+        strings.add("apple");
+        strings.add("banana");
+        strings.add("orange");
+        strings.add("grape");
+
+        // Sorting the list in descending order of length using lambda expressions
+        Collections.sort(strings, (s1, s2) -> Integer.compare(s2.length(), s1.length()));
+
+        // Printing the sorted list
+        System.out.println("Sorted list in descending order of length:");
+        strings.forEach(System.out::println);
+    }
+}
+package javaHard71223;
+
+import java.util.Arrays;
+
+public class ConsecutiveNumbers {
+
+    public static boolean canRearrangeConsecutive(int[] numbers) {
+        if (numbers == null || numbers.length == 0) {
+            return false;
+        }
+
+        Arrays.sort(numbers);
+
+        for (int i = 1; i < numbers.length; i++) {
+            if (numbers[i] == numbers[i - 1]) {
+                return false; // Duplicate found
+            }
+
+            if (numbers[i] != numbers[i - 1] + 1) {
+                return false; // Gap found
+            }
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        int[] consecutiveNumbers = {4, 2, 1, 3, 5};
+        System.out.println("Can rearrange to consecutive numbers? " + canRearrangeConsecutive(consecutiveNumbers));  // Should print true
+
+        int[] nonConsecutiveNumbers = {1, 2, 3, 3, 5};
+        System.out.println("Can rearrange to consecutive numbers? " + canRearrangeConsecutive(nonConsecutiveNumbers));  // Should print false
+    }
+}
+package javaHard71223;
+
+//Custom functional interface
+@FunctionalInterface
+interface MyFunctionalInterface {
+ void myAbstractMethod();
+}
+
+public class FunctionalInterfaceExample {
+ public static void main(String[] args) {
+     // Implementing the functional interface using a lambda expression
+     MyFunctionalInterface myFunctionalInterface = () -> System.out.println("Implementation of myAbstractMethod");
+     
+     // Calling the abstract method using the lambda expression
+     myFunctionalInterface.myAbstractMethod();
+ }
+}
+package javaHard71223;
+
+public class HexCodeFinder {
+
+    public static int findHexCodeIndex(String searchString, String hexCode) {
+        if (!hexCode.matches("[0-9A-Fa-f]+")) {
+            throw new IllegalArgumentException("Invalid hex code. Should only contain hexadecimal characters.");
+        }
+
+        int index = searchString.indexOf(hexCode);
+        if (index == -1) {
+            return -1; // Hex code not found
+        }
+
+        return index / 2; // Assuming each hexadecimal character is represented by 2 characters in the string
+    }
+
+    public static void main(String[] args) {
+        String searchString = "48656C6C6F20576F726C64"; // "Hello World" in hexadecimal
+        String hexCode = "6F"; // ASCII code for 'o'
+
+        int index = findHexCodeIndex(searchString, hexCode);
+        System.out.println("Index of hex code: " + index);  // Should print 7
+    }
+}
+package javaHard71223;
+
+import java.util.function.Predicate;
+
+public class LambdaExpressions {
+
+    public static void main(String[] args) {
+        // Lambda expression for odd/even check
+        Predicate<Integer> isOdd = n -> n % 2 != 0;
+        System.out.println("Is 7 odd? " + isOdd.test(7));  // Should print true
+
+        // Lambda expression for prime check
+        Predicate<Integer> isPrime = n -> n > 1 && java.util.stream.IntStream.range(2, (int) Math.sqrt(n) + 1).noneMatch(i -> n % i == 0);
+        System.out.println("Is 13 prime? " + isPrime.test(13));  // Should print true
+
+        // Lambda expression for palindrome check
+        Predicate<String> isPalindrome = s -> new StringBuilder(s).reverse().toString().equalsIgnoreCase(s);
+        System.out.println("Is 'level' a palindrome? " + isPalindrome.test("level"));  // Should print true
+    }
+}
+package javaHard71223;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Person> persons = Arrays.asList(
+                new Person("Alice", 28),
+                new Person("Bob", 22),
+                new Person("Charlie", 30),
+                new Person("David", 25)
+        );
+
+        // Using Java 8 streams to filter based on age greater than 25
+        List<Person> filteredPersons = persons.stream()
+                .filter(person -> person.getAge() > 25)
+                .collect(Collectors.toList());
+
+        // Printing the filtered persons
+        filteredPersons.forEach(System.out::println);
+    }
+}
+package javaHard71223;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class MD5Hash {
+
+    public static String generateMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] bytes = md.digest(input.getBytes());
+
+            StringBuilder result = new StringBuilder();
+            for (byte b : bytes) {
+                result.append(String.format("%02x", b));
+            }
+
+            return result.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        String input = "Hello, MD5!";
+        System.out.println("MD5 hash: " + generateMD5(input));
+    }
+}
+package javaHard71223;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+package javaHard71223;
+
+public class PhoneNumberDecoder {
+
+    public static String decodePhoneNumber(String input) {
+        if (!input.matches("[a-zA-Z0-9]+")) {
+            throw new IllegalArgumentException("Invalid input. Only alphanumeric characters are allowed.");
+        }
+
+        String decoded = input.replaceAll("[A-Ca-c]", "2")
+                             .replaceAll("[D-Fd-f]", "3")
+                             .replaceAll("[G-Ig-i]", "4")
+                             .replaceAll("[J-Lj-l]", "5")
+                             .replaceAll("[M-Om-o]", "6")
+                             .replaceAll("[P-Sp-s]", "7")
+                             .replaceAll("[T-Vt-v]", "8")
+                             .replaceAll("[W-Zw-z]", "9");
+
+        return "(" + decoded.substring(0, 3) + ") " + decoded.substring(3, 6) + "-" + decoded.substring(6);
+    }
+
+    public static void main(String[] args) {
+        String input = "800888TEST";
+        System.out.println("Decoded phone number: " + decodePhoneNumber(input));  // Should print (800) 888-8378
+    }
+}
+package javaHard71223;
+
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+public class PrimeNumbers {
+
+    public static boolean isPrime(int number) {
+        return number > 1 && IntStream.range(2, (int) Math.sqrt(number) + 1).noneMatch(i -> number % i == 0);
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {2, 7, 12, 17, 23, 30};
+
+        int[] primeNumbers = Arrays.stream(numbers)
+                .filter(PrimeNumbers::isPrime)
+                .toArray();
+
+        System.out.println("Prime numbers: " + Arrays.toString(primeNumbers));
+    }
+}
+package javaHard71223;
+
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+public class PrimeNumbers {
+
+    public static boolean isPrime(int number) {
+        return number > 1 && IntStream.range(2, (int) Math.sqrt(number) + 1).noneMatch(i -> number % i == 0);
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {2, 7, 12, 17, 23, 30};
+
+        int[] primeNumbers = Arrays.stream(numbers)
+                .filter(PrimeNumbers::isPrime)
+                .toArray();
+
+        System.out.println("Prime numbers: " + Arrays.toString(primeNumbers));
+    }
+}
+package javaHard71223;
+
+public class Singleton {
+
+    private static Singleton singleInstance = new Singleton();
+
+    public String str;
+
+    private Singleton() {
+        str = "Singleton instance created";
+    }
+
+    public static Singleton getSingleInstance() {
+        return singleInstance;
+    }
+
+    public static void main(String[] args) {
+        Singleton singleton = Singleton.getSingleInstance();
+        System.out.println(singleton.str);
+    }
+}
+package javaHard71223;
+
+public class StringReversal {
+
+    // Method 1: Using StringBuilder
+    public static String reverseWithStringBuilder(String str) {
+        return new StringBuilder(str).reverse().toString();
+    }
+
+    // Method 2: Using char array
+    public static String reverseWithCharArray(String str) {
+        char[] charArray = str.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+
+        while (left < right) {
+            char temp = charArray[left];
+            charArray[left++] = charArray[right];
+            charArray[right--] = temp;
+        }
+
+        return new String(charArray);
+    }
+
+    // Method 3: Recursive approach
+    public static String reverseWithRecursion(String str) {
+        if (str.isEmpty()) {
+            return str;
+        }
+        return reverseWithRecursion(str.substring(1)) + str.charAt(0);
+    }
+
+    public static void main(String[] args) {
+        String input = "Hello, World!";
+
+        System.out.println("Using StringBuilder: " + reverseWithStringBuilder(input));
+        System.out.println("Using char array: " + reverseWithCharArray(input));
+        System.out.println("Using recursion: " + reverseWithRecursion(input));
+    }
+}
+
+
+package javaHard71223;
+
+public class ReverseLetters {
+
+    public static String reverseLetters(String input) {
+        char[] charArray = input.toCharArray();
+        int left = 0;
+        int right = charArray.length - 1;
+
+        while (left < right) {
+            if (Character.isLetter(charArray[left]) && Character.isLetter(charArray[right])) {
+                char temp = charArray[left];
+                charArray[left++] = charArray[right];
+                charArray[right--] = temp;
+            }
+
+            if (!Character.isLetter(charArray[left])) {
+                left++;
+            }
+
+            if (!Character.isLetter(charArray[right])) {
+                right--;
+            }
+        }
+
+        return new String(charArray);
+    }
+
+    public static void main(String[] args) {
+        String input = "ez56d";
+        System.out.println("Reversed letters: " + reverseLetters(input));  // Should print "ed56z"
+    }
+}
+
+
+
+package javaHard71223;
+
+public class PigLatinTranslator {
+
+    public static String translateToPigLatin(String input) {
+        StringBuilder result = new StringBuilder();
+
+        for (String word : input.split("\\s+")) {
+            if (word.matches("[a-zA-Z]+")) {
+                int firstVowelIndex = getFirstVowelIndex(word);
+                result.append(word.substring(firstVowelIndex))
+                      .append(word.substring(0, firstVowelIndex))
+                      .append("ay ");
+            } else {
+                result.append(word).append(" ");
+            }
+        }
+
+        return result.toString().trim();
+    }
+
+    private static int getFirstVowelIndex(String word) {
+        word = word.toLowerCase();
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == 'a' || word.charAt(i) == 'e' || word.charAt(i) == 'i'
+                    || word.charAt(i) == 'o' || word.charAt(i) == 'u') {
+                return i;
+            }
+        }
+        return 0; // If no vowel found, treat the word as starting with a vowel
+    }
+
+    public static void main(String[] args) {
+        String input = "banana apple test";
+        System.out.println("Pig Latin translation: " + translateToPigLatin(input));
+        // Should print "ananabay appleay esttay"
+    }
+}
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
